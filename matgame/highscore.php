@@ -5,12 +5,13 @@ session_start();
 require 'conne.php';
 //$result = $result->fetch_assoc();
 if (isset($_GET["page"])){
-    $position = $_GET["page"] * 5;
-    $startPosition = $position - 5;
+    //
 } else {
     //
 }
-$sql = "SELECT matscore, username FROM users ORDER BY matscore DESC";
+$start = 3;
+$end = 5;
+$sql = "SELECT matscore, username FROM users ORDER BY matscore DESC LIMIT $start, $end";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     // output data of each row
@@ -30,9 +31,8 @@ if ($result->num_rows > 0) {
     echo "</th>";
 
     echo "</tr>";
-    $runs = 0;
+    $position = 0;
     while($row = $result->fetch_assoc()) {
-        $runs++;
         $position++;
 
         echo "<tr>";
