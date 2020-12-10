@@ -19,6 +19,11 @@ function check($name, $pswd){
         if ($result["pass"] === $pswd){
             $_SESSION["user"] = $name;
             $_SESSION["verified"] = 1;
+            $stmt = $conn->prepare("SELECT id FROM users WHERE username=? LIMIT 1");
+            $stmt->bind_param("s", $_SESSION["user"]);
+            $stmt->execute();
+            $result = $stmt->get_result()->fetch_assoc();
+            $_SESSION["userid"] = $result["id"];
             header('Location: ../index.php?id=verified');
         } else {
             header('Location: ../index.php?id=login&re=wp');

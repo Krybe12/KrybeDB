@@ -3,9 +3,9 @@ session_start();
 ?>
 <?php
 require 'conne.php';
-$username = $_SESSION["user"];
+$userid = $_SESSION["userid"];
 function add($n){
-    global $username;
+    global $userid;
     global $conn;
     if ($n == 1){
         $_SESSION["mats"] = $_SESSION["mats"] + 1;
@@ -14,13 +14,13 @@ function add($n){
     }
     
     $score = $_SESSION["mats"];
-    $sql = "UPDATE users SET matscore='$score' WHERE username='$username'";
+    $sql = "UPDATE matgame SET score='$score' WHERE user_id='$userid'";
     $conn->query($sql);
 }
 
 if (isset($_SESSION["mats"])){
 } else {
-    $sql = "SELECT matscore FROM users WHERE username='$username' LIMIT 1";
+    $sql = "SELECT score FROM matgame WHERE user_id='$userid' LIMIT 1";
     $result = $conn->query($sql);
     $result = $result->fetch_assoc();
     $_SESSION["mats"] = $result["matscore"];

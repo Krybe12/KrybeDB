@@ -2,8 +2,20 @@
 session_start();
 ?>
 <?php
+require 'matgame/conne.php';
+
 if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
     header('Location: index.php?id=login&re=nt');
+}
+$stmt = $conn->prepare("SELECT user_id FROM matgame WHERE user_id=? LIMIT 1");
+$stmt->bind_param("i", $_SESSION["userid"]);
+$stmt->execute();
+$result = $stmt->get_result()->fetch_assoc();
+
+if (!$result){
+    $stmt = $conn->prepare("INSERT INTO matgame (user_id) VALUES (?)");
+    $stmt->bind_param("i", $_SESSION["userid"]);
+    $stmt->execute();
 }
 ?>
 <style>

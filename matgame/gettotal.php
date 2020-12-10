@@ -3,14 +3,14 @@ session_start();
 ?>
 <?php
 require 'conne.php';
-$username = $_SESSION["user"];
+$userid = $_SESSION["userid"];
 if (isset($_SESSION["mats"])){
     echo "Total Score: " . $_SESSION["mats"];
 } else {
-    $sql = "SELECT matscore FROM users WHERE username='$username' LIMIT 1";
+    $sql = "SELECT score FROM matgame WHERE user_id='$userid' LIMIT 1";
     $result = $conn->query($sql);
     $result = $result->fetch_assoc();
-    $_SESSION["mats"] = $result["matscore"];
+    $_SESSION["mats"] = $result["score"];
     echo "Total Score: " . $_SESSION["mats"];
 }
 ?>

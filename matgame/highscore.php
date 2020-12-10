@@ -6,7 +6,8 @@ require 'conne.php';
 
 $numPerPage = 6;
 
-$sql = "SELECT matscore, username FROM users ORDER BY matscore DESC";
+//$sql = "SELECT matscore, username FROM users ORDER BY matscore DESC";
+$sql = "SELECT * FROM matgame JOIN users WHERE matgame.user_id = users.id";
 $result = $conn->query($sql);
 if ($result->num_rows > 0){
     $numUser = $result->num_rows;
@@ -26,8 +27,10 @@ if (isset($_GET["page"]) and $_GET["page"] >= 1 and $_GET["page"] <= $numPages){
     $position = $start;
 }
 
-$sql = "SELECT matscore, username FROM users ORDER BY matscore DESC LIMIT $start, $end";
+//$sql = "SELECT matscore, username FROM users ORDER BY matscore DESC LIMIT $start, $end";
+$sql = "SELECT * FROM matgame JOIN users WHERE matgame.user_id = users.id ORDER BY score DESC LIMIT $start, $end";
 $result = $conn->query($sql);
+
 if ($result->num_rows > 0) {
     // output data of each row
     echo '<table class="table">';
@@ -60,7 +63,7 @@ if ($result->num_rows > 0) {
         echo "</td>";
 
         echo "<td>";
-        echo $row["matscore"];
+        echo $row["score"];
         echo "</td>";
 
         echo "</tr>";
