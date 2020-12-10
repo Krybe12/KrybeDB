@@ -15,7 +15,7 @@ if ($result->num_rows > 0){
 
 if (isset($_GET["page"]) and $_GET["page"] >= 1 and $_GET["page"] <= $numPages){
     $currentPage = $_GET["page"];
-    $pageInfo = $currentPage . "/" . $numPages;
+    $pageInfo = "page " . $currentPage . "/" . $numPages;
     $start = $_GET["page"] * $numPerPage - $numPerPage;
     $end = $numPerPage; 
     $position = $start;
