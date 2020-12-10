@@ -22,7 +22,7 @@ if (isset($_GET["page"]) and $_GET["page"] >= 1 and $_GET["page"] <= $numPages){
 } else {
     $start = $numPages * $numPerPage - $numPerPage;
     $end = $numPerPage;
-    $pageInfo = $numPages . "/" . $numPages;
+    $pageInfo = "page " . $numPages . "/" . $numPages;
     $position = $start;
 }
 
