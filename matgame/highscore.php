@@ -3,14 +3,29 @@ session_start();
 ?>
 <?php
 require 'conne.php';
-//$result = $result->fetch_assoc();
-if (isset($_GET["page"])){
-    //
-} else {
-    //
+
+$numPerPage = 6;
+
+$sql = "SELECT matscore, username FROM users ORDER BY matscore DESC";
+$result = $conn->query($sql);
+if ($result->num_rows > 0){
+    $numUser = $result->num_rows;
+    $numPages = ceil($numUser / $numPerPage);
 }
-$start = 3;
-$end = 5;
+
+if (isset($_GET["page"]) and $_GET["page"] >= 1 and $_GET["page"] <= $numPages){
+    $currentPage = $_GET["page"];
+    $pageInfo = $currentPage . "/" . $numPages;
+    $start = $_GET["page"] * $numPerPage - $numPerPage;
+    $end = $numPerPage; 
+    $position = $start;
+} else {
+    $start = $numPages * $numPerPage - $numPerPage;
+    $end = $numPerPage;
+    $pageInfo = $numPages . "/" . $numPages;
+    $position = $start;
+}
+
 $sql = "SELECT matscore, username FROM users ORDER BY matscore DESC LIMIT $start, $end";
 $result = $conn->query($sql);
 if ($result->num_rows > 0) {
@@ -31,7 +46,6 @@ if ($result->num_rows > 0) {
     echo "</th>";
 
     echo "</tr>";
-    $position = 0;
     while($row = $result->fetch_assoc()) {
         $position++;
 
@@ -51,6 +65,19 @@ if ($result->num_rows > 0) {
 
         echo "</tr>";
     }
+    echo "<tr>";
+
+    echo "<td colspan='3'>";
+    echo "<div class='d-flex justify-content-center'><button class='btn btn-Secondary' id='btnPrevious'>previous</button><p id='currentPage' class='align-self-center'>". $pageInfo . "</p><button class='btn btn-Secondary' id='btnNext'>next</button></div>";
+    echo "</td>";
+
+    echo "</tr>";
     echo "</table>";
+
+    echo "<script>";
+    echo "if(pageNum > $numPages){pageNum = $numPages;}";
+    echo "$('#btnNext').click(function(){ pageNum++; newLeaderBoard();});";
+    echo "$('#btnPrevious').click(function(){ pageNum--; newLeaderBoard();});";
+    echo "</script>";
 }
 ?>

@@ -181,9 +181,11 @@ h6, .h6 {
 <script>
 let odp;
 let body = 0;
+let pageNum = 1;
 $( document ).ready(function() {
     newNums();
     newLeaderBoard();
+
 });
 $("#btnsend").click(function() {
     sendResult();
@@ -223,8 +225,13 @@ function reset(){
     setTimeout(function(){ $("#cAwnser").text("");}, 800);
 }
 function newLeaderBoard(){
-    $(".leader").load("matgame/highscore.php?start=5")
-    $("#totalscore").load("matgame/gettotal.php")
+    if (pageNum < 1) {
+        pageNum = 1;
+    } else {
+        $(".leader").load("matgame/highscore.php?page=" + pageNum)
+        $("#totalscore").load("matgame/gettotal.php")
+    }
+
 }
 </script>
 </html>
