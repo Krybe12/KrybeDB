@@ -197,7 +197,6 @@ let pageNum = 1;
 $( document ).ready(function() {
     newNums();
     newLeaderBoard();
-
 });
 $("#btnsend").click(function() {
     sendResult();
@@ -240,7 +239,7 @@ function newLeaderBoard(){
     if (pageNum < 1) {
         pageNum = 1;
     } else {
-        $(".leader").load("matgame/highscore.php?page=" + pageNum)
+        $(".leader").load("matgame/highscore.php?page=" + pageNum + "&height=" + $(document).height())
         $("#totalscore").load("matgame/gettotal.php")
     }
 

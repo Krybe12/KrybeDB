@@ -4,7 +4,25 @@ session_start();
 <?php
 require 'conne.php';
 
-$numPerPage = 6;
+if (isset($_GET["height"])){
+    $height = $_GET["height"];
+    if (is_numeric($height)){
+        if ($height > 900 and $height < 1000){
+            $numPerPage = 8;
+        } else if ($height > 800 and $height <= 900){
+            $numPerPage = 7;
+        } else if ($height >= 1000 and $height < 1050){
+            $numPerPage = 9;
+        } else if ($height >= 1050){
+            $numPerPage = 10;
+        } else {
+            $numPerPage = 6;
+        }
+    }
+} else {
+    $numPerPage = 6;
+}
+
 
 //$sql = "SELECT matscore, username FROM users ORDER BY matscore DESC";
 $sql = "SELECT * FROM matgame JOIN users WHERE matgame.user_id = users.id";
@@ -13,19 +31,21 @@ if ($result->num_rows > 0){
     $numUser = $result->num_rows;
     $numPages = ceil($numUser / $numPerPage);
 }
-
-if (isset($_GET["page"]) and $_GET["page"] >= 1 and $_GET["page"] <= $numPages){
-    $currentPage = $_GET["page"];
-    $pageInfo = "page " . $currentPage . "/" . $numPages;
-    $start = $_GET["page"] * $numPerPage - $numPerPage;
-    $end = $numPerPage; 
-    $position = $start;
-} else {
-    $start = $numPages * $numPerPage - $numPerPage;
-    $end = $numPerPage;
-    $pageInfo = "page " . $numPages . "/" . $numPages;
-    $position = $start;
+if (isset($_GET["page"]) and is_numeric($_GET["page"])){
+    if ($_GET["page"] >= 1 and $_GET["page"] <= $numPages){
+        $currentPage = $_GET["page"];
+        $pageInfo = "page " . $currentPage . "/" . $numPages;
+        $start = $_GET["page"] * $numPerPage - $numPerPage;
+        $end = $numPerPage; 
+        $position = $start;
+    } else {
+        $start = $numPages * $numPerPage - $numPerPage;
+        $end = $numPerPage;
+        $pageInfo = "page " . $numPages . "/" . $numPages;
+        $position = $start;
+    }
 }
+
 
 //$sql = "SELECT matscore, username FROM users ORDER BY matscore DESC LIMIT $start, $end";
 $sql = "SELECT * FROM matgame JOIN users WHERE matgame.user_id = users.id ORDER BY score DESC LIMIT $start, $end";
