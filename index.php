@@ -71,30 +71,30 @@ $("#page").hide();
 var url_string = window.location.href;
 if (url_string.includes("?")){
     var url = new URL(url_string);
-    var kam = url.searchParams.get('id');
-    if (kam == "login"){
+    var where = url.searchParams.get('id');
+    if (where == "login"){
         $("#reg").hide();
         $("#log").show();
         $("#btnlogin").attr("disabled", true);
-    } else if (kam == "register"){
+    } else if (where == "register"){
         $("#reg").show();
         $("#log").hide();
         $("#btnregister").attr("disabled", true);
     } 
 
-    var proc = url.searchParams.get("re");
+    var reason = url.searchParams.get("re");
     let b = " bitch"
-    if (proc == "noexist"){
+    if (reason == "noexist"){
         $("#wp").text("user does not exist" + b);
-    } else if (proc == "regsuc"){
+    } else if (reason == "regsuc"){
         $("#wp").text("registration succesful" + b);
-    } else if (proc == "wp"){
+    } else if (reason == "wp"){
         $("#wp").text("wrong password" + b);
-    } else if (proc == "regexi"){
+    } else if (reason == "regexi"){
         $("#wp").text("username already registered" + b);
-    } else if (proc == "nt") {
+    } else if (reason == "nt") {
         $("#wp").text("nice try" + b);
-    } else if (proc == "log") {
+    } else if (reason == "log") {
         $("#wp").text("logged out" + b);
     }
 } else {

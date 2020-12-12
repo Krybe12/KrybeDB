@@ -1,0 +1,134 @@
+<style>
+	.button {
+		height: 50px; 
+		width: 50px; 
+	}
+	.buttonbig {
+		height: 100px; 
+		width: 50px; 
+	}
+	.buttonwide {
+		height: 50px; 
+		width: 100px; 
+	}
+	.cbox {
+		height: 40px; 
+		width: 210px;
+		text-align: center;
+		font-size: 22px;
+	}
+</style>
+<script>
+	var znam = "k", result;
+	var textcalc, res, vysl;
+	var numbe1, numbe2;
+	var znaminko;
+	var lastchar = 5;
+	var tecka = false;
+	var index = false;
+	function operace(znam){
+		if (index == false){
+			if (znam == "+" || znam == "*" || znam == "/") return;
+		}
+		if (tecka == true){
+			if (znam == ".") return;
+		}
+		if (znam == ".") tecka = true;
+		if (znam == "+" || znam == "-" || znam == "*" || znam == "/") {
+			tecka = false;
+			if (lastchar == "+" || lastchar == "-" || lastchar == "*" || lastchar == "/") return;
+			if (znaminko == true) operace("=");
+			znaminko = true;
+		}
+		lastchar = znam;
+		if (znam == "c"){
+			document.getElementById("calcbox").value = "";
+			znaminko = false;
+			tecka = false;
+			index = false;
+		} else if (znam == "="){
+			najdi();
+		} else {
+			index = true;
+			result = document.getElementById("calcbox").value;
+			result = result + znam;
+			console.log(result);
+			document.getElementById("calcbox").value = result;
+		}
+	}
+	function najdi(){
+		textcalc = document.getElementById("calcbox").value;
+		for (i = 0; i < textcalc.length; i++) { 
+			if (textcalc[i] == "-" || textcalc[i] == "+" || textcalc[i] == "*" || textcalc[i] == "/"){
+				if (i != 0 ){
+					znam = textcalc[i];
+				}
+			}
+		}
+		if (znam != "k") vypocitej(znam);
+		znam = "k";
+	}
+	function vypocitej(znam){
+		res = textcalc.split(znam);
+		console.log(res);
+		numbe1 = res[0];
+		numbe2 = res[1];
+		if (numbe2 === "") return;
+		if (numbe1 == 0 || numbe2 == 0) window.location.href = "http://www.c.xf.cz/";
+		if (numbe1 == ".") numbe1 = 0;
+		if (numbe2 == ".") numbe2 = 0;
+		numbe1 = parseFloat(numbe1);
+		numbe2 = parseFloat(numbe2);
+		if (znam == "-"){
+			vysl = numbe1 - numbe2;
+		} else if (znam == "+"){
+			vysl = numbe1 + numbe2;
+		} else if (znam == "*"){
+			vysl = numbe1 * numbe2;
+		} else if (znam == "/"){
+			vysl = numbe1 / numbe2;
+		}
+		vysl = Math.round(vysl * 10000) / 10000;
+		document.getElementById("calcbox").value = vysl;
+		znaminko = false;
+	}
+	document.onkeydown = (e) => {
+    if (e.key == 'c' || e.key == 'Backspace' || e.key == 'Delete') operace('c');
+    else if (e.key == 'Enter') operace('=');
+    else if (parseInt(e.key) || e.key == 0 || e.key.match(/[+\-*/.]/g)) operace(e.key);
+	else if (e.key.match(/[0-9]/g) || e.key.match(/[+\-*/.]/g)) operace(e.key);
+    else if (!isNaN(e.key) || e.key.match(/[+\-*/.]/g)) operace(e.key);
+	}
+</script>
+<table>
+	<tr>
+		<th colspan="4"><input type="text" class="cbox" id="calcbox"></th>
+	</tr>
+	<tr>
+		<td><button type="button" class="button" onclick="operace('c')">C</button></td>
+		<td><button type="button" class="button" onclick="operace('/')">/</button></td> 
+		<td><button type="button" class="button" onclick="operace('*')">*</button></td>
+		<td><button type="button" class="button" onclick="operace('-')">-</button></td>
+	</tr>
+	<tr>
+		<td><button type="button" class="button" onclick="operace('7')">7</button></td>
+		<td><button type="button" class="button" onclick="operace('8')">8</button></td> 
+		<td><button type="button" class="button" onclick="operace('9')">9</button></td>
+		<td rowspan="2"><button type="button" class="buttonbig" onclick="operace('+')">+</button></td>
+	</tr>
+	<tr>
+		<td><button type="button" class="button" onclick="operace('4')">4</button></td>
+		<td><button type="button" class="button" onclick="operace('5')">5</button></td> 
+		<td><button type="button" class="button" onclick="operace('6')">6</button></td>
+	</tr>
+	<tr>
+		<td><button type="button" class="button" onclick="operace('1')">1</button></td>
+		<td><button type="button" class="button" onclick="operace('2')">2</button></td> 
+		<td><button type="button" class="button" onclick="operace('3')">3</button></td>
+		<td rowspan="2"><button type="button" class="buttonbig" onclick="operace('=')">=</button></td>
+	</tr>
+	<tr>
+		<td colspan="2"><button type="button" class="buttonwide" onclick="operace('0')">0</button></td> 
+		<td><button type="button" class="button" onclick="operace('.')">.</button></td>
+	</tr>
+</table>
