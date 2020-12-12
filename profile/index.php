@@ -3,7 +3,7 @@ session_start();
 ?>
 <?php
 if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
-    header('Location: index.php?id=login&re=nt');
+    header('Location: ../index.php?id=login&re=nt');
 }
 ?>
 <style>
@@ -93,12 +93,13 @@ h1, .h1 {
         </div>
 
         <div class="t3 section">
+
             <div class="btn-group">
                 <button type="button" class="btn btn-danger dropdown-toggle btn-lg" data-bs-toggle="dropdown" aria-expanded="false">
                     <?php echo $_SESSION["user"]?>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="profile">Profile</a></li>
+                    <li><a class="dropdown-item" id="pop" data-toggle="popover" title="you are already here" data-trigger="click" data-content="debile">Profile</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="login/logout.php">Logout</a></li>
                 </ul>
@@ -106,44 +107,20 @@ h1, .h1 {
         </div>
 
         <div class="m bg-dark">
-
-            <div class="container py-3">
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-8 g-4 justify-content-center align-items-center">    
-                    <div class="col">
-                        <div class="card text-center bg-warning">
-                            <div class="card-img-top" style="height: 150px; background-image: url('img/test.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;"></div>
-                                <div class="card-body">
-                                <h5 class="card-title">Matematická hra</h5>
-                                <a class="btn btn-success d-block" href="matgame">Play</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card text-center bg-warning">
-                            <div class="card-img-top" style="height: 150px; background-image: url('img/calc.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;"></div>
-                                <div class="card-body">
-                                <h5 class="card-title">Kalkulačka</h5>
-                                <a class="btn btn-success d-block" href="kalkulacka.html">Play</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card text-center bg-warning">
-                            <div class="card-img-top" style="height: 150px; background-image: url('img/test.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;"></div>
-                                <div class="card-body">
-                                <h5 class="card-title">Matematická hra</h5>
-                                <a class="btn btn-success d-block" href="matgame">Play</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             
         </div>
     </div>
 
 </body>
 <script>
+$(document).ready(function(){
+    const popover = $('[data-toggle="popover"]').popover();
+    $("#pop").click(function(){
+        setTimeout(() => {
+            popover.popover("hide")
+        }, 1400);
+    });
+});
 
 </script>
 </html>

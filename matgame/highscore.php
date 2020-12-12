@@ -8,19 +8,19 @@ if (isset($_GET["height"])){
     $height = $_GET["height"];
     if (is_numeric($height)){
         if ($height > 900 and $height < 1000){
-            $numPerPage = 8;
-        } else if ($height > 800 and $height <= 900){
-            $numPerPage = 7;
-        } else if ($height >= 1000 and $height < 1050){
             $numPerPage = 9;
+        } else if ($height > 800 and $height <= 900){
+            $numPerPage = 8;
+        } else if ($height >= 1000 and $height < 1050){
+            $numPerPage = 10;
         } else if ($height >= 1050){
             $numPerPage = 10;
         } else {
-            $numPerPage = 6;
+            $numPerPage = 7;
         }
     }
 } else {
-    $numPerPage = 6;
+    $numPerPage = 7;
 }
 
 
@@ -54,7 +54,7 @@ $result = $conn->query($sql);
 if ($result->num_rows > 0) {
     // output data of each row
     echo '<table class="table">';
-    echo "<tr>";
+    echo '<tr class="beta">';
 
     echo "<th>";
     echo "###";
