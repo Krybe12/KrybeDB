@@ -149,7 +149,7 @@ h6, .h6 {
         </div>
         <div class="t3 section">
 
-            <a class="logout" href="login/logout.php">Logout</a>
+            <a class="logout" href="../login/logout.php">Logout</a>
         </div>
         <div class="m1 bg-info">
             <div><h1>Leaderboard</h1></div>
