@@ -43,10 +43,10 @@ if (!$result){
     grid-template-areas: 
     "t2 t2"
     "m2 m2"
-    "m1 t3"
-    "b1 b2"
+    "m1 b3"
+    "t3 b2"
     "t1 t1"
-    "m3 b3";
+    "m3 b1";
 }
 }
 

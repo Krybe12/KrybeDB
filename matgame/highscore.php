@@ -61,14 +61,17 @@ if ($result->num_rows > 0) {
     echo "</th>";
 
     echo "<th>";
-    echo "Username";
+    echo "<b>" . "Username" . "</b>";
     echo "</th>";
 
     echo "<th>";
-    echo "Score";
+    echo "<b>" . "Score" . "</b>";
     echo "</th>";
 
     echo "</tr>";
+    $color = "warning";
+    $class = "text-" . $color;
+    $id = $_SESSION["userid"];
     while($row = $result->fetch_assoc()) {
         $position++;
 
@@ -78,8 +81,9 @@ if ($result->num_rows > 0) {
         echo $position . ".";
         echo "</td>";
 
+        //echo "<td class='$class'>";
         echo "<td>";
-        echo $row["username"];
+        echo "<b>" . $row["username"] . "</b>";
         echo "</td>";
 
         echo "<td>";
