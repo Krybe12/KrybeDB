@@ -2,7 +2,7 @@
 session_start();
 ?>
 <?php
-require 'conne.php';
+require '../gameconn/conn.php';
 
 if (isset($_GET["height"])){
     $height = $_GET["height"];

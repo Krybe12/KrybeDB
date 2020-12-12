@@ -2,7 +2,7 @@
 session_start();
 ?>
 <?php
-require 'conne.php';
+require '../gameconn/conn.php';
 $userid = $_SESSION["userid"];
 function add($n){
     global $userid;

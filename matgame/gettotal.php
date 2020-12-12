@@ -2,7 +2,7 @@
 session_start();
 ?>
 <?php
-require 'conne.php';
+require '../gameconn/conn.php';
 $userid = $_SESSION["userid"];
 if (isset($_SESSION["mats"])){
     echo "Total Score: " . $_SESSION["mats"];
