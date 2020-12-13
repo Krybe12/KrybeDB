@@ -19,11 +19,30 @@ function check($name, $pswd){
         if ($result["pass"] === $pswd){
             $_SESSION["user"] = $name;
             $_SESSION["verified"] = 1;
+
+            
             $stmt = $conn->prepare("SELECT id FROM users WHERE username=? LIMIT 1");
             $stmt->bind_param("s", $_SESSION["user"]);
             $stmt->execute();
             $result = $stmt->get_result()->fetch_assoc();
             $_SESSION["userid"] = $result["id"];
+
+            $stmt = $conn->prepare("SELECT color FROM usersettings WHERE user_id=? LIMIT 1");
+            $stmt->bind_param("i", $_SESSION["userid"]);
+            $stmt->execute();
+            $result = $stmt->get_result()->fetch_assoc();
+
+            if (!$result){
+                $stmt = $conn->prepare("INSERT INTO usersettings (user_id) VALUES (?)");
+                $stmt->bind_param("i", $_SESSION["userid"]);
+                $stmt->execute();
+                $_SESSION["color"] = "#000000";
+                $_SESSION["profilenotset"] = 1;
+            } else{
+                $_SESSION["color"] = $result["color"];
+                $_SESSION["profilenotset"] = 0;
+            }
+
             header('Location: ../index.php?id=verified');
         } else {
             header('Location: ../index.php?id=login&re=wp');

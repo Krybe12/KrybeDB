@@ -2,9 +2,12 @@
 session_start();
 ?>
 <?php
+require '../gameconn/conn.php';
+
 if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
     header('Location: ../index.php?id=login&re=nt');
 }
+
 ?>
 <style>
 @media (min-width:860px){
@@ -71,6 +74,37 @@ h1, .h1 {
 .card-title{
     font-size: 150%;
 }
+.content-box{
+
+min-height:150px;
+min-width: 300px;
+padding-top: 20px;
+padding-left:50px;
+padding-right:30px;
+padding-bottom: 20px; /* Radek uprava, 40 -> 20 */
+
+margin:10px 35em;
+margin-bottom: 20px;
+
+background-color: darkgrey;
+font-weight: 400;  
+
+text-align: left;
+border: 1px solid var(--lightGrayHover);
+border-radius: 8px;    
+
+box-shadow: 0px 0px 32px 0px rgba(0,0,0,0.1);
+
+}
+@media (max-width: 860px){
+.content-box{
+
+    margin:10px 15px;
+    }
+}
+p {
+  display: inline-block;
+}
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -80,16 +114,16 @@ h1, .h1 {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-    <title>HUB</title>
+    <title>Profile</title>
 </head>
 <body>
     <div class="grid bg-secondary">
         <div class="t1 section">
-            <h1>logged in <?php echo $_SESSION["user"]; ?>, bitch</h1>
+        <h1>logged in <?php $user = $_SESSION["user"]; $color = $_SESSION["color"]; echo "<p style='color: $color;'>$user</p><p>, bitch</p>" ?></h1>
         </div>
 
         <div class="t2 section">
-            <h1>Main Hub</h1>
+            <h1>Profile</h1>
         </div>
 
         <div class="t3 section">
@@ -99,28 +133,30 @@ h1, .h1 {
                     <?php echo $_SESSION["user"]?>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" id="pop" data-toggle="popover" title="you are already here" data-trigger="click" data-content="debile">Profile</a></li>
+                    <li><a class="dropdown-item" href="..">HUB</a></li>
                     <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="login/logout.php">Logout</a></li>
+                    <li><a class="dropdown-item" href="../login/logout.php">Logout</a></li>
                 </ul>
             </div>
         </div>
 
         <div class="m bg-dark">
-            
+            <div class="content-box">
+                <form id="settings" action="savesettings.php" method="post" class="p-4 bg-light rounded">
+                <div class="form-group">
+                    <label for="favcolor">Select your favorite color:</label>
+                    <input type="color" id="favcolor" name="favcolor" value="<?php echo $_SESSION['color']?>">
+                </div>
+                <div class="form-group text-center m-0">
+                    <input type="submit" id="btnsave" class="form-control btn-dark" value="Save Settings">
+                </div>
+                </form>
+            </div>
         </div>
     </div>
 
 </body>
 <script>
-$(document).ready(function(){
-    const popover = $('[data-toggle="popover"]').popover();
-    $("#pop").click(function(){
-        setTimeout(() => {
-            popover.popover("hide")
-        }, 1400);
-    });
-});
 
 </script>
 </html>

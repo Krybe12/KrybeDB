@@ -134,6 +134,9 @@ h6, .h6 {
   color: black;
   background-color: steelblue;
 }
+p {
+  display: inline-block;
+}
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -147,14 +150,24 @@ h6, .h6 {
 <body>
     <div class="grid bg-secondary">
         <div class="t1 section">
-            <h1>logged in <?php echo $_SESSION["user"]; ?>, bitch</h1>
+        <h1>logged in <?php $user = $_SESSION["user"]; $color = $_SESSION["color"]; echo "<p style='color: $color;'>$user</p><p>, bitch</p>" ?></h1>
         </div>
         <div class="t2 section">
             <h1>Matematická hra!</h1>
         </div>
         <div class="t3 section">
 
-            <a class="logout" href="../login/logout.php">Logout</a>
+            <div class="btn-group">
+                <button type="button" class="btn btn-danger dropdown-toggle btn-lg" data-bs-toggle="dropdown" aria-expanded="false" >
+                    <?php echo $_SESSION["user"]?>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="../profile">Profile</a></li>
+                    <li><a class="dropdown-item" href="..">HUB</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="../login/logout.php">Logout</a></li>
+                </ul>
+            </div>
         </div>
         <div class="m1 bg-info">
             <div><h1>Leaderboard</h1></div>
@@ -189,7 +202,6 @@ h6, .h6 {
 
         </div>
         <div class="b3 section bg-success">
-            <a class="logout" href="../mainpage.php">Back to Hub</a>
         </div>
     </div>
 
