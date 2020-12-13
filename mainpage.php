@@ -153,7 +153,9 @@ p {
 
     });
     $(function () {
-        const popover = $('[data-toggle="popover"]').popover()
+        const popover = $('[data-toggle="popover"]').popover({
+            placement: "left"
+        })
         let profileNotSet = <?php echo $_SESSION["profilenotset"]?>;
         console.log(profileNotSet)
         if (profileNotSet == 1){
