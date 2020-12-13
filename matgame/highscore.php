@@ -48,7 +48,7 @@ if (isset($_GET["page"]) and is_numeric($_GET["page"])){
 
 
 //$sql = "SELECT matscore, username FROM users ORDER BY matscore DESC LIMIT $start, $end";
-$sql = "SELECT * FROM matgame JOIN users WHERE matgame.user_id = users.id ORDER BY score DESC LIMIT $start, $end";
+$sql = "SELECT users.username, matgame.score, usersettings.color FROM matgame JOIN users ON matgame.user_id = users.id JOIN usersettings ON users.id = usersettings.user_id ORDER BY score DESC LIMIT $start, $end";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
@@ -74,7 +74,7 @@ if ($result->num_rows > 0) {
     $id = $_SESSION["userid"];
     while($row = $result->fetch_assoc()) {
         $position++;
-
+        $color = $row["color"];
         echo "<tr>";
 
         echo "<td>";
@@ -83,7 +83,7 @@ if ($result->num_rows > 0) {
 
         //echo "<td class='$class'>";
         echo "<td>";
-        echo "<b>" . $row["username"] . "</b>";
+        echo "<b style='color: $color;'>" . $row["username"] . "</b>";
         echo "</td>";
 
         echo "<td>";
