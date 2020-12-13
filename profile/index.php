@@ -119,7 +119,7 @@ p {
 <body>
     <div class="grid bg-secondary">
         <div class="t1 section">
-        <h1>logged in <?php $user = $_SESSION["user"]; $color = $_SESSION["color"]; echo "<p style='color: $color;'>$user</p><p>, bitch</p>" ?></h1>
+        <h1>logged in <br><?php $user = $_SESSION["user"]; $color = $_SESSION["color"]; echo "<p style='color: $color;'>$user</p><p>, bitch</p>" ?></h1>
         </div>
 
         <div class="t2 section">

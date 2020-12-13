@@ -88,7 +88,7 @@ p {
 <body>
     <div class="grid bg-secondary">
         <div class="t1 section">
-            <h1>logged in <?php $user = $_SESSION["user"]; $color = $_SESSION["color"]; echo "<p style='color: $color;'>$user</p><p>, bitch</p>" ?></h1>
+            <h1>logged in <br><?php $user = $_SESSION["user"]; $color = $_SESSION["color"]; echo "<p style='color: $color;'>$user</p><p>, bitch</p>" ?></h1>
         </div>
 
         <div class="t2 section">
@@ -96,7 +96,7 @@ p {
         </div>
 
         <div class="t3 section">
-            <button type="button" style="width: 1px;" class="btn btn-secondary" id="pop" data-container="body" data-toggle="popover" data-placement="top" title="Setup your profile"></button>
+            <button type="button" style="width: 1px;" class="btn btn-secondary" id="pop" data-container="body" data-toggle="popover" data-placement="left" title="Setup your profile"></button>
 
             <div class="btn-group">
                 <button type="button" class="btn btn-danger dropdown-toggle btn-lg" data-bs-toggle="dropdown" aria-expanded="false" >
@@ -149,16 +149,19 @@ p {
 
 </body>
 <script>
-$(document).ready(function(){
-    const popover = $('[data-toggle="popover"]').popover({
-        placement: 'left'
+    $(document).ready(function(){
+
+    });
+    $(function () {
+        const popover = $('[data-toggle="popover"]').popover()
+        let profileNotSet = <?php echo $_SESSION["profilenotset"]?>;
+        console.log(profileNotSet)
+        if (profileNotSet == 1){
+            popover.popover("show");
+        } else {
+            popover.popover("hide");
+        }
     })
-    let profileNotSet = <?php echo $_SESSION["profilenotset"]?>;
-    if (profileNotSet == 1){
-        popover.popover("show");
-    } else {
-        popover.popover("hide");
-    }
-});
+
 </script>
 </html>

@@ -27,7 +27,7 @@ function check($name, $pswd){
             $result = $stmt->get_result()->fetch_assoc();
             $_SESSION["userid"] = $result["id"];
 
-            $stmt = $conn->prepare("SELECT color FROM usersettings WHERE user_id=? LIMIT 1");
+            $stmt = $conn->prepare("SELECT color,setup FROM usersettings WHERE user_id=? LIMIT 1");
             $stmt->bind_param("i", $_SESSION["userid"]);
             $stmt->execute();
             $result = $stmt->get_result()->fetch_assoc();
@@ -40,7 +40,11 @@ function check($name, $pswd){
                 $_SESSION["profilenotset"] = 1;
             } else{
                 $_SESSION["color"] = $result["color"];
-                $_SESSION["profilenotset"] = 0;
+                if($result["setup"] == 0) {
+                    $_SESSION["profilenotset"] = 1;
+                } else {
+                    $_SESSION["profilenotset"] = 0;
+                }
             }
 
             header('Location: ../index.php?id=verified');
