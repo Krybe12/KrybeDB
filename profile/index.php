@@ -7,21 +7,6 @@ $page = $_SERVER['REQUEST_URI'];
 if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
     header("Location: ../index.php?id=login&re=nt&page=$page");
 }
-$userid = $_SESSION["userid"];
-$sql = "SELECT lastlogin,registerdate FROM users WHERE id='$userid' LIMIT 1"; //getiin users login a reg date
-$result = $conn->query($sql);
-if ($result->num_rows > 0){
-    $result = $result->fetch_assoc();
-    $selUserLastLogin = $result["lastlogin"];
-    $selUserRegisterDate = $result["registerdate"];
-}
-$sql = "SELECT score FROM matgame WHERE user_id='$userid' LIMIT 1"; //gettin users mat score
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0){ 
-    $result = $result->fetch_assoc();
-    $selUserMatScore = $result["score"];
-}
 ?>
 <style>
 @media (min-width:860px){
@@ -167,15 +152,18 @@ p {
                         <input type="submit" id="btnsave" class="form-control btn-dark" value="Save Settings">
                     </div>
                 </form>
-                <?php if (isset($selUserMatScore)){echo "<div><h1>Matgame Score: $selUserMatScore</h1></div>";}?>
-                <?php if (isset($selUserRegisterDate)){echo "<div><h3><b>Register Date:</b></h3> <h5>$selUserRegisterDate</h5></div>";}?>
-                <?php if (isset($selUserLastLogin)){echo "<div><h3><b>Last login Date:</b></h3> <h5>$selUserLastLogin</h5></div>";}?>
+                <div id="matscore"></div>
+                <div id="logreg"></div>
             </div>
         </div>
     </div>
 
 </body>
 <script>
-
+$(document).ready(function(){
+    let userid = <?php echo $_SESSION["userid"] * 17;?>;
+    $("#matscore").load("../getstats/matgamestats.php?id=" + userid);
+    $("#logreg").load("../getstats/lastloginregister.php?id=" + userid);
+});
 </script>
 </html>

@@ -10,12 +10,13 @@ if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
 if (isset($_GET["id"]) and is_numeric($_GET["id"])){
     $selUserId = $_GET["id"] / 17;
 }
-$stmt = $conn->prepare("SELECT username, id FROM users WHERE id=? LIMIT 1");  //gettin username and confirms that selUserId is valid
+$stmt = $conn->prepare("SELECT users.username, users.id, usersettings.color FROM users JOIN usersettings ON users.id = usersettings.user_id WHERE users.id=? LIMIT 1");  //gettin username and confirms that selUserId is valid
 $stmt->bind_param("i", $selUserId);
 $stmt->execute();
 $result = $stmt->get_result()->fetch_assoc();
 if ($result){
     $selUserName = $result['username'];
+    $selUserFavColor = $result['color'];
 } else {
     header('Location: https://youtu.be/dQw4w9WgXcQ');
 }
@@ -169,8 +170,9 @@ p {
 <script>
 $(document).ready(function(){
     let userid = <?php echo $_GET["id"];?>;
-    $("#matscore").load("../getstats/matgamestats.php?id=" + userid)
-    $("#logreg").load("../getstats/lastloginregister.php?id=" + userid)
+    $("#matscore").load("../getstats/matgamestats.php?id=" + userid);
+    $("#logreg").load("../getstats/lastloginregister.php?id=" + userid);
+    $("#favcolor").load("../getstats/favcolor.php?id=" + userid);
 });
 </script>
 </html>
