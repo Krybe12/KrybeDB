@@ -20,7 +20,7 @@ function check($name, $pswd){
             $_SESSION["user"] = $name;
             $_SESSION["verified"] = 1;
 
-            
+            //session setup 
             $stmt = $conn->prepare("SELECT id FROM users WHERE username=? LIMIT 1");
             $stmt->bind_param("s", $_SESSION["user"]);
             $stmt->execute();
@@ -46,6 +46,7 @@ function check($name, $pswd){
                     $_SESSION["profilenotset"] = 0;
                 }
             }
+            //session setup over
 
             header('Location: ../index.php?id=verified');
         } else {

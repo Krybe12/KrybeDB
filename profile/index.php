@@ -7,7 +7,6 @@ require '../gameconn/conn.php';
 if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
     header('Location: ../index.php?id=login&re=nt');
 }
-
 ?>
 <style>
 @media (min-width:860px){
@@ -124,6 +123,7 @@ p {
 
         <div class="t2 section">
             <h1>Profile</h1>
+            
         </div>
 
         <div class="t3 section">
@@ -142,14 +142,15 @@ p {
 
         <div class="m bg-dark">
             <div class="content-box">
+                <?php if(isset($_GET["success"]) and $_GET["success"] == 1){ echo '<div class="alert alert-success alert-dismissible fade show" role="alert"> <strong>Success!</strong> Profile data saved. :) <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button> </div>';}?>
                 <form id="settings" action="savesettings.php" method="post" class="p-4 bg-light rounded">
-                <div class="form-group">
-                    <label for="favcolor">Select your favorite color:</label>
-                    <input type="color" id="favcolor" name="favcolor" value="<?php echo $_SESSION['color']?>">
-                </div>
-                <div class="form-group text-center m-0">
-                    <input type="submit" id="btnsave" class="form-control btn-dark" value="Save Settings">
-                </div>
+                    <div class="form-group">
+                        <label for="favcolor">Select your favorite color:</label>
+                        <input type="color" id="favcolor" name="favcolor" value="<?php echo $_SESSION['color']?>">
+                    </div>
+                    <div class="form-group text-center m-0">
+                        <input type="submit" id="btnsave" class="form-control btn-dark" value="Save Settings">
+                    </div>
                 </form>
             </div>
         </div>

@@ -150,14 +150,12 @@ p {
 </body>
 <script>
     $(document).ready(function(){
-
     });
     $(function () {
         const popover = $('[data-toggle="popover"]').popover({
             placement: "left"
         })
         let profileNotSet = <?php echo $_SESSION["profilenotset"]?>;
-        console.log(profileNotSet)
         if (profileNotSet == 1){
             popover.popover("show");
         } else {

@@ -17,7 +17,7 @@ if ($_POST) {
     $conn->query($sql);
     $sql = "UPDATE usersettings SET setup='1' WHERE user_id='$userid'";
     $conn->query($sql);
-    header('Location: ../profile');
+    header('Location: ../profile?success=1');
     //echo "<h1 style='color: $color;'>ahoj</h1>";
 }
 ?>
