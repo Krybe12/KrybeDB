@@ -21,21 +21,21 @@ if ($result){
 }
 $sql = "SELECT score FROM matgame WHERE user_id='$selUserId' LIMIT 1"; //gettin users mat score
 $result = $conn->query($sql);
-if ($result){
+if ($result->num_rows > 0){
     $result = $result->fetch_assoc();
     $selUserMatScore = $result["score"];
 }
 
 $sql = "SELECT color FROM usersettings WHERE user_id='$selUserId' LIMIT 1"; //getiin users fav color
 $result = $conn->query($sql);
-if ($result){
+if ($result->num_rows > 0){
     $result = $result->fetch_assoc();
     $selUserFavColor = $result["color"];
 }
 
-$sql = "SELECT lastlogin,registerdate FROM users WHERE id='$selUserId' LIMIT 1"; //getiin users fav color
+$sql = "SELECT lastlogin,registerdate FROM users WHERE id='$selUserId' LIMIT 1"; //getiin users login a reg date
 $result = $conn->query($sql);
-if ($result){
+if ($result->num_rows > 0){
     $result = $result->fetch_assoc();
     $selUserLastLogin = $result["lastlogin"];
     $selUserRegisterDate = $result["registerdate"];
@@ -169,6 +169,7 @@ p {
                     <?php echo $_SESSION["user"]?>
                 </button>
                 <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="../profile">Profile</a></li>
                     <li><a class="dropdown-item" href="..">HUB</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li><a class="dropdown-item" href="../login/logout.php">Logout</a></li>
