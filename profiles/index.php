@@ -3,9 +3,9 @@ session_start();
 ?>
 <?php
 require '../gameconn/conn.php';
-
+$page = $_SERVER['REQUEST_URI'];
 if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
-    header('Location: ../index.php?id=login&re=nt');
+    header("Location: ../index.php?id=login&re=nt&page=$page");
 }
 if (isset($_GET["id"]) and is_numeric($_GET["id"])){
     $selUserId = $_GET["id"] / 17;
@@ -149,7 +149,7 @@ p {
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
-    <title>Profile</title>
+    <title>Profile of <?php echo $selUserName?></title>
 </head>
 <body>
     <div class="grid bg-secondary">

@@ -3,6 +3,9 @@ session_start();
 if (isset($_SESSION["user"]) && isset($_SESSION["verified"])){
     header('Location: mainpage.php');
 }
+if (isset($_GET["page"])){
+    $_SESSION["gotopage"] = $_GET["page"];
+}
 ?>
 <!DOCTYPE html>
 <html>

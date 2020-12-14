@@ -4,8 +4,9 @@ session_start();
 <?php
 require '../gameconn/conn.php';
 
+$page = $_SERVER['REQUEST_URI'];
 if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
-    header('Location: ../index.php?id=login&re=nt');
+    header("Location: ../index.php?id=login&re=nt&page=$page");
 }
 $stmt = $conn->prepare("SELECT user_id FROM matgame WHERE user_id=? LIMIT 1");
 $stmt->bind_param("i", $_SESSION["userid"]);
