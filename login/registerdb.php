@@ -8,8 +8,10 @@ function database($name, $pswd){
     $result = $stmt->get_result()->fetch_assoc();
     if (!$result){
         $ip = $_SERVER['REMOTE_ADDR'];
-        $stmt = $conn->prepare("INSERT INTO users (username, pass, ip) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $name, $pswd, $ip);
+        $date = date("l jS \of F Y h:i:s A");
+
+        $stmt = $conn->prepare("INSERT INTO users (username, pass, ip, lastlogin, registerdate) VALUES (?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssss", $name, $pswd, $ip, $date, $date);
         $stmt->execute();
         header('Location: ../index.php?id=login&re=regsuc');
     } else {
