@@ -19,29 +19,6 @@ if ($result){
 } else {
     header('Location: https://youtu.be/dQw4w9WgXcQ');
 }
-$sql = "SELECT score FROM matgame WHERE user_id='$selUserId' LIMIT 1"; //gettin users mat score
-$result = $conn->query($sql);
-if ($result->num_rows > 0){
-    $result = $result->fetch_assoc();
-    $selUserMatScore = $result["score"];
-}
-
-$sql = "SELECT color FROM usersettings WHERE user_id='$selUserId' LIMIT 1"; //getiin users fav color
-$result = $conn->query($sql);
-if ($result->num_rows > 0){
-    $result = $result->fetch_assoc();
-    $selUserFavColor = $result["color"];
-}
-
-$sql = "SELECT lastlogin,registerdate FROM users WHERE id='$selUserId' LIMIT 1"; //getiin users login a reg date
-$result = $conn->query($sql);
-if ($result->num_rows > 0){
-    $result = $result->fetch_assoc();
-    $selUserLastLogin = $result["lastlogin"];
-    $selUserRegisterDate = $result["registerdate"];
-}
-
-//var_dump($selUserId);
 ?>
 <style>
 @media (min-width:860px){
@@ -179,10 +156,10 @@ p {
 
         <div class="m bg-dark">
             <div class="content-box">
-                <?php if (isset($selUserFavColor)){echo "<div><h1 style='background-color: $selUserFavColor;'>Fovorite color: $selUserFavColor</h1></div>";}?>
-                <?php if (isset($selUserMatScore)){echo "<div><h1>Matgame Score: $selUserMatScore</h1></div>";}?>
-                <?php if (isset($selUserRegisterDate)){echo "<div><h3><b>Register Date:</b></h3> <h5>$selUserRegisterDate</h5></div>";}?>
-                <?php if (isset($selUserLastLogin)){echo "<div><h3><b>Last login Date:</b></h3> <h5>$selUserLastLogin</h5></div>";}?>
+                <div id="favcolor"></div>
+                <div id="matscore"></div>
+                <div id="logreg"></div>
+
                 
             </div>
         </div>
@@ -190,6 +167,10 @@ p {
 
 </body>
 <script>
-
+$(document).ready(function(){
+    let userid = <?php echo $_GET["id"];?>;
+    $("#matscore").load("../getstats/matgamestats.php?id=" + userid)
+    $("#logreg").load("../getstats/lastloginregister.php?id=" + userid)
+});
 </script>
 </html>
