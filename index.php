@@ -87,7 +87,7 @@ if (url_string.includes("?")){
     } 
 
     var reason = url.searchParams.get("re");
-    let b = " bitch"
+    let b = " bitch";
     if (reason == "noexist"){
         $("#wp").text("user does not exist" + b);
     } else if (reason == "regsuc"){
@@ -100,6 +100,12 @@ if (url_string.includes("?")){
         $("#wp").text("nice try" + b);
     } else if (reason == "log") {
         $("#wp").text("logged out" + b);
+    }
+    if (!where){
+        $("#reg").hide();
+        $("#log").show();
+        $("#wp").hide();
+        $("#btnlogin").attr("disabled", true);
     }
 } else {
     $("#reg").hide();
