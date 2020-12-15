@@ -169,8 +169,4 @@ $("#input1, #input2, #inputname").keyup(function(){
         }
     });
 });
-
-/* setInterval(() => {
-    debugger;
-}, 800); */
 </script>

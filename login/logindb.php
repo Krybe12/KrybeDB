@@ -5,9 +5,6 @@ session_start();
 require 'conne.php';
 function check($name, $pswd){
     global $conn;
-/*     $sql = "SELECT username, pass FROM users WHERE username='$name' LIMIT 1";
-    $result = $conn->query($sql);
-    $result = $result->fetch_assoc(); */
 
     $stmt = $conn->prepare("SELECT username, pass FROM users WHERE username=? LIMIT 1");
     $stmt->bind_param("s", $name);
