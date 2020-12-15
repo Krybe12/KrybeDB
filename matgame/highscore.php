@@ -77,8 +77,7 @@ if ($result->num_rows > 0) {
 
         echo "<td>";
         echo $position . ".";
-        echo "</td>";
-
+        echo "</td>";   
         //echo "<td class='$class'>";
         echo "<td>";
         echo "<a href='../profiles?id=$id'><b style='color: $color;'>" . $row["username"] . "</b></a>";
