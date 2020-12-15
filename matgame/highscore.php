@@ -7,13 +7,11 @@ require '../gameconn/conn.php';
 if (isset($_GET["height"])){
     $height = $_GET["height"];
     if (is_numeric($height)){
-        if ($height > 900 and $height < 1000){
+        if ($height > 900 and $height < 930){
             $numPerPage = 9;
         } else if ($height > 800 and $height <= 900){
             $numPerPage = 8;
-        } else if ($height >= 1000 and $height < 1050){
-            $numPerPage = 10;
-        } else if ($height >= 1050){
+        } else if ($height >= 930){
             $numPerPage = 10;
         } else {
             $numPerPage = 7;
@@ -24,7 +22,6 @@ if (isset($_GET["height"])){
 }
 
 
-//$sql = "SELECT matscore, username FROM users ORDER BY matscore DESC";
 $sql = "SELECT * FROM matgame JOIN users WHERE matgame.user_id = users.id";
 $result = $conn->query($sql);
 if ($result->num_rows > 0){

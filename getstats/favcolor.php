@@ -15,7 +15,7 @@ if (isset($_GET["id"])){
         if ($result->num_rows > 0){
             $result = $result->fetch_assoc();
             $selUserFavColor = $result["color"];
-            echo "<h1 style='background-color: $selUserFavColor;'>Fovorite color: $selUserFavColor</h1>";
+            echo "<h1 style='background-color: $selUserFavColor;'>Favorite color: $selUserFavColor</h1>";
         }
     }
 
