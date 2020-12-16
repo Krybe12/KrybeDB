@@ -7,6 +7,13 @@ $page = $_SERVER['REQUEST_URI'];
 if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
     header("Location: ../index.php?id=login&re=nt&page=$page");
 }
+//var_dump($_SESSION["achtest"][1]);
+if (!isset($_SESSION["achdone"][1])){
+    $sql = "INSERT INTO achcompleted (user_id, ach_id) VALUES ({$_SESSION['userid']}, 1)";
+    $conn->query($sql);
+    $_SESSION["achdone"][1] = 1;
+    echo "<script>console.log('kokot');</script>";
+}
 ?>
 <style>
 @media (min-width:860px){

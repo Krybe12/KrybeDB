@@ -154,6 +154,7 @@ p {
         <h1>logged in <br><?php $user = $_SESSION["user"]; $color = $_SESSION["color"]; echo "<p style='color: $color;'>$user</p><p>, bitch</p>" ?></h1>
         </div>
         <div class="t2 section">
+        
             <h1>Matematická hra!</h1>
         </div>
         <div class="t3 section">
@@ -194,7 +195,7 @@ p {
             </div>
         </div>
         <div class="m3 section bg-info">
-            
+
         </div>
         <div class="b1 section bg-success">
 

@@ -41,6 +41,16 @@ if (isset($_SESSION["gotopage"])){
 } else {
     $page = "../mainpage.php";
 }
-
+//setup ach session
+$sql = "SELECT ach_id FROM achcompleted WHERE user_id=$userid";
+$result = $conn->query($sql);
+$arr = array();
+if ($result->num_rows > 0) {
+    while($row = $result->fetch_assoc()) {
+        $arr["{$row['ach_id']}"] = 1;     
+    }
+}
+$_SESSION["achdone"] = $arr;
+//setup ach seesion over
 header("Location: $page");
 ?>
