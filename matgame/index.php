@@ -119,11 +119,6 @@ h1, .h1 {
 h3, .h3 {
     font-size: 2.8em !important;
 }
-
-h4, .h4 {
-    font-size: 2.8em !important;
-}
-
 h5, .h5 {
     font-size: 2.8em !important;
 }
@@ -137,6 +132,11 @@ h6, .h6 {
 }
 p {
   display: inline-block;
+}
+.alerty {
+    position: absolute;
+    right: 10;
+    bottom: 10;
 }
 </style>
 <!DOCTYPE html>
@@ -154,8 +154,9 @@ p {
         <h1>logged in <br><?php $user = $_SESSION["user"]; $color = $_SESSION["color"]; echo "<p style='color: $color;'>$user</p><p>, bitch</p>" ?></h1>
         </div>
         <div class="t2 section">
-        
-            <h1>Matematická hra!</h1>
+            <div>
+                <h1>Matematická hra!</h1>           
+            </div>
         </div>
         <div class="t3 section">
 
@@ -192,6 +193,7 @@ p {
                 <div>
                     <h1 id="cAwnser"></h1>
                 </div>
+                
             </div>
         </div>
         <div class="m3 section bg-info">
@@ -206,9 +208,26 @@ p {
         <div class="b3 section bg-success">
         </div>
     </div>
+<div class="alerty">
+
+</div>
 
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<?php
+if (!isset($_SESSION["achdone"][2])){ //achievement firt login
+    $sql = "INSERT INTO achcompleted (user_id, ach_id) VALUES ({$_SESSION['userid']}, 2)";
+    $conn->query($sql);
+    $_SESSION["achdone"][2] = 1;
+    echo '<script>
+    $(document).ready(function(){
+        $.get( "../achievements/load.php", { achid: 2}, function(data){
+            $(".alerty").append(data);
+        });
+    });   
+    </script>';
+}
+?>
 <script>
 let odp;
 let body = 0;
@@ -216,6 +235,7 @@ let pageNum = 1;
 $( document ).ready(function() {
     newNums();
     newLeaderBoard();
+
 });
 $("#btnsend").click(function() {
     sendResult();

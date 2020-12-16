@@ -8,12 +8,7 @@ if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
     header("Location: ../index.php?id=login&re=nt&page=$page");
 }
 //var_dump($_SESSION["achtest"][1]);
-if (!isset($_SESSION["achdone"][1])){
-    $sql = "INSERT INTO achcompleted (user_id, ach_id) VALUES ({$_SESSION['userid']}, 1)";
-    $conn->query($sql);
-    $_SESSION["achdone"][1] = 1;
-    echo "<script>console.log('kokot');</script>";
-}
+
 ?>
 <style>
 @media (min-width:860px){
@@ -82,6 +77,11 @@ h1, .h1 {
 }
 p {
   display: inline-block;
+}
+.alerty {
+    position: absolute;
+    right: 10;
+    bottom: 10;
 }
 </style>
 <!DOCTYPE html>
@@ -156,10 +156,26 @@ p {
         </div>
     </div>
 
+<div class="alerty">
+
+</div>
+
 </body>
-<script>
+<?php
+if (!isset($_SESSION["achdone"][1])){ //achievement firt login
+    $sql = "INSERT INTO achcompleted (user_id, ach_id) VALUES ({$_SESSION['userid']}, 1)";
+    $conn->query($sql);
+    $_SESSION["achdone"][1] = 1;
+    echo '<script>
     $(document).ready(function(){
-    });
+        $.get( "achievements/load.php", { achid: 1}, function(data){
+            $(".alerty").append(data);
+        });
+    });   
+    </script>';
+}
+?>
+<script>
     $(function () {
         const popover = $('[data-toggle="popover"]').popover({
             placement: "left"

@@ -82,7 +82,7 @@ function newNums($op){
         echo "<h1>$h1</h1>";
         echo "<h5>$h2</h5>";
         echo "<h3>$h3</h3>";
-        echo "<h4>$h4</h4>";
+        echo "<h5>$h4</h5>";
         echo "<h6>$priklad4</h6>";
         echo "<h6 class='text-warning'>$last</h6>";
         echo "<h1 class='d-none'>$text2</h1>";
