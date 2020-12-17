@@ -9,21 +9,21 @@ if (isset($_GET['category']) and is_numeric($_GET['category'])){
 
     $sql = "SELECT * FROM achievments JOIN achcompleted ON achcompleted.ach_id = achievments.id WHERE category_id = $category AND achcompleted.user_id = $userid";
     $result = $conn->query($sql);
+    echo '<table class="table">';
+    echo '<tr class="beta">';
 
+
+    echo "<th>";
+    echo "<b>" . "Achievment" . "</b>";
+    echo "</th>";
+
+    echo "<th>";
+    echo "<b>" . "Completed" . "</b>";
+    echo "</th>";
+
+    echo "</tr>";
     if ($result->num_rows > 0) {
-        echo '<table class="table">';
-        echo '<tr class="beta">';
-    
-    
-        echo "<th>";
-        echo "<b>" . "Achievment" . "</b>";
-        echo "</th>";
-    
-        echo "<th>";
-        echo "<b>" . "Completed" . "</b>";
-        echo "</th>";
-    
-        echo "</tr>";
+
         while($row = $result->fetch_assoc()) {
             echo "<tr>";
 
