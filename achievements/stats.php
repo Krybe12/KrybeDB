@@ -40,7 +40,7 @@ if (isset($_GET['category']) and is_numeric($_GET['category'])){
         
     }
 
-    $sql = "SELECT * FROM achievments WHERE NOT EXISTS (SELECT * FROM achcompleted WHERE achievments.id = achcompleted.ach_id AND achcompleted.user_id = $userid)";
+    $sql = "SELECT * FROM achievments WHERE category_id = $category AND NOT EXISTS (SELECT * FROM achcompleted WHERE achievments.id = achcompleted.ach_id AND achcompleted.user_id = $userid)";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
 

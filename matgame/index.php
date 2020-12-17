@@ -269,7 +269,7 @@ function awnsered(data){
     setTimeout(reset, 1000);
     newNums();
     newLeaderBoard();
-    newAchievements()
+    newAchievements();
 }
 function reset(){
     $(".area").removeClass("bg-danger bg-success")
