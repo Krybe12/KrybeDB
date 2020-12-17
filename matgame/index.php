@@ -196,8 +196,9 @@ p {
                 
             </div>
         </div>
-        <div class="m3 section bg-info">
-
+        <div class="m3 bg-info">
+            <div><h1>Achievments</h1></div>
+            <div class="achievments"></div>
         </div>
         <div class="b1 section bg-success">
 
@@ -235,7 +236,7 @@ let pageNum = 1;
 $( document ).ready(function() {
     newNums();
     newLeaderBoard();
-
+    newAchievements()
 });
 $("#btnsend").click(function() {
     sendResult();
@@ -268,11 +269,15 @@ function awnsered(data){
     setTimeout(reset, 1000);
     newNums();
     newLeaderBoard();
+    newAchievements()
 }
 function reset(){
     $(".area").removeClass("bg-danger bg-success")
     $("#score").text(`Session Score: ${body}`)
     setTimeout(function(){ $("#cAwnser").text("");}, 800);
+}
+function newAchievements(){
+    $(".achievments").load("../achievements/stats.php?category=" + 2);
 }
 function newLeaderBoard(){
     if (pageNum < 1) {
