@@ -8,7 +8,7 @@ function database($name, $pswd){
     $result = $stmt->get_result()->fetch_assoc();
     if (!$result){
         $ip = $_SERVER['REMOTE_ADDR'];
-        $date = date("l jS \of F Y h:i:s A");
+        $date = date("j M, Y @ g:ia");
 
         $stmt = $conn->prepare("INSERT INTO users (username, pass, ip, lastlogin, registerdate) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("sssss", $name, $pswd, $ip, $date, $date);

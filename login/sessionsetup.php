@@ -18,7 +18,7 @@ $stmt->bind_param("i", $_SESSION["userid"]);
 $stmt->execute();
 $result = $stmt->get_result()->fetch_assoc();
 
-$date = date("l jS \of F Y h:i:s A");
+$date = date("j M, Y @ g:ia");
 $sql = "UPDATE users SET lastlogin='$date' WHERE id='$userid'"; //logs last login
 $conn->query($sql);
 

@@ -163,7 +163,8 @@ p {
 </body>
 <?php
 if (!isset($_SESSION["achdone"][1])){ //achievement firt login
-    $sql = "INSERT INTO achcompleted (user_id, ach_id) VALUES ({$_SESSION['userid']}, 1)";
+    $date = date('j M, Y @ g:ia');
+    $sql = "INSERT INTO achcompleted (user_id, ach_id, awarded) VALUES ({$_SESSION['userid']}, 1, '$date')";
     $conn->query($sql);
     $_SESSION["achdone"][1] = 1;
     echo '<script>

@@ -138,6 +138,11 @@ p {
     right: 10;
     bottom: 10;
 }
+.ach{
+    overflow-y: auto;
+    max-height: 52.5vh;
+    
+}
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -198,7 +203,7 @@ p {
         </div>
         <div class="m3 bg-info">
             <div><h1>Achievments</h1></div>
-            <div class="achievments"></div>
+            <div class="achievments ach"></div>
         </div>
         <div class="b1 section bg-success">
 
@@ -216,8 +221,10 @@ p {
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <?php
+echo date('j M, Y @ g:ia');
 if (!isset($_SESSION["achdone"][2])){ //achievement firt login
-    $sql = "INSERT INTO achcompleted (user_id, ach_id) VALUES ({$_SESSION['userid']}, 2)";
+    $date = date('j M, Y @ g:ia');
+    $sql = "INSERT INTO achcompleted (user_id, ach_id, awarded) VALUES ({$_SESSION['userid']}, 2, '$date')";
     $conn->query($sql);
     $_SESSION["achdone"][2] = 1;
     echo '<script>

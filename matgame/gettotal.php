@@ -43,7 +43,8 @@ if ($_SESSION["mats"] >= 10000 and !isset($_SESSION["achdone"][11])){
 
 function achiev($achid){
     global $conn;      
-    $sql = "INSERT INTO achcompleted (user_id, ach_id) VALUES ({$_SESSION['userid']}, $achid)";
+    $date = date('j M, Y @ g:ia');
+    $sql = "INSERT INTO achcompleted (user_id, ach_id, awarded) VALUES ({$_SESSION['userid']}, $achid, '$date')";
     $conn->query($sql);
     $_SESSION["achdone"][$achid] = 1;
     echo '<script>
