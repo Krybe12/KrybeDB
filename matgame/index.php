@@ -221,7 +221,6 @@ p {
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <?php
-echo date('j M, Y @ g:ia');
 if (!isset($_SESSION["achdone"][2])){ //achievement firt login
     $date = date('j M, Y @ g:ia');
     $sql = "INSERT INTO achcompleted (user_id, ach_id, awarded) VALUES ({$_SESSION['userid']}, 2, '$date')";
