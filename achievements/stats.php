@@ -34,7 +34,7 @@ if (isset($_GET['category']) and is_numeric($_GET['category'])){
             echo "</td>";
     
             echo "<td>";
-            echo "yes";
+            echo "{$row['awarded']}";
             echo "</td>";
     
             echo "</tr>";
