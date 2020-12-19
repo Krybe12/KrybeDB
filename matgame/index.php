@@ -275,7 +275,7 @@ function awnsered(data){
     else {$(".area").addClass("bg-danger"); body--;}
     $("#inpt").focus();
     $("input").val("");
-    setTimeout(reset, 1200);
+    setTimeout(reset, 1000);
     newNums();
     newLeaderBoard();
     newAchievements();
@@ -283,7 +283,7 @@ function awnsered(data){
 function reset(){
     $(".area").removeClass("bg-danger bg-success");
     $("#score").text(body);
-    setTimeout(function(){ $("#cAwnser").text("");}, 1000);
+    setTimeout(function(){ $("#cAwnser").text("");}, 400);
 }
 function newAchievements(){
     $(".achievments").load("../achievements/stats.php?category=" + 2);

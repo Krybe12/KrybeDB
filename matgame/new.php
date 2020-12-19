@@ -33,14 +33,13 @@ function newNums($op){
         } else if ($op == 4){
             $op = "/";
         }
-        $_SESSION["n1"] = $num1;
-        $_SESSION["n2"] = $num2;
-        $_SESSION["op"] = $op;
+
         $random = rand(1, 4);
         $priklad4 = floor($num1*rand(1,3)) . " " . $op . " ". floor($num2 / rand(2,8));
         $priklad3 = floor($num1*rand(1,2)) . " " . $op . " ". floor($num2 / rand(2,8));
         $priklad2 = floor($num1*rand(1,3)) . " " . $op . " ". floor($num2 / rand(2,8));
         $priklad = "$num1 $op $num2";
+        $_SESSION["priklad"] = $priklad;
         
         $h1 = "";
         $h2 = "";

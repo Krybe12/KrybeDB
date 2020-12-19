@@ -37,7 +37,7 @@ if (isset($_POST["awnsered"])){
         $_SESSION["MatGameInRowCorrect"] = 0;
         $_SESSION["MatGameInRowWrong"] = $_SESSION["MatGameInRowWrong"] + 1;
         add(0);
-        echo "Wrong! " . $_SESSION["n1"] . $_SESSION["op"] . $_SESSION["n2"]. " = " . $_SESSION["result"];
+        echo "Wrong! " . $_SESSION["priklad"] . " = " . $_SESSION["result"];
     }
 }
 ?>
