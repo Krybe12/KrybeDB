@@ -102,15 +102,8 @@ if (!$result){
     flex-wrap: wrap;
 }
 .mid {
-    display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
-}
-.tl {
-    display: flex;
-    justify-content: top;
-    align-items: top;
     flex-wrap: wrap;
 }
 h1, .h1 {
@@ -186,14 +179,25 @@ p {
                 <div class="top">
                 </div>
                 <div class="mid">
-                    <input type="number" class="box" id="inpt">
+                    <input type="number" class="box" id="inpt"><br>
                     <button id="btnsend">Odeslat</button>
                 </div>
-                <div class="tl">
-                    <h2 id="score">Session Score: 0</h2>
-                </div>
-                <div class="tl">
-                    <h2 id="totalscore">Total Score: 0</h2>
+                <div>
+                    <hr>
+                    <div class="row mt-4">
+                        <div class="col">
+                            <h2>SessionScore:</h2>
+                            <h5 id="score" class="lead m-0">0</h5>
+                        </div>
+                        <div class="col">
+                            <h2>In Row Correct:</h2>
+                            <h5 id="inRowNum" class="lead m-0">0</h5>
+                        </div>
+                        <div class="col">
+                            <h2>Total Score:</h2>
+                            <h5 id="totalScoreNum" class="lead m-0"></h5>
+                        </div>
+                    </div>
                 </div>
                 <div>
                     <h1 id="cAwnser"></h1>
@@ -278,8 +282,8 @@ function awnsered(data){
     newAchievements();
 }
 function reset(){
-    $(".area").removeClass("bg-danger bg-success")
-    $("#score").text(`Session Score: ${body}`)
+    $(".area").removeClass("bg-danger bg-success");
+    $("#score").text(body);
     setTimeout(function(){ $("#cAwnser").text("");}, 800);
 }
 function newAchievements(){
@@ -290,7 +294,8 @@ function newLeaderBoard(){
         pageNum = 1;
     } else {
         $(".leader").load("highscore.php?page=" + pageNum + "&height=" + $(document).height())
-        $("#totalscore").load("gettotal.php")
+        $("#totalScoreNum").load("gettotal.php")
+        $("#inRowNum").load("inrow.php")
     }
 
 }

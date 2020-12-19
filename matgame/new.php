@@ -89,6 +89,11 @@ function newNums($op){
     }
     
 }
+if (!isset($_SESSION["MatGameInRowWrong"]) or !isset($_SESSION["MatGameInRowCorrect"])){
+    $_SESSION["MatGameInRowWrong"] = 0;
+    $_SESSION["MatGameInRowCorrect"] = 0;
+}
+
 function gen($max){
     return rand(3, $max);
 }

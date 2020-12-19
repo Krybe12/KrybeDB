@@ -18,6 +18,7 @@ function add($n){
     $conn->query($sql);
 }
 
+
 if (isset($_SESSION["mats"])){
 } else {
     $sql = "SELECT score FROM matgame WHERE user_id='$userid' LIMIT 1";
@@ -28,9 +29,13 @@ if (isset($_SESSION["mats"])){
 
 if (isset($_POST["awnsered"])){
     if ($_POST["awnsered"] == $_SESSION["result"]){
+        $_SESSION["MatGameInRowWrong"] = 0;
+        $_SESSION["MatGameInRowCorrect"] = $_SESSION["MatGameInRowCorrect"] + 1;
         add(1);
         echo "Correct!";
     } else {
+        $_SESSION["MatGameInRowCorrect"] = 0;
+        $_SESSION["MatGameInRowWrong"] = $_SESSION["MatGameInRowWrong"] + 1;
         add(0);
         echo "Wrong! " . $_SESSION["n1"] . $_SESSION["op"] . $_SESSION["n2"]. " = " . $_SESSION["result"];
     }
