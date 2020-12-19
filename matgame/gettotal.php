@@ -17,34 +17,30 @@ if (isset($_SESSION["mats"])){
 function send(){
     echo $_SESSION["mats"];
 }
-function checkAchs(){
-    if ($_SESSION["mats"] != 0 and !isset($_SESSION["achdone"][3])){
-        achiev(3); //achievement first priklad trigger
-    }
-    if ($_SESSION["mats"] >= 10 and !isset($_SESSION["achdone"][4])){
-        achiev(4); //achievement 10 vyocitanejch trigger
-    }
-    if ($_SESSION["mats"] >= 50 and !isset($_SESSION["achdone"][5])){
-        achiev(5); //achievement 50 vyocitanejch trigger
-    }
-    if ($_SESSION["mats"] >= 100 and !isset($_SESSION["achdone"][6])){
-        achiev(6); //achievement 100 vyocitanejch trigger
-    }
-    if ($_SESSION["mats"] >= 250 and !isset($_SESSION["achdone"][7])){
-        achiev(7); //achievement 250 vyocitanejch trigger
-    }
-    if ($_SESSION["mats"] >= 500 and !isset($_SESSION["achdone"][8])){
-        achiev(8); //achievement 500 vyocitanejch trigger
-    }
-    if ($_SESSION["mats"] >= 1000 and !isset($_SESSION["achdone"][9])){
-        achiev(9); //achievement 1000 vyocitanejch trigger
-    }
-    if ($_SESSION["mats"] >= 5000 and !isset($_SESSION["achdone"][10])){
-        achiev(10); //achievement 5000 vyocitanejch trigger
-    }
-    if ($_SESSION["mats"] >= 10000 and !isset($_SESSION["achdone"][11])){
-        achiev(11); //achievement 10000 vyocitanejch trigger
-    }
+
+if ($_SESSION["mats"] != 0 and !isset($_SESSION["achdone"][3])){
+    achiev(3); //achievement first priklad trigger
+}
+if ($_SESSION["mats"] >= 10 and !isset($_SESSION["achdone"][4])){
+    achiev(4); //achievement 10 vyocitanejch trigger
+}
+if ($_SESSION["mats"] >= 25 and !isset($_SESSION["achdone"][10])){
+    achiev(10); //achievement 25 vyocitanejch trigger
+}
+if ($_SESSION["mats"] >= 50 and !isset($_SESSION["achdone"][5])){
+    achiev(5); //achievement 50 vyocitanejch trigger
+}
+if ($_SESSION["mats"] >= 100 and !isset($_SESSION["achdone"][6])){
+    achiev(6); //achievement 100 vyocitanejch trigger
+}
+if ($_SESSION["mats"] >= 250 and !isset($_SESSION["achdone"][7])){
+    achiev(7); //achievement 250 vyocitanejch trigger
+}
+if ($_SESSION["mats"] >= 500 and !isset($_SESSION["achdone"][8])){
+    achiev(8); //achievement 500 vyocitanejch trigger
+}
+if ($_SESSION["mats"] >= 1000 and !isset($_SESSION["achdone"][9])){
+    achiev(9); //achievement 1000 vyocitanejch trigger
 }
 
 

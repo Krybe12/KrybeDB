@@ -13,8 +13,8 @@ function newNums($op){
         $num1 = gen(150);
         $num2 = gen(150);
     } else if ($op == 3) {
-        $num1 = gen(25);
-        $num2 = gen(25);
+        $num1 = gen(20);
+        $num2 = gen(20);
     } else if ($op == 4){
         $num1 = gen(250);
         $num2 = gen(250);

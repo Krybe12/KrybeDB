@@ -104,7 +104,6 @@ if (!$result){
 .mid {
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap;
 }
 h1, .h1 {
   font-size: 2.8em !important;
@@ -180,13 +179,13 @@ p {
                 </div>
                 <div class="mid">
                     <input type="number" class="box" id="inpt"><br>
-                    <button id="btnsend">Odeslat</button>
+                    <button id="btnsend" class="btn btn-dark">Odeslat</button>
                 </div>
                 <div>
-                    <hr>
-                    <div class="row mt-4">
+                    <hr class="m-4">
+                    <div class="row">
                         <div class="col">
-                            <h2>SessionScore:</h2>
+                            <h2>Session Score:</h2>
                             <h5 id="score" class="lead m-0">0</h5>
                         </div>
                         <div class="col">
@@ -276,7 +275,7 @@ function awnsered(data){
     else {$(".area").addClass("bg-danger"); body--;}
     $("#inpt").focus();
     $("input").val("");
-    setTimeout(reset, 1000);
+    setTimeout(reset, 1200);
     newNums();
     newLeaderBoard();
     newAchievements();
@@ -284,7 +283,7 @@ function awnsered(data){
 function reset(){
     $(".area").removeClass("bg-danger bg-success");
     $("#score").text(body);
-    setTimeout(function(){ $("#cAwnser").text("");}, 800);
+    setTimeout(function(){ $("#cAwnser").text("");}, 1000);
 }
 function newAchievements(){
     $(".achievments").load("../achievements/stats.php?category=" + 2);
