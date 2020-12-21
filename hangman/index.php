@@ -175,78 +175,74 @@
             </div>
         </div>
     </div>
-    <div class="m3 bg-dark text-light text-center">
-        <div class="p-2 p-md-3">
-            <div style="position: sticky;top: 0;z-index: 2;" class="bg-dark">
-                <h4>Achievements</h4>
-                <hr>
+    <div class="m3 bg-dark text-light text-center p-md-3 pt-md-0">
+        <div style="position: sticky;top: 0;z-index: 2;" class="bg-dark py-md-3">
+            <h4>Achievements</h4>
+            <hr class="mb-0">
+        </div>
+        
+        <div class="">
+            <div class="card bg-success my-1">
+                <div class="card-header">Godlike</div>
+                <div class="card-body">
+                    <p class="card-text">Get score of 100 in Maths Game.</p>
+                </div>
             </div>
-            
-            <div class="">
-                <div class="card bg-success my-1">
-                    <div class="card-header">Godlike</div>
-                    <div class="card-body">
-                        <p class="card-text">Get score of 100 in Maths Game.</p>
-                    </div>
+            <div class="card bg-success my-1">
+                <div class="card-header">Godlike</div>
+                <div class="card-body">
+                    <p class="card-text">Get score of 100 in Maths Game.</p>
                 </div>
-                <div class="card bg-success my-1">
-                    <div class="card-header">Godlike</div>
-                    <div class="card-body">
-                        <p class="card-text">Get score of 100 in Maths Game.</p>
-                    </div>
+            </div>
+            <div class="card bg-secondary my-1">
+                <div class="card-header">Godlike</div>
+                <div class="card-body">
+                    <p class="card-text">Get score of 100 in Maths Game.</p>
                 </div>
-                <div class="card bg-secondary my-1">
-                    <div class="card-header">Godlike</div>
-                    <div class="card-body">
-                        <p class="card-text">Get score of 100 in Maths Game.</p>
-                    </div>
+            </div>
+            <div class="card bg-secondary my-1">
+                <div class="card-header">Godlike</div>
+                <div class="card-body">
+                    <p class="card-text">Get score of 100 in Maths Game.</p>
                 </div>
-                <div class="card bg-secondary my-1">
-                    <div class="card-header">Godlike</div>
-                    <div class="card-body">
-                        <p class="card-text">Get score of 100 in Maths Game.</p>
-                    </div>
+            </div>
+            <div class="card bg-secondary my-1">
+                <div class="card-header">Godlike</div>
+                <div class="card-body">
+                    <p class="card-text">Get score of 100 in Maths Game.</p>
                 </div>
-                <div class="card bg-secondary my-1">
-                    <div class="card-header">Godlike</div>
-                    <div class="card-body">
-                        <p class="card-text">Get score of 100 in Maths Game.</p>
-                    </div>
+            </div>
+            <div class="card bg-success my-1">
+                <div class="card-header">Godlike</div>
+                <div class="card-body">
+                    <p class="card-text">Get score of 100 in Maths Game.</p>
                 </div>
-                <div class="card bg-success my-1">
-                    <div class="card-header">Godlike</div>
-                    <div class="card-body">
-                        <p class="card-text">Get score of 100 in Maths Game.</p>
-                    </div>
+            </div>
+            <div class="card bg-success my-1">
+                <div class="card-header">Godlike</div>
+                <div class="card-body">
+                    <p class="card-text">Get score of 100 in Maths Game.</p>
                 </div>
-                <div class="card bg-success my-1">
-                    <div class="card-header">Godlike</div>
-                    <div class="card-body">
-                        <p class="card-text">Get score of 100 in Maths Game.</p>
-                    </div>
+            </div>
+            <div class="card bg-secondary my-1">
+                <div class="card-header">Godlike</div>
+                <div class="card-body">
+                    <p class="card-text">Get score of 100 in Maths Game.</p>
                 </div>
-                <div class="card bg-secondary my-1">
-                    <div class="card-header">Godlike</div>
-                    <div class="card-body">
-                        <p class="card-text">Get score of 100 in Maths Game.</p>
-                    </div>
+            </div>
+            <div class="card bg-secondary my-1">
+                <div class="card-header">Godlike</div>
+                <div class="card-body">
+                    <p class="card-text">Get score of 100 in Maths Game.</p>
                 </div>
-                <div class="card bg-secondary my-1">
-                    <div class="card-header">Godlike</div>
-                    <div class="card-body">
-                        <p class="card-text">Get score of 100 in Maths Game.</p>
-                    </div>
-                </div>
-                <div class="card bg-secondary my-1">
-                    <div class="card-header">Godlike</div>
-                    <div class="card-body">
-                        <p class="card-text">Get score of 100 in Maths Game.</p>
-                    </div>
+            </div>
+            <div class="card bg-secondary my-1">
+                <div class="card-header">Godlike</div>
+                <div class="card-body">
+                    <p class="card-text">Get score of 100 in Maths Game.</p>
                 </div>
             </div>
         </div>
-        
-
     </div>
 </div>
 </body>
