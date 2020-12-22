@@ -9,35 +9,18 @@ if (isset($_GET['category']) and is_numeric($_GET['category'])){
 
     $sql = "SELECT * FROM achievments JOIN achcompleted ON achcompleted.ach_id = achievments.id WHERE category_id = $category AND achcompleted.user_id = $userid";
     $result = $conn->query($sql);
-    echo '<table class="table">';
-    echo '<thead>';
-    echo '<tr class="beta">';
 
-    echo "<th>";
-    echo "<b>" . "Achievment" . "</b>";
-    echo "</th>";
-
-    echo "<th>";
-    echo "<b>" . "Completed" . "</b>";
-    echo "</th>";
-
-    echo "</tr>";
-    echo '</thead>';
-    echo '<tbody>';
     if ($result->num_rows > 0) {
 
         while($row = $result->fetch_assoc()) {
-            echo "<tr>";
-
-            echo "<td>";
-            echo "<b>{$row['achiev_name']}</b><br>{$row['achiev_req']}";
-            echo "</td>";
-    
-            echo "<td>";
-            echo "{$row['awarded']}";
-            echo "</td>";
-    
-            echo "</tr>";
+            
+            echo "<div class='card bg-success my-1'>";
+            echo "<div class='card-header'>{$row['achiev_name']}</div>";
+            echo "<div class='card-body'>";
+            echo "<p class='card-text'>{$row['achiev_req']}</p>";
+            echo "<p class='card-text'>Unlocked  {$row['awarded']}</p>";
+            echo "</div>";
+            echo "</div>";
         }
         
     }
@@ -47,21 +30,21 @@ if (isset($_GET['category']) and is_numeric($_GET['category'])){
     if ($result->num_rows > 0) {
 
         while($row = $result->fetch_assoc()) {
-            echo "<tr>";
 
-            echo "<td>";
-            echo "<b>{$row['achiev_name']}</b><br>{$row['achiev_req']}";
-            echo "</td>";
-    
-            echo "<td>";
-            echo "no";
-            echo "</td>";
-    
-            echo "</tr>";
+            echo "<div class='card bg-secondary my-1'>";
+            echo "<div class='card-header'>{$row['achiev_name']}</div>";
+            echo "<div class='card-body'>";
+            echo "<p class='card-text'>{$row['achiev_req']}</p>";
+            echo "</div>";
+            echo "</div>";
         }
         
     }
-    echo "</tbody>";
-    echo "</table>";
 }
 ?>
+
+
+        
+            
+
+

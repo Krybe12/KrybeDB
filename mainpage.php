@@ -169,7 +169,7 @@ if (!isset($_SESSION["achdone"][1])){ //achievement firt login
     $_SESSION["achdone"][1] = 1;
     echo '<script>
     $(document).ready(function(){
-        $.get( "achievements/load.php", { achid: 1}, function(data){
+        $.get( "achievements/alert.php", { achid: 1}, function(data){
             $(".alerty").append(data);
         });
     });   

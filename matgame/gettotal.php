@@ -52,7 +52,7 @@ function achiev($achid){
     $_SESSION["achdone"][$achid] = 1;
     echo '<script>
     $(document).ready(function(){
-        $.get( "../achievements/load.php", { achid:' . $achid . '}, function(data){
+        $.get( "../achievements/alert.php", { achid:' . $achid . '}, function(data){
             $(".alerty").append(data);
         });
     });   

@@ -76,14 +76,14 @@ function newNums($op){
         $text2 = substr($s1,rand(1,520),$t1);
         $_SESSION["last"] = $priklad;
         echo "<h3 class='d-none'>$text1</h3>";
-        echo "<h6 class='text-warning'>$priklad2</h6>";
+        echo "<h6 class='text-dark'>$priklad2</h6>";
         echo "<h6>$priklad3</h6>";
-        echo "<h1>$h1</h1>";
-        echo "<h5>$h2</h5>";
+        echo "<h3>$h1</h3>";
+        echo "<h2>$h2</h2>";
         echo "<h3>$h3</h3>";
-        echo "<h5>$h4</h5>";
+        echo "<h2>$h4</h2>";
         echo "<h6>$priklad4</h6>";
-        echo "<h6 class='text-warning'>$last</h6>";
+        echo "<h6 class='text-dark'>$last</h6>";
         echo "<h1 class='d-none'>$text2</h1>";
     }
     

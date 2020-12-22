@@ -4,23 +4,7 @@ session_start();
 <?php
 require '../gameconn/conn.php';
 
-if (isset($_GET["height"])){
-    $height = $_GET["height"];
-    if (is_numeric($height)){
-        if ($height > 900 and $height < 930){
-            $numPerPage = 9;
-        } else if ($height > 800 and $height <= 900){
-            $numPerPage = 8;
-        } else if ($height >= 930){
-            $numPerPage = 10;
-        } else {
-            $numPerPage = 7;
-        }
-    }
-} else {
-    $numPerPage = 7;
-}
-
+$numPerPage = 10;
 
 $sql = "SELECT * FROM matgame JOIN users WHERE matgame.user_id = users.id";
 $result = $conn->query($sql);
@@ -50,11 +34,11 @@ $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     // output data of each row
-    echo '<table class="table">';
-    echo '<tr class="beta">';
+    echo '<table class="table text-center table-dark table-borderless">';
+    echo '<tr>';
 
     echo "<th>";
-    echo "###";
+    echo "#";
     echo "</th>";
 
     echo "<th>";
@@ -80,7 +64,7 @@ if ($result->num_rows > 0) {
         echo "</td>";   
         //echo "<td class='$class'>";
         echo "<td>";
-        echo "<a href='../profiles?id=$id'><b style='color: $color;'>" . $row["username"] . "</b></a>";
+        echo "<a href='../profiles?id=$id' style='text-decoration:none;'><b style='color: $color;'>" . $row["username"] . "</b></a>";
         echo "</td>";
 
         echo "<td>";
@@ -91,12 +75,13 @@ if ($result->num_rows > 0) {
     }
     echo "<tr>";
 
-    echo "<td colspan='3'>";
-    echo "<div class='d-flex justify-content-center'><button class='btn btn-Secondary' id='btnPrevious'>previous</button><p id='currentPage' class='align-self-center'>". $pageInfo . "</p><button class='btn btn-Secondary' id='btnNext'>next</button></div>";
+    echo "<td>";
     echo "</td>";
 
     echo "</tr>";
     echo "</table>";
+
+    echo "<div class='d-flex align-items-center justify-content-center'><button style='width: 35%;' id='btnPrevious' class='btn btn-primary mx-2'>Previous</button><h6>$pageInfo</h6><button style='width: 35%;' id='btnNext' class='btn btn-primary mx-2'>Next</button></div>";
 
     echo "<script>";
     echo "if(pageNum > $numPages){pageNum = $numPages;}";
