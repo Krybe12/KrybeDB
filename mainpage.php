@@ -73,7 +73,8 @@ if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
                     <h4 class="m-md-0">HUB</h4>
                 </div>
                 <div style="white-space: nowrap;" class="col-md d-flex justify-content-center justify-content-md-end">
-                    <a href="profile" class="btn btn-primary mx-2" id="pop" data-container="body" data-toggle="popover" data-placement="left" title="Setup your profile">Profile</a>
+                    <button style="width: 1px" class="btn btn-dark p-0 m-0" id="pop" data-container="body" data-toggle="popover" data-placement="left" title="Setup your profile"></button>
+                    <a href="profile" class="btn btn-primary mx-2" >Profile</a>
                     <a href="login/logout.php" class="btn btn-danger mx-2">Logout</a>
                 </div>
             </div>
