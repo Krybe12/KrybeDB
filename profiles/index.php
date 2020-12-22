@@ -22,70 +22,41 @@ if ($result){
 }
 ?>
 <style>
-@media (min-width:860px){
+@media (min-width:768px){
     .grid {
     display: grid;
     height: 100%;
-    text-align: center;
 
-    grid-template-rows: 0.5fr 1fr 1fr;
-    grid-template-columns: 1fr 3fr 1fr;
+    grid-template-rows: 0.15fr 1fr;
+    grid-template-columns: 1fr;
     grid-template-areas: 
-    "t1 t2 t3"
-    "m m m"
-    "m m m";
+    "t"
+    "m";
     }
 }
-@media (max-width: 860px){
+@media (max-width: 768px){
     .grid {
     display: grid;
-    text-align: center;
-
-    grid-template-rows: 0.25fr 1fr 1fr 1fr;
-    grid-template-columns: 1fr 1fr;
+    height: 100%;
+    grid-template-rows: 0.15fr 2fr;
+    grid-template-columns: 1fr;
     grid-template-areas: 
-    "t2 t2"
-    "m m"
-    "t3 t1";
-}
+    "t"
+    "m";
+    }
 }
 
-.t1{
-    grid-area: t1;
-}
-.t2{
-    grid-area: t2;
-}
-.t3{
-    grid-area: t3;
+.t{
+    grid-area: t;
+    border-bottom: 4px solid #ffc107;
 }
 .m{
     grid-area: m;
 }
-.i{
-    width: 5vw;
-    height: 10vh;
-}
-.section {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-}
-.box{
-    text-align: center;
-    font-size: 2vh;
-}
-.logout{
-    font-size: 6vh;
-}
-
-h1{
-  font-size: 2.8em !important;
-}
-
-.card-title{
-    font-size: 150%;
+.alerty {
+    position: absolute;
+    right: 10;
+    bottom: 10;
 }
 .content-box{
 
@@ -115,9 +86,6 @@ box-shadow: 0px 0px 32px 0px rgba(0,0,0,0.1);
     margin:10px 15px;
     }
 }
-p {
-  display: inline-block;
-}
 </style>
 <!DOCTYPE html>
 <html lang="en">
@@ -130,28 +98,22 @@ p {
     <title>Profile of <?php echo $selUserName?></title>
 </head>
 <body>
-    <div class="grid bg-secondary">
-        <div class="t1 section">
-        <h1>logged in <br><?php $user = $_SESSION["user"]; $color = $_SESSION["color"]; echo "<p style='color: $color;'>$user</p><p>, bitch</p>" ?></h1>
-        </div>
-
-        <div class="t2 section">
-        <h1>Profile of <?php echo "<p style='color: $selUserFavColor;'>$selUserName</p>" ?></h1>
-            
-        </div>
-
-        <div class="t3 section">
-
-            <div class="btn-group">
-                <button type="button" class="btn btn-danger dropdown-toggle btn-lg" data-bs-toggle="dropdown" aria-expanded="false">
-                    <?php echo $_SESSION["user"]?>
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="../profile">Profile</a></li>
-                    <li><a class="dropdown-item" href="..">HUB</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="../login/logout.php">Logout</a></li>
-                </ul>
+    <div class="grid">
+        <div class="t bg-dark text-light d-flex flex-column flex-md-row justify-content-between align-items-center">
+            <div class="container-fluid bg-dark text-light p-3 flex-shrink-1">
+                <div class="row align-items-center">
+                    <div class="col-md d-flex justify-content-center justify-content-md-start">
+                        <h5 class="m-md-0">Logged in as <?php echo "<h5 style='color: {$_SESSION['color']}'>{$_SESSION['user']}</h5>"?></h5>
+                    </div>
+                    <div class="col-md d-flex justify-content-center">
+                        <h4 class="m-md-0">Profile of <?php echo "<h4 style='color: $selUserFavColor;'>$selUserName</h4>" ?></h4>
+                    </div>
+                    <div style="white-space: nowrap;" class="col-md d-flex justify-content-center justify-content-md-end">
+                        <a href="../profile" class="btn btn-primary mx-2">Profile</a>
+                        <a href=".." class="btn btn-primary mx-2">Back to HUB</a>
+                        <a href="../login/logout.php" class="btn btn-danger mx-2">Logout</a>
+                    </div>
+                </div>
             </div>
         </div>
 
