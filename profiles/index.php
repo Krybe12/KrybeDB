@@ -103,10 +103,10 @@ box-shadow: 0px 0px 32px 0px rgba(0,0,0,0.1);
             <div class="container-fluid bg-dark text-light p-3 flex-shrink-1">
                 <div class="row align-items-center">
                     <div class="col-md d-flex justify-content-center justify-content-md-start">
-                        <h5 class="m-md-0">Logged in as <?php echo "<h5 style='color: {$_SESSION['color']}'>{$_SESSION['user']}</h5>"?></h5>
+                        <h5 class="m-md-0">Logged in as <?php echo "<h5 class='mx-2' style='color: {$_SESSION['color']}'>{$_SESSION['user']}</h5>"?></h5>
                     </div>
                     <div class="col-md d-flex justify-content-center">
-                        <h4 class="m-md-0">Profile of <?php echo "<h4 style='color: $selUserFavColor;'>$selUserName</h4>" ?></h4>
+                        <h4 class="m-md-0">Profile of <?php echo "<h4 class='mx-2' style='color: $selUserFavColor;'>$selUserName</h4>" ?></h4>
                     </div>
                     <div style="white-space: nowrap;" class="col-md d-flex justify-content-center justify-content-md-end">
                         <a href="../profile" class="btn btn-primary mx-2">Profile</a>

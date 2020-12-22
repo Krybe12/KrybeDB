@@ -26,7 +26,7 @@ if (!$result){
     $stmt = $conn->prepare("INSERT INTO usersettings (user_id) VALUES (?)");
     $stmt->bind_param("i", $_SESSION["userid"]);
     $stmt->execute();
-    $_SESSION["color"] = "#000000";
+    $_SESSION["color"] = "#ffffff";
     $_SESSION["profilenotset"] = 1;
 } else{
     $_SESSION["color"] = $result["color"];

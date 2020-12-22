@@ -67,13 +67,13 @@ if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
         <div class="container-fluid bg-dark text-light p-3 flex-shrink-1">
             <div class="row align-items-center">
                 <div class="col-md d-flex justify-content-center justify-content-md-start">
-                    <h5 class="m-md-0">Logged in as <?php echo "<h5 style='color: {$_SESSION['color']}'>{$_SESSION['user']}</h5>"?></h5>
+                    <h5 class="m-md-0">Logged in as <?php echo "<h5 class='mx-2' style='color: {$_SESSION['color']}'>{$_SESSION['user']}</h5>"?></h5>
                 </div>
                 <div class="col-md d-flex justify-content-center">
                     <h4 class="m-md-0">HUB</h4>
                 </div>
                 <div style="white-space: nowrap;" class="col-md d-flex justify-content-center justify-content-md-end">
-                    <a href="profile" class="btn btn-primary mx-2">Profile</a>
+                    <a href="profile" class="btn btn-primary mx-2" id="pop" data-container="body" data-toggle="popover" data-placement="left" title="Setup your profile">Profile</a>
                     <a href="login/logout.php" class="btn btn-danger mx-2">Logout</a>
                 </div>
             </div>
