@@ -110,7 +110,7 @@ box-shadow: 0px 0px 32px 0px rgba(0,0,0,0.1);
                     </div>
                     <div style="white-space: nowrap;" class="col-md d-flex justify-content-center justify-content-md-end">
                         <a href="../profile" class="btn btn-primary mx-2">Profile</a>
-                        <a href=".." class="btn btn-primary mx-2">Back to HUB</a>
+                        <a href=".." class="btn btn-primary mx-2">Back to hub</a>
                         <a href="../login/logout.php" class="btn btn-danger mx-2">Logout</a>
                     </div>
                 </div>
