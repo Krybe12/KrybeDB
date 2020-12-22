@@ -133,14 +133,14 @@ h3, .h3 {
                     
                 </div>
                 <hr>
-                <input type="text" id="inpt" class="form-control">
+                <input type="number" id="inpt" class="form-control text-center">
                 <input type="button" id="btnsend" class="form-control btn bg-success text-light mt-1" value="Odeslat">
             </div>
             <hr class="bg-light">
             <div class="row mt-4 text-white">
                 <div class="col">
                     <h5>Session Score:</h5>
-                    <p id="score" class="lead m-0"></p>
+                    <p id="score" class="lead m-0">0</p>
                 </div>
                 <div class="col">
                     <h5>In Row Correct:</h5>

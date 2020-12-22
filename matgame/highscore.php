@@ -81,7 +81,7 @@ if ($result->num_rows > 0) {
     echo "</tr>";
     echo "</table>";
 
-    echo "<div class='d-flex align-items-center justify-content-center'><button style='width: 35%;' id='btnPrevious' class='btn btn-primary mx-2'>Previous</button><h6>$pageInfo</h6><button style='width: 35%;' id='btnNext' class='btn btn-primary mx-2'>Next</button></div>";
+    echo "<div class='d-flex align-items-center justify-content-center'><button style='width: 35%;' id='btnPrevious' class='btn btn-primary mx-2'>Previous</button><h5>$pageInfo</h5><button style='width: 35%;' id='btnNext' class='btn btn-primary mx-2'>Next</button></div>";
 
     echo "<script>";
     echo "if(pageNum > $numPages){pageNum = $numPages;}";
