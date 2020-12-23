@@ -14,11 +14,18 @@ if (isset($_POST["letter"])){
         }
         $_SESSION["hang"]["word"] = $word;
         $_SESSION["hang"]["guessWord"] = $guessWord;
-        echo "<h1>$guessWord</h1>";
+        if (strpos($guessWord, '_') === false) {
+            echo "<h1>$guessWord</h1><h1>You Won!</h1><script>$('#wrap').addClass('bg-success');setTimeout(function(){game.newWord();$('#wrap').removeClass('bg-success')}, 3000)</script>";
+        } else {
+            echo "<h1>$guessWord</h1>";
+        }
     } else {
         $_SESSION["hang"]["hp"] = $_SESSION["hang"]["hp"] - 1;
-        echo "h" . $_SESSION["hang"]["hp"] . "h";
-        echo 0;
+        if ($_SESSION["hang"]["hp"] == 0){
+            echo "<h1>$word</h1><h1>You Lost!</h1><script>$('#wrap').addClass('bg-danger');setTimeout(function(){game.newWord();$('#wrap').removeClass('bg-danger')}, 3000)</script>";
+        } else {
+            echo "0";
+        }
     }
 }
 ?>

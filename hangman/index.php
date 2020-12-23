@@ -174,7 +174,7 @@ if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
-let hp = 10;
+let hp = 5;
 $( document ).ready(function() {
     game.newWord();
 });
@@ -182,6 +182,7 @@ class Game{
     constructor(){}
     wrong(){
         hp = hp - 1;
+        console.log("hp " + hp);
         //get obrazek podle hp
         $("#wrap").addClass("bg-danger")
         setTimeout(function(){
@@ -195,14 +196,18 @@ class Game{
         }, 1000);
     }
     newWord(){
+        $(".btn-lg").attr( "disabled", false);
         $("#word").load("newword.php")
     }
     check(ltr){
         $.post("check.php", {
         letter: ltr
         }, function(data){
-            if (data == 0){
+            console.log(data.length)
+            if (data == "0"){
                 game.wrong();
+            } else if (data.length > 50){ // horší kod sem nikdy nevyčaroval
+                $("#word").html(data);
             } else {
                 game.correct();
                 $("#word").html(data);

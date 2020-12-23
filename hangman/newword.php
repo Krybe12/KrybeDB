@@ -12,7 +12,7 @@ for ($i = 1; $i < $n; $i++){
     $guessWord .= " _";
 }
 $_SESSION["hang"]["guessWord"] = $guessWord;
-$_SESSION["hang"]["hp"] = 10;
+$_SESSION["hang"]["hp"] = 5;
 echo "<script>console.log('{$_SESSION["hang"]["word"]}')</script>";
 echo "<h1>$guessWord</h1>";
 ?>
