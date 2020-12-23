@@ -67,6 +67,9 @@ if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
     right: 10;
     bottom: 10;
 }
+.btn-lg{
+    width: 50px;
+}
 </style>
 
 <!DOCTYPE html>
@@ -107,44 +110,46 @@ if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
         </div>
         
     </div>
-    <div class="m2 text-center bg-secondary pt-2 pt-md-4">
+    <div class="m2 text-center bg-secondary pt-2 pt-md-3">
         <div id="wrap" class="">
             <div>
                 <img src="https://via.placeholder.com/300" alt="">
             </div>
-            <div class="container-fluid d-flex flex-column justify-content-center align-items-center pt-md-3">   
+            <div id="word" class="pt-md-2">
+                
+            </div>
+            <div class="container-fluid d-flex flex-column justify-content-center align-items-center pt-md-1">   
+                <div class="p-1">
+                    <button class="btn btn-lg btn-dark">Q</button>
+                    <button class="btn btn-lg btn-dark">W</button>
+                    <button class="btn btn-lg btn-dark">E</button>
+                    <button class="btn btn-lg btn-dark">R</button>
+                    <button class="btn btn-lg btn-dark">T</button>
+                    <button class="btn btn-lg btn-dark">Z</button>
+                    <button class="btn btn-lg btn-dark">U</button>
+                    <button class="btn btn-lg btn-dark">I</button>
+                    <button class="btn btn-lg btn-dark">O</button>
+                    <button class="btn btn-lg btn-dark">P</button>
+                </div>
                 <div class="p-1">
                     <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">B</button>
+                    <button class="btn btn-lg btn-dark">S</button>
+                    <button class="btn btn-lg btn-dark">D</button>
+                    <button class="btn btn-lg btn-dark">F</button>
+                    <button class="btn btn-lg btn-dark">G</button>
+                    <button class="btn btn-lg btn-dark">H</button>
+                    <button class="btn btn-lg btn-dark">J</button>
+                    <button class="btn btn-lg btn-dark">K</button>
+                    <button class="btn btn-lg btn-dark">L</button>
+                </div>
+                <div class="p-1">
+                    <button class="btn btn-lg btn-dark">Y</button>
+                    <button class="btn btn-lg btn-dark">X</button>
                     <button class="btn btn-lg btn-dark">C</button>
-                    <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">A</button>
-                </div>
-                <div class="p-1">
-                    <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">A</button>
-                </div>
-                <div class="p-1">
-                    <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">A</button>
-                    <button class="btn btn-lg btn-dark">A</button>
+                    <button class="btn btn-lg btn-dark">V</button>
+                    <button class="btn btn-lg btn-dark">B</button>
+                    <button class="btn btn-lg btn-dark">N</button>
+                    <button class="btn btn-lg btn-dark">M</button>
                 </div>
             </div>
         </div>
@@ -169,6 +174,39 @@ if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
+
 $( document ).ready(function() {
+    game.newWord();
+});
+class Game{
+    constructor(){}
+    wrong(){
+        $("#wrap").addClass("bg-danger")
+        setTimeout(function(){
+            $("#wrap").removeClass("bg-danger")
+        }, 1000);
+    }
+    correct(){
+        $("#wrap").addClass("bg-success")
+        setTimeout(function(){
+            $("#wrap").removeClass("bg-success")
+        }, 1000);
+    }
+    newWord(){
+        $("#word").load("newword.php")
+    }
+    check(ltr){
+        $.post("check.php", {
+        letter: ltr
+        }, function(data){
+            console.log(data);
+        });
+    }
+}
+var game = new Game();
+$(".btn-lg").click(function(){
+    $(this).attr( "disabled", true );
+    game.check($(this).text());
+    console.log($(this).text());
 });
 </script>
