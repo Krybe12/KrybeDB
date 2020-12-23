@@ -5,7 +5,7 @@ session_start();
 if (isset($_POST["letter"])){
     $ltr = $_POST["letter"];
     $word = $_SESSION["hang"]["word"];
-    if (str_contains($word, $ltr)){
+    if (strstr($word, $ltr)){
         $guessWord = $_SESSION["hang"]["guessWord"];
         for ($i = 0; $i < strlen($word); $i++){
             if ($word[$i] == $ltr){
