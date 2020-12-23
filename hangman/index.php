@@ -174,13 +174,15 @@ if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
-
+let hp = 10;
 $( document ).ready(function() {
     game.newWord();
 });
 class Game{
     constructor(){}
     wrong(){
+        hp = hp - 1;
+        //get obrazek podle hp
         $("#wrap").addClass("bg-danger")
         setTimeout(function(){
             $("#wrap").removeClass("bg-danger")
@@ -199,7 +201,12 @@ class Game{
         $.post("check.php", {
         letter: ltr
         }, function(data){
-            console.log(data);
+            if (data == 0){
+                game.wrong();
+            } else {
+                game.correct();
+                $("#word").html(data);
+            }
         });
     }
 }
@@ -207,6 +214,5 @@ var game = new Game();
 $(".btn-lg").click(function(){
     $(this).attr( "disabled", true );
     game.check($(this).text());
-    console.log($(this).text());
 });
 </script>
