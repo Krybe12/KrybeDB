@@ -203,7 +203,6 @@ class Game{
         $.post("check.php", {
         letter: ltr
         }, function(data){
-            console.log(data.length)
             if (data == "0"){
                 game.wrong();
             } else if (data.length > 50){ // horší kod sem nikdy nevyčaroval
