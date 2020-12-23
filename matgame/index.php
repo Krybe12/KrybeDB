@@ -164,24 +164,7 @@ h3, .h3 {
         </div>
         
         <div id="ach">
-            <div class="card bg-success my-1">
-                <div class="card-header">Godlike</div>
-                <div class="card-body">
-                    <p class="card-text">Get score of 100 in Maths Game.</p>
-                </div>
-            </div>
-            <div class="card bg-success my-1">
-                <div class="card-header">Godlike</div>
-                <div class="card-body">
-                    <p class="card-text">Get score of 100 in Maths Game.</p>
-                </div>
-            </div>
-            <div class="card bg-secondary my-1">
-                <div class="card-header">Godlike</div>
-                <div class="card-body">
-                    <p class="card-text">Get score of 100 in Maths Game.</p>
-                </div>
-            </div>
+
         </div>
     </div>
 </div>
