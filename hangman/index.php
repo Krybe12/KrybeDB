@@ -113,7 +113,7 @@ if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
     <div class="m2 text-center bg-secondary pt-2 pt-md-3">
         <div id="wrap" class="">
             <div>
-                <img src="https://via.placeholder.com/300" alt="">
+                <img id="hangIMG" src="../img/hang1.png" alt="">
             </div>
             <div id="word" class="pt-md-2">
                 
@@ -152,6 +152,21 @@ if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
                     <button class="btn btn-lg btn-dark">M</button>
                 </div>
             </div>
+            <hr class="bg-light">
+            <div class="row mt-4 text-white">
+                <div class="col">
+                    <h5>Session Score:</h5>
+                    <p id="score" class="lead m-0">0</p>
+                </div>
+                <div class="col">
+                    <h5>In Row Correct:</h5>
+                    <p id="inRowNum" class="lead m-0"></p>
+                </div>
+                <div class="col">
+                    <h5>Total Score:</h5>
+                    <p id="totalScoreNum" class="lead m-0"></p>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -174,29 +189,38 @@ if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
-let hp = 5;
 $( document ).ready(function() {
     game.newWord();
 });
 class Game{
-    constructor(){}
-    wrong(){
-        hp = hp - 1;
-        console.log("hp " + hp);
+    constructor(start, score){
+        this.state = start;
+        this.score = score;
+    }
+    wrong(m){
+        this.state = this.state + 1;
+        if (this.state > 7){
+            this.state = 7;
+        }
+        $("#hangIMG").attr("src", `../img/hang${this.state}.png`);
+        console.log("hp " + this.state);
         //get obrazek podle hp
         $("#wrap").addClass("bg-danger")
         setTimeout(function(){
             $("#wrap").removeClass("bg-danger")
-        }, 1000);
+        }, m);
     }
-    correct(){
+    correct(n){
         $("#wrap").addClass("bg-success")
         setTimeout(function(){
             $("#wrap").removeClass("bg-success")
-        }, 1000);
+        }, n);
     }
     newWord(){
-        $(".btn-lg").attr( "disabled", false);
+        this.state = 1;
+        $("#score").text(this.score);
+        $("#hangIMG").attr("src", `../img/hang${this.state}.png`);
+        $(".btn-dark").attr( "disabled", false);
         $("#word").load("newword.php")
     }
     check(ltr){
@@ -204,18 +228,18 @@ class Game{
         letter: ltr
         }, function(data){
             if (data == "0"){
-                game.wrong();
+                game.wrong(800);
             } else if (data.length > 50){ // horší kod sem nikdy nevyčaroval
                 $("#word").html(data);
             } else {
-                game.correct();
+                game.correct(800);
                 $("#word").html(data);
             }
         });
     }
 }
-var game = new Game();
-$(".btn-lg").click(function(){
+var game = new Game(1, 0);
+$(".btn-dark").click(function(){
     $(this).attr( "disabled", true );
     game.check($(this).text());
 });

@@ -14,16 +14,16 @@ if (isset($_POST["letter"])){
         }
         $_SESSION["hang"]["word"] = $word;
         $_SESSION["hang"]["guessWord"] = $guessWord;
-        if (strpos($guessWord, '_') === false) {
-            echo "<h1>$guessWord</h1><h1>You Won!</h1><script>$('#wrap').addClass('bg-success');setTimeout(function(){game.newWord();$('#wrap').removeClass('bg-success')}, 3000)</script>";
-        } else {
+        if (strpos($guessWord, '_') === false) { //won
+            echo "<h1>$guessWord</h1><script>game.correct(2500);game.score++;setTimeout(function(){game.newWord()}, 2500);</script>";
+        } else { //guessed correctly
             echo "<h1>$guessWord</h1>";
         }
     } else {
         $_SESSION["hang"]["hp"] = $_SESSION["hang"]["hp"] - 1;
-        if ($_SESSION["hang"]["hp"] == 0){
-            echo "<h1>$word</h1><h1>You Lost!</h1><script>$('#wrap').addClass('bg-danger');setTimeout(function(){game.newWord();$('#wrap').removeClass('bg-danger')}, 3000)</script>";
-        } else {
+        if ($_SESSION["hang"]["hp"] <= 0){ //lost
+            echo "<h1>$word</h1><script>game.wrong(2500);game.score--;setTimeout(function(){game.newWord()}, 2500);</script>";
+        } else { //guessed wrongly
             echo "0";
         }
     }
