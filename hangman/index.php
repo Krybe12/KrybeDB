@@ -201,6 +201,7 @@ if (!$result){
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
+pageNum = 1;
 $( document ).ready(function() {
     game.newWord();
 });
@@ -232,7 +233,8 @@ class Game{
         $("#totalScoreNum").load("gettotal.php");
         $("#hangIMG").attr("src", `../img/hang${this.state}.png`);
         $(".btn-dark").attr( "disabled", false);
-        $("#word").load("newword.php")
+        $("#word").load("newword.php");
+        newLeaderBoard();
     }
     check(ltr){
         $.post("check.php", {
@@ -247,6 +249,13 @@ class Game{
                 $("#word").html(data);
             }
         });
+    }
+}
+function newLeaderBoard(){
+    if (pageNum < 1) {
+        pageNum = 1;
+    } else {
+        $("#leaderBoard").load(`../leaderboard/lb.php?page=${pageNum}&game=2`);
     }
 }
 var game = new Game(1, 0);

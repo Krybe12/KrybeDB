@@ -243,7 +243,7 @@ function newLeaderBoard(){
     if (pageNum < 1) {
         pageNum = 1;
     } else {
-        $("#leaderBoard").load("highscore.php?page=" + pageNum);
+        $("#leaderBoard").load(`../leaderboard/lb.php?page=${pageNum}&game=1`);
         $("#totalScoreNum").load("gettotal.php");
         $("#inRowNum").load("inrow.php");
     }

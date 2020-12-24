@@ -6,7 +6,15 @@ require '../gameconn/conn.php';
 
 $numPerPage = 10;
 
-$sql = "SELECT * FROM matgame JOIN users WHERE matgame.user_id = users.id";
+if (isset($_GET["game"])){
+    if ($_GET["game"] == 1){
+        $ha = "matgame";
+    } else if ($_GET["game"] == 2){
+        $ha = "hangman";
+    } 
+}
+
+$sql = "SELECT * FROM $ha JOIN users WHERE $ha.user_id = users.id";
 $result = $conn->query($sql);
 if ($result->num_rows > 0){
     $numUser = $result->num_rows;
@@ -29,7 +37,7 @@ if (isset($_GET["page"]) and is_numeric($_GET["page"])){
 
 
 //$sql = "SELECT matscore, username FROM users ORDER BY matscore DESC LIMIT $start, $end";
-$sql = "SELECT users.id, users.username, matgame.score, usersettings.color FROM matgame JOIN users ON matgame.user_id = users.id JOIN usersettings ON users.id = usersettings.user_id ORDER BY score DESC LIMIT $start, $end";
+$sql = "SELECT users.id, users.username, $ha.score, usersettings.color FROM $ha JOIN users ON $ha.user_id = users.id JOIN usersettings ON users.id = usersettings.user_id ORDER BY score DESC LIMIT $start, $end";
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
