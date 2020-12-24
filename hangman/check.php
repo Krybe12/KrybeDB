@@ -2,6 +2,32 @@
 session_start();
 ?>
 <?php
+require '../gameconn/conn.php';
+$userid = $_SESSION["userid"];
+
+function add($n){
+    global $userid;
+    global $conn;
+    if ($n == 1){
+        $_SESSION["hang"]["totalScore"] = $_SESSION["hang"]["totalScore"] + 1;
+    } else {
+        $_SESSION["hang"]["totalScore"] = $_SESSION["hang"]["totalScore"] - 1;
+    }
+    
+    $score = $_SESSION["hang"]["totalScore"];
+    $sql = "UPDATE hangman SET score='$score' WHERE user_id='$userid'";
+    $conn->query($sql);
+}
+
+
+if (isset($_SESSION["hang"]["totalScore"])){
+} else {
+    $sql = "SELECT score FROM hangman WHERE user_id='$userid' LIMIT 1";
+    $result = $conn->query($sql);
+    $result = $result->fetch_assoc();
+    $_SESSION["hang"]["totalScore"] = $result["score"];
+} 
+
 if (isset($_POST["letter"])){
     $ltr = $_POST["letter"];
     $word = $_SESSION["hang"]["word"];
@@ -15,17 +41,20 @@ if (isset($_POST["letter"])){
         $_SESSION["hang"]["word"] = $word;
         $_SESSION["hang"]["guessWord"] = $guessWord;
         if (strpos($guessWord, '_') === false) { //won
-            echo "<h1>$guessWord</h1><script>game.correct(2500);game.score++;setTimeout(function(){game.newWord()}, 2500);</script>";
+            add(1);
+            echo "<h1>$guessWord</h1><h2>You won!</h2><script>game.correct(2500);game.score++;setTimeout(function(){game.newWord()}, 2500);</script>";
         } else { //guessed correctly
             echo "<h1>$guessWord</h1>";
         }
     } else {
         $_SESSION["hang"]["hp"] = $_SESSION["hang"]["hp"] - 1;
         if ($_SESSION["hang"]["hp"] <= 0){ //lost
-            echo "<h1>$word</h1><script>game.wrong(2500);game.score--;setTimeout(function(){game.newWord()}, 2500);</script>";
+            add(0);
+            echo "<h1>$word</h1><h2>You lost!</h2><script>game.wrong(2500);game.score--;setTimeout(function(){game.newWord()}, 2500);</script>";
         } else { //guessed wrongly
             echo "0";
         }
     }
 }
+
 ?>

@@ -24,7 +24,7 @@ if (isset($_SESSION["mats"])){
     $sql = "SELECT score FROM matgame WHERE user_id='$userid' LIMIT 1";
     $result = $conn->query($sql);
     $result = $result->fetch_assoc();
-    $_SESSION["mats"] = $result["matscore"];
+    $_SESSION["mats"] = $result["score"];
 } 
 
 if (isset($_POST["awnsered"])){

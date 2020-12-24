@@ -8,6 +8,16 @@ $page = $_SERVER['REQUEST_URI'];
 if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
     header("Location: ../index.php?id=login&re=nt&page=$page");
 }
+$stmt = $conn->prepare("SELECT user_id FROM hangman WHERE user_id=? LIMIT 1");
+$stmt->bind_param("i", $_SESSION["userid"]);
+$stmt->execute();
+$result = $stmt->get_result()->fetch_assoc();
+
+if (!$result){
+    $stmt = $conn->prepare("INSERT INTO hangman (user_id) VALUES (?)");
+    $stmt->bind_param("i", $_SESSION["userid"]);
+    $stmt->execute();
+}
 ?>
 <style>
 @media (min-width:768px){
@@ -110,7 +120,7 @@ if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
         </div>
         
     </div>
-    <div class="m2 text-center bg-secondary pt-2 pt-md-3">
+    <div class="m2 text-center bg-secondary p-3">
         <div id="wrap" class="">
             <div>
                 <img id="hangIMG" src="../img/hang1.png" alt="">
@@ -152,19 +162,21 @@ if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
                     <button class="btn btn-lg btn-dark">M</button>
                 </div>
             </div>
-            <hr class="bg-light">
-            <div class="row mt-4 text-white">
-                <div class="col">
-                    <h5>Session Score:</h5>
-                    <p id="score" class="lead m-0">0</p>
-                </div>
-                <div class="col">
-                    <h5>In Row Correct:</h5>
-                    <p id="inRowNum" class="lead m-0"></p>
-                </div>
-                <div class="col">
-                    <h5>Total Score:</h5>
-                    <p id="totalScoreNum" class="lead m-0"></p>
+            <div class="">
+                <hr class="bg-light">
+                <div class="row mt-4 text-white">
+                    <div class="col">
+                        <h5>Session Score:</h5>
+                        <p id="score" class="lead m-0">0</p>
+                    </div>
+                    <div class="col">
+                        <h5>In Row Correct:</h5>
+                        <p id="inRowNum" class="lead m-0"></p>
+                    </div>
+                    <div class="col">
+                        <h5>Total Score:</h5>
+                        <p id="totalScoreNum" class="lead m-0"></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -203,8 +215,6 @@ class Game{
             this.state = 7;
         }
         $("#hangIMG").attr("src", `../img/hang${this.state}.png`);
-        console.log("hp " + this.state);
-        //get obrazek podle hp
         $("#wrap").addClass("bg-danger")
         setTimeout(function(){
             $("#wrap").removeClass("bg-danger")
@@ -219,6 +229,7 @@ class Game{
     newWord(){
         this.state = 1;
         $("#score").text(this.score);
+        $("#totalScoreNum").load("gettotal.php");
         $("#hangIMG").attr("src", `../img/hang${this.state}.png`);
         $(".btn-dark").attr( "disabled", false);
         $("#word").load("newword.php")
