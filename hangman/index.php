@@ -199,7 +199,21 @@ if (!$result){
 </body>
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+<?php
+if (!isset($_SESSION["achdone"][14])){ //achievement firt login
+    $date = date('j M, Y @ g:ia');
+    $sql = "INSERT INTO achcompleted (user_id, ach_id, awarded) VALUES ({$_SESSION['userid']}, 14, '$date')";
+    $conn->query($sql);
+    $_SESSION["achdone"][14] = 1;
+    echo '<script>
+    $(document).ready(function(){
+        $.get( "../achievements/alert.php", { achid: 14}, function(data){
+            $(".alerty").append(data);
+        });
+    });   
+    </script>';
+}
+?>
 <script>
 pageNum = 1;
 $( document ).ready(function() {
@@ -235,6 +249,7 @@ class Game{
         $(".btn-dark").attr( "disabled", false);
         $("#word").load("newword.php");
         newLeaderBoard();
+        newAchievements();
     }
     check(ltr){
         $.post("check.php", {
@@ -257,6 +272,9 @@ function newLeaderBoard(){
     } else {
         $("#leaderBoard").load(`../leaderboard/lb.php?page=${pageNum}&game=2`);
     }
+}
+function newAchievements(){
+    $("#ach").load("../achievements/stats.php?category=" + 3);
 }
 var game = new Game(1, 0);
 $(".btn-dark").click(function(){
