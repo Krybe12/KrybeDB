@@ -7,7 +7,6 @@ $page = $_SERVER['REQUEST_URI'];
 if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
     header("Location: ../index.php?id=login&re=nt&page=$page");
 }
-//var_dump($_SESSION["achtest"][1]);
 
 ?>
 <style>
@@ -85,7 +84,7 @@ if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-8 g-4 justify-content-center align-items-center">    
                 <div class="col">
                     <div class="card text-center bg-warning">
-                        <div class="card-img-top" style="height: 150px; background-image: url('img/test.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;"></div>
+                        <div class="card-img-top" style="height: 150px; background-image: url('img/matgame.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;"></div>
                             <div class="card-body">
                             <h5 class="card-title">Matematická hra</h5>
                             <a class="btn btn-success d-block" href="matgame">Play</a>
@@ -103,10 +102,10 @@ if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
                 </div>
                 <div class="col">
                     <div class="card text-center bg-warning">
-                        <div class="card-img-top" style="height: 150px; background-image: url('img/test.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;"></div>
+                        <div class="card-img-top" style="height: 150px; background-image: url('img/hangman.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;"></div>
                             <div class="card-body">
-                            <h5 class="card-title">Matematická hra</h5>
-                            <a class="btn btn-success d-block" href="matgame">Play</a>
+                            <h5 class="card-title">Hangman</h5>
+                            <a class="btn btn-success d-block" href="hangman">Play</a>
                         </div>
                     </div>
                 </div>
