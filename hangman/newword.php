@@ -13,6 +13,6 @@ for ($i = 1; $i < $n; $i++){
 }
 $_SESSION["hang"]["guessWord"] = $guessWord;
 $_SESSION["hang"]["hp"] = 6;
-echo "<script>console.log('{$_SESSION["hang"]["word"]}')</script>";
+//echo "<script>console.log('{$_SESSION["hang"]["word"]}')</script>"; //debug
 echo "<h1>$guessWord</h1>";
 ?>

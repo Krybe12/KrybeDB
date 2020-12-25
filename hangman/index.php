@@ -224,7 +224,24 @@ class Game{
         this.state = start;
         this.score = score;
     }
-    wrong(m){
+    disableBtn(){
+        $(".btn-dark").attr( "disabled", true);      
+    }
+    won(){
+        $("#wrap").addClass("bg-success");
+        this.disableBtn();
+        setTimeout(function(){
+            $("#wrap").removeClass("bg-success");
+        }, 2500);
+    }
+    lost(){
+        $("#wrap").addClass("bg-danger");
+        this.disableBtn();
+        setTimeout(function(){
+            $("#wrap").removeClass("bg-danger");
+        }, 2500);
+    }
+    wrong(){
         this.state = this.state + 1;
         if (this.state > 7){
             this.state = 7;
@@ -233,13 +250,13 @@ class Game{
         $("#wrap").addClass("bg-danger")
         setTimeout(function(){
             $("#wrap").removeClass("bg-danger")
-        }, m);
+        }, 850);
     }
-    correct(n){
+    correct(){
         $("#wrap").addClass("bg-success")
         setTimeout(function(){
             $("#wrap").removeClass("bg-success")
-        }, n);
+        }, 850);
     }
     newWord(){
         this.state = 1;
@@ -255,14 +272,7 @@ class Game{
         $.post("check.php", {
         letter: ltr
         }, function(data){
-            if (data == "0"){
-                game.wrong(800);
-            } else if (data.length > 50){ // horší kod sem nikdy nevyčaroval
-                $("#word").html(data);
-            } else {
-                game.correct(800);
-                $("#word").html(data);
-            }
+            $("#word").html(data);
         });
     }
 }

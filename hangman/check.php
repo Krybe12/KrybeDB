@@ -42,17 +42,17 @@ if (isset($_POST["letter"])){
         $_SESSION["hang"]["guessWord"] = $guessWord;
         if (strpos($guessWord, '_') === false) { //won
             add(1);
-            echo "<h1>$guessWord</h1><h2>You won!</h2><script>game.correct(2500);game.score++;setTimeout(function(){game.newWord()}, 2500);</script>";
+            echo "<h1>$guessWord</h1><h2>You won!</h2><script>game.won();game.score++;setTimeout(function(){game.newWord()}, 2500);</script>";
         } else { //guessed correctly
-            echo "<h1>$guessWord</h1>";
+            echo "<h1>$guessWord</h1><script>game.correct();</script>";
         }
     } else {
         $_SESSION["hang"]["hp"] = $_SESSION["hang"]["hp"] - 1;
         if ($_SESSION["hang"]["hp"] <= 0){ //lost
             add(0);
-            echo "<h1>$word</h1><h2>You lost!</h2><script>game.wrong(2500);game.score--;setTimeout(function(){game.newWord()}, 2500);</script>";
+            echo "<h1>$word</h1><h2>You lost!</h2><script>game.lost();game.score--;setTimeout(function(){game.newWord()}, 2500);</script>";
         } else { //guessed wrongly
-            echo "0";
+            echo "<h1>{$_SESSION['hang']['guessWord']}</h1><script>game.wrong();</script>";
         }
     }
 }
