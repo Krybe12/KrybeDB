@@ -11,6 +11,12 @@ $guessWord = "_";
 for ($i = 1; $i < $n; $i++){
     $guessWord .= " _";
 }
+
+if (!isset($_SESSION["hang"]["inRowCorrect"]) or !isset($_SESSION["hang"]["inRowWrong"])){
+    $_SESSION["hang"]["inRowCorrect"] = 0;
+    $_SESSION["hang"]["inRowWrong"] = 0;
+}
+
 $_SESSION["hang"]["guessWord"] = $guessWord;
 $_SESSION["hang"]["hp"] = 6;
 //echo "<script>console.log('{$_SESSION["hang"]["word"]}')</script>"; //debug

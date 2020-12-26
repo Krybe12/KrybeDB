@@ -21,6 +21,18 @@ function send(){
 if ($_SESSION["hang"]["totalScore"] != 0 and !isset($_SESSION["achdone"][15])){
     achiev(15); //achievement first word trigger
 }
+if ($_SESSION["hang"]["totalScore"] >= 5 and !isset($_SESSION["achdone"][18])){
+    achiev(18); //achievement 5 score trigger
+}
+if ($_SESSION["hang"]["totalScore"] >= 15 and !isset($_SESSION["achdone"][19])){
+    achiev(19); //achievement 15 score trigger
+}
+if ($_SESSION["hang"]["totalScore"] >= 30 and !isset($_SESSION["achdone"][20])){
+    achiev(20); //achievement 30 score trigger
+}
+if ($_SESSION["hang"]["totalScore"] >= 50 and !isset($_SESSION["achdone"][21])){
+    achiev(21); //achievement 50 score trigger
+}
 
 
 function achiev($achid){

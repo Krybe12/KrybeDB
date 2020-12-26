@@ -265,6 +265,7 @@ class Game{
         $("#hangIMG").attr("src", `../img/hang${this.state}.png`);
         $(".btn-dark").attr( "disabled", false);
         $("#word").load("newword.php");
+        $("#inRowNum").load("inrow.php");
         newLeaderBoard();
         newAchievements();
     }
@@ -290,5 +291,16 @@ var game = new Game(1, 0);
 $(".btn-dark").click(function(){
     $(this).attr( "disabled", true );
     game.check($(this).text());
+});
+const buttons = $('.btn-dark');
+$(document).keyup(function (event) {
+    if ((/[a-zA-Z]/).test(event.key.toUpperCase())){
+        for (let btn of buttons) {
+            if (btn.innerText == event.key.toUpperCase() && !btn.disabled) {
+                btn.click();
+                break;
+            }
+        }
+    }
 });
 </script>
