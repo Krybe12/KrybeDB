@@ -18,7 +18,7 @@ if (!isset($_SESSION["hang"]["inRowCorrect"]) or !isset($_SESSION["hang"]["inRow
 }
 
 $_SESSION["hang"]["guessWord"] = $guessWord;
-$_SESSION["hang"]["hp"] = 6;
+$_SESSION["hang"]["hp"] = 8; //imgcount - 1
 //echo "<script>console.log('{$_SESSION["hang"]["word"]}')</script>"; //debug
 echo "<h1>$guessWord</h1>";
 ?>

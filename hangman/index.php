@@ -232,31 +232,34 @@ class Game{
         this.disableBtn();
         setTimeout(function(){
             $("#wrap").removeClass("bg-success");
-        }, 2500);
+        }, 2400);
     }
     lost(){
+        this.img();
         $("#wrap").addClass("bg-danger");
         this.disableBtn();
         setTimeout(function(){
             $("#wrap").removeClass("bg-danger");
-        }, 2500);
+        }, 2400);
     }
     wrong(){
-        this.state = this.state + 1;
-        if (this.state > 7){
-            this.state = 7;
-        }
-        $("#hangIMG").attr("src", `../img/hang${this.state}.png`);
+        this.img();
         $("#wrap").addClass("bg-danger")
         setTimeout(function(){
             $("#wrap").removeClass("bg-danger")
-        }, 850);
+        }, 800);
     }
     correct(){
         $("#wrap").addClass("bg-success")
         setTimeout(function(){
             $("#wrap").removeClass("bg-success")
-        }, 850);
+        }, 800);
+    }
+    img(){
+        if (this.state < 9){ //imgcount
+            this.state++;
+        }
+        $("#hangIMG").attr("src", `../img/hang${this.state}.png`);        
     }
     newWord(){
         this.state = 1;

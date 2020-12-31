@@ -26,5 +26,7 @@ function achiev($achid){
     </script>';
 }
 
-
+if (!isset($_SESSION["hang"]["inRowCorrect"])){
+    $_SESSION["hang"]["inRowCorrect"] = 0;
+}
 echo $_SESSION["hang"]["inRowCorrect"];
