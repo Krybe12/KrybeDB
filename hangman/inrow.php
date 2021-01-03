@@ -4,6 +4,11 @@ session_start();
 <?php
 require '../gameconn/conn.php';
 
+if (!isset($_SESSION["hang"]["inRowCorrect"]) or !isset($_SESSION["hang"]["inRowWrong"])){
+    $_SESSION["hang"]["inRowCorrect"] = 0;
+    $_SESSION["hang"]["inRowWrong"] = 0;
+}
+
 if ($_SESSION["hang"]["inRowWrong"] >= 5 and !isset($_SESSION["achdone"][16])){
     achiev(16); //achievement 5 wrong in a row trigger
 }
@@ -26,7 +31,5 @@ function achiev($achid){
     </script>';
 }
 
-if (!isset($_SESSION["hang"]["inRowCorrect"])){
-    $_SESSION["hang"]["inRowCorrect"] = 0;
-}
+
 echo $_SESSION["hang"]["inRowCorrect"];
