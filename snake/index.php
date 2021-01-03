@@ -118,7 +118,7 @@ if (!$result){
         
     </div>
     <div class="m2 text-center bg-secondary p-3">
-        <canvas id="canvas" width="400" height="400"><canvas>
+        <canvas id="canvas" width="460" height="460"><canvas>
     </div>
     <div class="m3 bg-dark text-light text-center p-md-3 pt-md-0">
         <div style="position: sticky;top: 0;z-index: 2;" class="bg-dark py-md-3">
@@ -153,20 +153,97 @@ if (!$result){
 } */
 ?>
 <script>
+    var canvas,ctx;
 $( document ).ready(function() {
-    const canvas = document.getElementById("canvas");
-    const ctx = canvas.getContext("2d");
-    ctx.fillStyle = "black";
-    ctx.fillRect(0, 0, 400, 400);
-    ctx.font = "30px Arial";
-    ctx.fillStyle = "red";
-    ctx.fillText("score: 0", 10, 30)
-    ctx.fillText("hah: 0", 300, 30)
+    canvas = document.getElementById("canvas");
+    ctx = canvas.getContext("2d");
+    draw();
+    setInterval(function(){
+        snake.move();
+    }, 150)
+
+
 });
-class Game{
-    constructor(start, score){
-        this.state = start;
-        this.score = score;
+class Snake{
+    constructor(startY, startX, startDIR, size){
+        this.x = startX;
+        this.y = startY;
+        this.dir = startDIR;
+        this.size = size;
+        this.dirQue = [];
+    }
+
+    move(){
+        if (this.dirQue.length > 0){
+            let x = this.dirQue.shift();
+            if (x == "UP" && this.dir != "DOWN"){
+                this.dir = x;
+            } else if (x == "LEFT" && this.dir != "RIGHT"){
+                this.dir = x;
+            } else if (x == "DOWN" && this.dir != "UP"){
+                this.dir = x;
+            } else if (x == "RIGHT" && this.dir != "LEFT"){
+                this.dir = x;
+            }
+        }
+
+        if (this.dir == "UP"){
+            this.y = this.y - 20;
+        } else if (this.dir == "LEFT"){
+            this.x = this.x - 20;
+        } else if (this.dir == "RIGHT"){
+            this.x = this.x + 20;
+        } else if (this.dir == "DOWN"){
+            this.y = this.y + 20;
+        }
+        draw();
+    }
+}
+var snake = new Snake(200, 200, "UP", 20);
+function draw(){
+    function drawBackground(){
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, 460, 460);
+    }
+    function drawSnake(){
+        function drawHead(){
+            ctx.fillStyle = "orange";
+            ctx.fillRect(snake.x, snake.y, snake.size, snake.size)
+        }
+        function drawBody(){
+
+        }
+        drawHead();
+        drawBody();
+    }
+    function drawUI(){
+        ctx.font = "30px Arial";
+        ctx.fillStyle = "red";
+        ctx.fillText("score: 0", 10, 30)
+        ctx.fillText("hahaha", 300, 30)
+    }
+    drawBackground();
+    drawSnake();
+    drawUI();
+}
+
+document.onkeydown = checkKey;
+function checkKey(e) {
+
+    e = e || window.event;
+    if (snake.dirQue.length < 2){
+        if (e.keyCode == '38') {
+            snake.dirQue.push("UP"); // up arrow
+        }
+        else if (e.keyCode == '40') {
+            snake.dirQue.push("DOWN"); // down arrow
+        }
+        else if (e.keyCode == '37') {
+            snake.dirQue.push("LEFT"); // left arrow
+        }
+        else if (e.keyCode == '39') {
+            snake.dirQue.push("RIGHT"); // right arrow
+        }
     }
 }
 </script>
