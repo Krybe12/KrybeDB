@@ -153,16 +153,16 @@ if (!$result){
 } */
 ?>
 <script>
-    var canvas,ctx;
+var canvas,ctx;
+
 $( document ).ready(function() {
     canvas = document.getElementById("canvas");
     ctx = canvas.getContext("2d");
     draw();
+    fruit.spawn();
     setInterval(function(){
         snake.move();
-    }, 150)
-
-
+    }, 300)
 });
 class Snake{
     constructor(startY, startX, startDIR, size){
@@ -171,9 +171,16 @@ class Snake{
         this.dir = startDIR;
         this.size = size;
         this.dirQue = [];
+        this.tailLen = 2;
+        this.tail = [];
     }
-
-    move(){
+    manageTail(){
+        this.tail.unshift([this.x, this.y]);
+        if (this.tail.length > this.tailLen){
+            this.tail.pop();
+        }
+    }
+    manageDir(){
         if (this.dirQue.length > 0){
             let x = this.dirQue.shift();
             if (x == "UP" && this.dir != "DOWN"){
@@ -186,7 +193,27 @@ class Snake{
                 this.dir = x;
             }
         }
-
+    }
+    checkSideCollision(){
+        if (this.x >= 460) this.x = 0;
+        else if (this.x < 0) this.x = 440;
+        else if (this.y >= 460) this.y = 0;
+        else if (this.y < 0) this.y = 440;
+    }
+    checkFruitCollision(){
+        if (this.x == fruit.x && this.y == fruit.y){
+            this.tailLen++;
+            fruit.spawn()
+        }
+    }
+    checkSelfCollision(){
+        this.tail.forEach(tailPiece => {if(tailPiece[0] == snake.x && tailPiece[1] == snake.y){
+            console.log("self")
+        }})
+    }
+    move(){
+        this.manageTail()
+        this.manageDir()
         if (this.dir == "UP"){
             this.y = this.y - 20;
         } else if (this.dir == "LEFT"){
@@ -196,14 +223,30 @@ class Snake{
         } else if (this.dir == "DOWN"){
             this.y = this.y + 20;
         }
+        this.checkSelfCollision()
+        this.checkSideCollision()
+        this.checkFruitCollision()
         draw();
     }
 }
+class Fruit{
+    constructor(){
+    }
+    spawn(){
+        this.x = Math.floor(Math.random() * 22) * 20;
+        this.y = (Math.floor(Math.random() * 19) * 20) + 40;
+    }
+}
+var fruit = new Fruit();
 var snake = new Snake(200, 200, "UP", 20);
 function draw(){
     function drawBackground(){
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, 460, 460);
+    }
+    function drawFruit(){
+        ctx.fillStyle = "green";
+        ctx.fillRect(fruit.x, fruit.y, snake.size, snake.size);
     }
     function drawSnake(){
         function drawHead(){
@@ -211,7 +254,8 @@ function draw(){
             ctx.fillRect(snake.x, snake.y, snake.size, snake.size)
         }
         function drawBody(){
-
+            ctx.fillStyle = "darkred";
+            snake.tail.forEach(tailPiece => ctx.fillRect(tailPiece[0], tailPiece[1], snake.size, snake.size));
         }
         drawHead();
         drawBody();
@@ -220,9 +264,10 @@ function draw(){
         ctx.font = "30px Arial";
         ctx.fillStyle = "red";
         ctx.fillText("score: 0", 10, 30)
-        ctx.fillText("hahaha", 300, 30)
+        ctx.fillText("hahaha", 350, 30)
     }
     drawBackground();
+    drawFruit();
     drawSnake();
     drawUI();
 }
