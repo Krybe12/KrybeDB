@@ -153,17 +153,43 @@ if (!$result){
 } */
 ?>
 <script>
-var canvas,ctx;
+var canvas,ctx,snake,fruit;
 
-$( document ).ready(function() {
-    canvas = document.getElementById("canvas");
-    ctx = canvas.getContext("2d");
-    draw();
-    fruit.spawn();
-    setInterval(function(){
-        snake.move();
-    }, 300)
-});
+canvas = document.getElementById("canvas");
+ctx = canvas.getContext("2d");
+
+
+class Game{
+    constructor(width, height, fps){
+        this.width = width;
+        this.height = height;
+        this.fps = fps;
+        this.highscore = 0;
+    }
+    startScreen(){
+        drawStartScreen();
+    }
+    start(){
+        this.active = true;
+        fruit = new Fruit();
+        snake = new Snake(Math.floor(Math.random() * 22) * 20, Math.floor(Math.random() * 19) * 20 + 40, "UP", 20);
+        fruit.spawn();
+        this.timer = setInterval(function(){
+            if (game.active){
+                snake.move();
+            }
+        }, 1000 / this.fps)
+    }
+    end(){
+        if (snake.tailLen > this.highscore){
+            this.highscore = snake.tailLen;
+        }
+        this.active = false;
+        clearInterval(this.timer)
+        setTimeout(drawEndScreen, 1000 / this.fps)
+    }
+}
+
 class Snake{
     constructor(startY, startX, startDIR, size){
         this.x = startX;
@@ -171,7 +197,7 @@ class Snake{
         this.dir = startDIR;
         this.size = size;
         this.dirQue = [];
-        this.tailLen = 2;
+        this.tailLen = 1;
         this.tail = [];
     }
     manageTail(){
@@ -208,7 +234,7 @@ class Snake{
     }
     checkSelfCollision(){
         this.tail.forEach(tailPiece => {if(tailPiece[0] == snake.x && tailPiece[1] == snake.y){
-            console.log("self")
+            game.end();
         }})
     }
     move(){
@@ -226,7 +252,7 @@ class Snake{
         this.checkSelfCollision()
         this.checkSideCollision()
         this.checkFruitCollision()
-        draw();
+        drawGame();
     }
 }
 class Fruit{
@@ -235,14 +261,20 @@ class Fruit{
     spawn(){
         this.x = Math.floor(Math.random() * 22) * 20;
         this.y = (Math.floor(Math.random() * 19) * 20) + 40;
+        snake.tail.forEach(tailPiece => {if(tailPiece[0] == this.x && tailPiece[1] == this.y){
+            this.spawn();
+        }})
     }
 }
-var fruit = new Fruit();
-var snake = new Snake(200, 200, "UP", 20);
-function draw(){
+var game = new Game(460, 460, 8)
+game.startScreen();
+fruit = new Fruit();
+snake = new Snake(200, 200, "UP", 20);
+
+function drawGame(){
     function drawBackground(){
         ctx.fillStyle = "black";
-        ctx.fillRect(0, 0, 460, 460);
+        ctx.fillRect(0, 0, game.width, game.height);
     }
     function drawFruit(){
         ctx.fillStyle = "green";
@@ -257,24 +289,45 @@ function draw(){
             ctx.fillStyle = "darkred";
             snake.tail.forEach(tailPiece => ctx.fillRect(tailPiece[0], tailPiece[1], snake.size, snake.size));
         }
-        drawHead();
         drawBody();
+        drawHead();
     }
     function drawUI(){
         ctx.font = "30px Arial";
         ctx.fillStyle = "red";
-        ctx.fillText("score: 0", 10, 30)
-        ctx.fillText("hahaha", 350, 30)
+        ctx.fillText(`length: ${snake.tailLen}`, 10, 30)
+        ctx.fillText(`highscore: ${game.highscore}`, 270, 30)
     }
     drawBackground();
     drawFruit();
     drawSnake();
     drawUI();
 }
-
+function drawStartScreen(){ //tohle je potřeba přepsat xd
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, game.width, game.height);
+    ctx.fillStyle = "green";
+    ctx.fillRect(game.width / 2  - game.width / 4, game.height / 2 - game.height / 4, game.width / 2, game.height / 3);
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "yellow";
+    ctx.fillText("Press any key", game.width / 2  - game.width / 4 + 23, game.height / 2 - game.height / 4 + 30)
+    ctx.fillText("or click here", game.width / 2  - game.width / 4 + 35, game.height / 2 - game.height / 4 + 60)
+    ctx.fillText("to start", game.width / 2  - game.width / 4 + 65, game.height / 2 - game.height / 4 + 90)
+}
+function drawEndScreen(){ // a tohle taky
+    ctx.fillStyle = "red";
+    ctx.fillRect(game.width / 2  - game.width / 4, game.height / 2 - game.height / 4, game.width / 2, game.height / 3);
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "yellow";
+    ctx.fillText("You lost", game.width / 2  - game.width / 4 + 35, game.height / 2 - game.height / 4 + 30)
+    ctx.fillText("press any key", game.width / 2  - game.width / 4 + 30, game.height / 2 - game.height / 4 + 60)
+    ctx.fillText("or click here", game.width / 2  - game.width / 4 + 30, game.height / 2 - game.height / 4 + 90)
+    ctx.fillText("to start again", game.width / 2  - game.width / 4 + 30, game.height / 2 - game.height / 4 + 120)
+}
+canvas.addEventListener('click', startGame);
 document.onkeydown = checkKey;
 function checkKey(e) {
-
+    startGame();
     e = e || window.event;
     if (snake.dirQue.length < 2){
         if (e.keyCode == '38') {
@@ -289,6 +342,11 @@ function checkKey(e) {
         else if (e.keyCode == '39') {
             snake.dirQue.push("RIGHT"); // right arrow
         }
+    }
+}
+function startGame(){
+    if (!game.active){
+        game.start();
     }
 }
 </script>
