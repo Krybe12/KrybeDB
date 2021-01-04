@@ -296,7 +296,7 @@ function drawGame(){
         ctx.font = "30px Arial";
         ctx.fillStyle = "red";
         ctx.fillText(`length: ${snake.tailLen}`, 10, 30)
-        ctx.fillText(`highscore: ${game.highscore}`, 270, 30)
+        ctx.fillText(`highscore: ${game.highscore}`, 260, 30)
     }
     drawBackground();
     drawFruit();
