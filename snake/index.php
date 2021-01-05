@@ -185,8 +185,12 @@ class Game{
             this.highscore = snake.tailLen;
         }
         this.active = false;
+        this.printResults();
         clearInterval(this.timer)
         setTimeout(drawEndScreen, 1000 / this.fps)
+    }
+    printResults(){
+        console.log(`tailLen: ${snake.tailLen}\ntail.len: ${snake.tail.length}\nnumTurns: ${snake.numTurns}\nnumFruits: ${snake.numFruits}\n----------\nturnsPerFood: ${snake.numTurns / snake.numFruits}`)
     }
 }
 
@@ -199,15 +203,24 @@ class Snake{
         this.dirQue = [];
         this.tailLen = 1;
         this.tail = [];
+        this.numTurns = 0;
+        this.numFruits = 0;
+        this.numDistance = 0;
     }
     manageTail(){
         this.tail.unshift([this.x, this.y]);
         if (this.tail.length > this.tailLen){
             this.tail.pop();
         }
+        if (this.tailLen != this.tail.length){
+            this.tailLen = 0;
+            this.tail = [];
+            this.numFruits = 0;
+        }
     }
     manageDir(){
         if (this.dirQue.length > 0){
+            this.numTurns++;
             let x = this.dirQue.shift();
             if (x == "UP" && this.dir != "DOWN"){
                 this.dir = x;
@@ -229,6 +242,7 @@ class Snake{
     checkFruitCollision(){
         if (this.x == fruit.x && this.y == fruit.y){
             this.tailLen++;
+            this.numFruits++;
             fruit.spawn()
         }
     }
@@ -238,6 +252,7 @@ class Snake{
         }})
     }
     move(){
+        this.numDistance++;
         this.manageTail()
         this.manageDir()
         if (this.dir == "UP"){
@@ -249,8 +264,8 @@ class Snake{
         } else if (this.dir == "DOWN"){
             this.y = this.y + 20;
         }
-        this.checkSelfCollision()
         this.checkSideCollision()
+        this.checkSelfCollision()
         this.checkFruitCollision()
         drawGame();
     }
@@ -264,6 +279,9 @@ class Fruit{
         snake.tail.forEach(tailPiece => {if(tailPiece[0] == this.x && tailPiece[1] == this.y){
             this.spawn();
         }})
+        if (snake.x == this.x && snake.y == this.y){
+            this.spawn();
+        }
     }
 }
 var game = new Game(460, 460, 8)
@@ -296,7 +314,7 @@ function drawGame(){
         ctx.font = "30px Arial";
         ctx.fillStyle = "red";
         ctx.fillText(`length: ${snake.tailLen}`, 10, 30)
-        ctx.fillText(`highscore: ${game.highscore}`, 260, 30)
+        ctx.fillText(`highscore: ${game.highscore}`, game.width - ctx.measureText(`highscore: ${game.highscore}`).width - 10, 30)
     }
     drawBackground();
     drawFruit();
