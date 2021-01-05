@@ -181,6 +181,7 @@ class Game{
         }, 1000 / this.fps)
     }
     end(){
+        //post score    //reply bude snake = undefined;
         if (snake.tailLen > this.highscore){
             this.highscore = snake.tailLen;
         }
