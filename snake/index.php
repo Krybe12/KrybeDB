@@ -8,16 +8,16 @@ $page = $_SERVER['REQUEST_URI'];
 if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
     header("Location: ../index.php?id=login&re=nt&page=$page");
 }
-/* $stmt = $conn->prepare("SELECT user_id FROM hangman WHERE user_id=? LIMIT 1");
+$stmt = $conn->prepare("SELECT user_id FROM snake WHERE user_id=? LIMIT 1");
 $stmt->bind_param("i", $_SESSION["userid"]);
 $stmt->execute();
 $result = $stmt->get_result()->fetch_assoc();
 
 if (!$result){
-    $stmt = $conn->prepare("INSERT INTO hangman (user_id) VALUES (?)");
+    $stmt = $conn->prepare("INSERT INTO snake (user_id) VALUES (?)");
     $stmt->bind_param("i", $_SESSION["userid"]);
     $stmt->execute();
-} */
+}
 ?>
 <style>
 @media (min-width:768px){
@@ -119,6 +119,8 @@ if (!$result){
     </div>
     <div class="m2 text-center bg-secondary p-3">
         <canvas id="canvas" width="460" height="460"><canvas>
+        <div id="test">
+        </div>
     </div>
     <div class="m3 bg-dark text-light text-center p-md-3 pt-md-0">
         <div style="position: sticky;top: 0;z-index: 2;" class="bg-dark py-md-3">
@@ -181,8 +183,12 @@ class Game{
         }, 1000 / this.fps)
     }
     end(){
-        //post score    //reply bude snake = undefined;
         if (snake.tailLen > this.highscore){
+            $.post("savescore.php", {
+                score: snake.tailLen
+            }, function(data){
+                $("#test").html(data);
+            });
             this.highscore = snake.tailLen;
         }
         this.active = false;
