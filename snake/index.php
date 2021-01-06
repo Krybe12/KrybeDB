@@ -170,6 +170,7 @@ class Game{
         this.height = height;
         this.fps = fps;
         this.highscore = 0;
+        this.paused = false;
     }
     startScreen(){
         drawStartScreen();
@@ -201,6 +202,15 @@ class Game{
         //this.printResults();
         clearInterval(this.timer)
         setTimeout(drawEndScreen, 1000 / this.fps)
+    }
+    pause(){
+        if (this.paused == false){
+            this.paused = true;
+            this.active = false;
+        } else {
+            this.paused = false;
+            this.active = true;
+        }
     }
 /*     printResults(){
         console.log(`tailLen: ${snake.tailLen}\ntail.len: ${snake.tail.length}\nnumTurns: ${snake.numTurns}\nnumFruits: ${snake.numFruits}\n----------\nturnsPerFood: ${snake.numTurns / snake.numFruits}`)
@@ -385,24 +395,14 @@ function checkKey(e) {
         }
     } else {
         if (game.started == true){
-            pause()
+            game.pause()
         }  
     }
 
 }
-let paused = false;
 function startGame(){
-    if (!game.active && paused != true){
+    if (!game.active && game.paused != true){
         game.start();
-    }
-}
-function pause(){
-    if (paused == false){
-        paused = true;
-        game.active = false;
-    } else {
-        paused = false;
-        game.active = true;
     }
 }
 function newLeaderBoard(){
