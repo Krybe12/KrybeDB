@@ -5,12 +5,15 @@ session_start();
 require '../gameconn/conn.php';
 
 $numPerPage = 10;
-
+$scoreColumn = "Score";
 if (isset($_GET["game"])){
     if ($_GET["game"] == 1){
         $ha = "matgame";
     } else if ($_GET["game"] == 2){
         $ha = "hangman";
+    } else if ($_GET["game"] == 3){
+        $ha = "snake";
+        $scoreColumn = "Highscore";
     } 
 }
 
@@ -54,7 +57,7 @@ if ($result->num_rows > 0) {
     echo "</th>";
 
     echo "<th>";
-    echo "<b>" . "Score" . "</b>";
+    echo "<b>" . $scoreColumn . "</b>";
     echo "</th>";
 
     echo "</tr>";
