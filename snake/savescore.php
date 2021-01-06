@@ -29,7 +29,7 @@ if (isset($_POST["tailLen"]) and isset($_POST["lenOfTail"]) and isset($_POST["nu
     $numTurns = $_POST["numTurns"];
     //echo "tailen: $tailLen lenoftail: $lenOfTail turnsperfood: $turnsPerFood numfruits+1: $numFruits numturns: $numTurns";
     if ($tailLen == $lenOfTail and $lenOfTail == $numFruits and is_numeric($tailLen)){
-        if ($turnsPerFood > 1.8){
+        if ($turnsPerFood > 1.8 and $tailLen < 800){
             addScore($tailLen);
         }
     }
