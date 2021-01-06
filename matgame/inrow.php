@@ -4,6 +4,12 @@ session_start();
 <?php
 require '../gameconn/conn.php';
 
+if (!isset($_SESSION["MatGameInRowCorrect"]) or !isset($_SESSION["MatGameInRowWrong"])){
+    $_SESSION["MatGameInRowCorrect"] = 0;
+    $_SESSION["MatGameInRowWrong"] = 0;
+}
+
+
 if ($_SESSION["MatGameInRowCorrect"] >= 10 and !isset($_SESSION["achdone"][11])){
     achiev(11); //achievement 10 correct in a row trigger
 }
