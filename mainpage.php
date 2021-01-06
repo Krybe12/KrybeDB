@@ -93,10 +93,10 @@ if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
                 </div>
                 <div class="col">
                     <div class="card text-center bg-warning">
-                        <div class="card-img-top" style="height: 150px; background-image: url('img/calc.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;"></div>
+                        <div class="card-img-top" style="height: 150px; background-image: url('img/snake.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;"></div>
                             <div class="card-body">
-                            <h5 class="card-title">Kalkulačka</h5>
-                            <a class="btn btn-success d-block" href="kalkulacka.html">Play</a>
+                            <h5 class="card-title">Snake</h5>
+                            <a class="btn btn-success d-block" href="snake">Play</a>
                         </div>
                     </div>
                 </div>
@@ -106,6 +106,15 @@ if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
                             <div class="card-body">
                             <h5 class="card-title">Hangman</h5>
                             <a class="btn btn-success d-block" href="hangman">Play</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-center bg-warning">
+                        <div class="card-img-top" style="height: 150px; background-image: url('img/calc.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;"></div>
+                            <div class="card-body">
+                            <h5 class="card-title">Kalkulačka</h5>
+                            <a class="btn btn-success d-block" href="kalkulacka.html">Play</a>
                         </div>
                     </div>
                 </div>
