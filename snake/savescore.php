@@ -37,7 +37,7 @@ if (isset($_POST["tailLen"]) and isset($_POST["lenOfTail"]) and isset($_POST["nu
 function addScore($n){
     global $userid;
     global $conn;
-    
+    $_SESSION["snake"]["highScore"] = $n;
     $sql = "UPDATE snake SET score='$n' WHERE user_id='$userid'";
     $conn->query($sql);
 }

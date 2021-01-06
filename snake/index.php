@@ -159,8 +159,11 @@ var canvas,ctx,snake,fruit;
 
 canvas = document.getElementById("canvas");
 ctx = canvas.getContext("2d");
-
-
+pageNum = 1;
+newLeaderBoard()
+$.get( "gethighscore.php", function( data ) {
+    game.highscore = data;
+});
 class Game{
     constructor(width, height, fps){
         this.width = width;
@@ -181,6 +184,7 @@ class Game{
                 snake.move();
             }
         }, 1000 / this.fps)
+        newLeaderBoard()
     }
     end(){
         if (snake.tailLen > this.highscore){
@@ -192,13 +196,13 @@ class Game{
             this.highscore = snake.tailLen;
         }
         this.active = false;
-        this.printResults();
+        //this.printResults();
         clearInterval(this.timer)
         setTimeout(drawEndScreen, 1000 / this.fps)
     }
-    printResults(){
+/*     printResults(){
         console.log(`tailLen: ${snake.tailLen}\ntail.len: ${snake.tail.length}\nnumTurns: ${snake.numTurns}\nnumFruits: ${snake.numFruits}\n----------\nturnsPerFood: ${snake.numTurns / snake.numFruits}`)
-    }
+    } */
 }
 
 class Snake{
@@ -372,6 +376,13 @@ function checkKey(e) {
 function startGame(){
     if (!game.active){
         game.start();
+    }
+}
+function newLeaderBoard(){
+    if (pageNum < 1) {
+        pageNum = 1;
+    } else {
+        $("#leaderBoard").load(`../leaderboard/lb.php?page=${pageNum}&game=3`);
     }
 }
 </script>
