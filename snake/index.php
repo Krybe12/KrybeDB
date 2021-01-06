@@ -179,6 +179,7 @@ class Game{
         fruit = new Fruit();
         snake = new Snake(Math.floor(Math.random() * 22) * 20, Math.floor(Math.random() * 19) * 20 + 40, "UP", 20);
         fruit.spawn();
+        this.started = true;
         this.timer = setInterval(function(){
             if (game.active){
                 snake.move();
@@ -196,6 +197,7 @@ class Game{
             this.highscore = snake.tailLen;
         }
         this.active = false;
+        this.started = false;
         //this.printResults();
         clearInterval(this.timer)
         setTimeout(drawEndScreen, 1000 / this.fps)
@@ -356,26 +358,43 @@ function drawEndScreen(){ // a tohle taky
 canvas.addEventListener('click', startGame);
 document.onkeydown = checkKey;
 function checkKey(e) {
-    startGame();
     e = e || window.event;
-    if (snake.dirQue.length < 2){
-        if (e.keyCode == '38') {
-            snake.dirQue.push("UP"); // up arrow
+    if (e.keyCode != 32){
+        startGame();
+        if (snake.dirQue.length < 2){
+            if (e.keyCode == '38') {
+                snake.dirQue.push("UP"); // up arrow
+            }
+            else if (e.keyCode == '40') {
+                snake.dirQue.push("DOWN"); // down arrow
+            }
+            else if (e.keyCode == '37') {
+                snake.dirQue.push("LEFT"); // left arrow
+            }
+            else if (e.keyCode == '39') {
+                snake.dirQue.push("RIGHT"); // right arrow
+            }
         }
-        else if (e.keyCode == '40') {
-            snake.dirQue.push("DOWN"); // down arrow
-        }
-        else if (e.keyCode == '37') {
-            snake.dirQue.push("LEFT"); // left arrow
-        }
-        else if (e.keyCode == '39') {
-            snake.dirQue.push("RIGHT"); // right arrow
-        }
+    } else {
+        if (game.started == true){
+            pause()
+        }  
+    }
+
+}
+let paused = false;
+function startGame(){
+    if (!game.active && paused != true){
+        game.start();
     }
 }
-function startGame(){
-    if (!game.active){
-        game.start();
+function pause(){
+    if (paused == false){
+        paused = true;
+        game.active = false;
+    } else {
+        paused = false;
+        game.active = true;
     }
 }
 function newLeaderBoard(){
