@@ -224,7 +224,7 @@ class Snake{
             this.tail.pop();
         }
         if (this.tailLen != this.tail.length){
-            this.tailLen = 0;
+            this.tailLen = -5;
             this.tail = [];
             this.numFruits = 0;
         }
