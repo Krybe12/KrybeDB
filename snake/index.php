@@ -344,6 +344,7 @@ function drawStartScreen(){ //tohle je potřeba přepsat xd
     ctx.fillText("Press any key", game.width / 2  - game.width / 4 + 23, game.height / 2 - game.height / 4 + 30)
     ctx.fillText("or click here", game.width / 2  - game.width / 4 + 35, game.height / 2 - game.height / 4 + 60)
     ctx.fillText("to start", game.width / 2  - game.width / 4 + 65, game.height / 2 - game.height / 4 + 90)
+    drawGuide()
 }
 function drawEndScreen(){ // a tohle taky
     ctx.fillStyle = "red";
@@ -354,6 +355,13 @@ function drawEndScreen(){ // a tohle taky
     ctx.fillText("press any key", game.width / 2  - game.width / 4 + 30, game.height / 2 - game.height / 4 + 60)
     ctx.fillText("or click here", game.width / 2  - game.width / 4 + 30, game.height / 2 - game.height / 4 + 90)
     ctx.fillText("to start again", game.width / 2  - game.width / 4 + 30, game.height / 2 - game.height / 4 + 120)
+    drawGuide()
+}
+function drawGuide(){
+    ctx.font = "30px Arial";
+    ctx.fillStyle = "red";
+    ctx.fillText("arrow keys - movement", 100, 300)
+    ctx.fillText("space - pause", 100, 330)
 }
 canvas.addEventListener('click', startGame);
 document.onkeydown = checkKey;
