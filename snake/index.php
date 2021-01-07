@@ -400,7 +400,7 @@ canvas.addEventListener('click', startGame);
 document.onkeydown = checkKey;
 function checkKey(e) {
     e = e || window.event;
-    startGame();
+
     if (snake.dirQue.length < 2){
         if (e.keyCode == '38') {
             snake.dirQue.push("UP"); // up arrow
@@ -423,7 +423,8 @@ function checkKey(e) {
                 snake.blink = true;
             }  
         }
-        
+    } else {
+        startGame();
     }
 }
 function startGame(){
