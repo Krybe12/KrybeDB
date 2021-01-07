@@ -116,6 +116,9 @@ box-shadow: 0px 0px 32px 0px rgba(0,0,0,0.1);
                     </div>
                 </form>
                 <div id="matscore"></div>
+                <div id="hangman"></div>
+                <div id="snake"></div>
+                <hr>
                 <div id="logreg"></div>
             </div>
         </div>
@@ -127,6 +130,8 @@ $(document).ready(function(){
     let userid = <?php echo $_SESSION["userid"] * 17;?>;
     $("#matscore").load("../getstats/matgamestats.php?id=" + userid);
     $("#logreg").load("../getstats/lastloginregister.php?id=" + userid);
+    $("#hangman").load("../getstats/hangmanstats.php?id=" + userid);
+    $("#snake").load("../getstats/snakestats.php?id=" + userid);
 });
 </script>
 </html>

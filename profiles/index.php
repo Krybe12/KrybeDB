@@ -121,6 +121,9 @@ box-shadow: 0px 0px 32px 0px rgba(0,0,0,0.1);
             <div class="content-box">
                 <div id="favcolor"></div>
                 <div id="matscore"></div>
+                <div id="hangman"></div>
+                <div id="snake"></div>
+                <hr>
                 <div id="logreg"></div>
 
                 
@@ -135,6 +138,8 @@ $(document).ready(function(){
     $("#matscore").load("../getstats/matgamestats.php?id=" + userid);
     $("#logreg").load("../getstats/lastloginregister.php?id=" + userid);
     $("#favcolor").load("../getstats/favcolor.php?id=" + userid);
+    $("#hangman").load("../getstats/hangmanstats.php?id=" + userid);
+    $("#snake").load("../getstats/snakestats.php?id=" + userid);
 });
 </script>
 </html>
