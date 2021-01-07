@@ -207,6 +207,7 @@ class Game{
         if (this.paused == false){
             this.paused = true;
             this.active = false;
+            drawPause()
         } else {
             this.paused = false;
             this.active = true;
@@ -372,6 +373,11 @@ function drawGuide(){
     ctx.fillStyle = "red";
     ctx.fillText("arrow keys - movement", 100, 300)
     ctx.fillText("space - pause", 100, 330)
+}
+function drawPause(){
+    ctx.font = "35px Arial";
+    ctx.fillStyle = "red";
+    ctx.fillText("Paused", game.width / 2 - ctx.measureText(`Paused`).width / 2, game.height / 2 - 35 / 2)
 }
 canvas.addEventListener('click', startGame);
 document.onkeydown = checkKey;
