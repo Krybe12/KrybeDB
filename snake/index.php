@@ -199,6 +199,7 @@ class Game{
         }
         this.active = false;
         this.started = false;
+        this.paused = false;
         //this.printResults();
         clearInterval(this.timer)
         setTimeout(drawEndScreen, 1000 / this.fps)
