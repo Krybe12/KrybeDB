@@ -230,7 +230,8 @@ class Snake{
         this.tail = [];
         this.numTurns = 0;
         this.numFruits = 0;
-        this.numDistance = 0;
+        this.numDistanceSinceBlink = 0;
+        this.n = 20;
     }
     manageTail(){
         this.tail.unshift([this.x, this.y]);
@@ -277,22 +278,31 @@ class Snake{
         }})
     }
     move(){
-        this.numDistance++;
+        this.numDistanceSinceBlink++;
+        if (this.blink){
+            this.n = 80;
+            this.blink = false;
+            this.numDistanceSinceBlink = 0;
+        }
         this.manageTail()
         this.manageDir()
         if (this.dir == "UP"){
-            this.y = this.y - 20;
+            this.y = this.y - this.n;
         } else if (this.dir == "LEFT"){
-            this.x = this.x - 20;
+            this.x = this.x - this.n;
         } else if (this.dir == "RIGHT"){
-            this.x = this.x + 20;
+            this.x = this.x + this.n;
         } else if (this.dir == "DOWN"){
-            this.y = this.y + 20;
+            this.y = this.y + this.n;
         }
+        this.n = 20;
         this.checkSideCollision()
         this.checkSelfCollision()
         this.checkFruitCollision()
         drawGame();
+        if (this.numDistanceSinceBlink > 60){
+            drawBlinkReady();
+        }
     }
 }
 class Fruit{
@@ -372,40 +382,49 @@ function drawEndScreen(){ // a tohle taky
 function drawGuide(){
     ctx.font = "30px Arial";
     ctx.fillStyle = "red";
-    ctx.fillText("arrow keys - movement", 100, 300)
-    ctx.fillText("space - pause", 100, 330)
+    ctx.fillText("Arrow Keys - Movement", 100, 300)
+    ctx.fillText("P - Pause", 100, 330)
+    ctx.fillText("Space - Blink", 100, 360)
 }
 function drawPause(){
     ctx.font = "35px Arial";
     ctx.fillStyle = "red";
     ctx.fillText("Paused", game.width / 2 - ctx.measureText(`Paused`).width / 2, game.height / 2 - 35 / 2)
 }
+function drawBlinkReady(){
+    ctx.font = "15px Arial";
+    ctx.fillStyle = "yellow";
+    ctx.fillText("Blink Ready", game.width / 2 - ctx.measureText(`Blink Ready`).width / 2, game.height - 10)
+}
 canvas.addEventListener('click', startGame);
 document.onkeydown = checkKey;
 function checkKey(e) {
     e = e || window.event;
-    if (e.keyCode != 32){
-        startGame();
-        if (snake.dirQue.length < 2){
-            if (e.keyCode == '38') {
-                snake.dirQue.push("UP"); // up arrow
-            }
-            else if (e.keyCode == '40') {
-                snake.dirQue.push("DOWN"); // down arrow
-            }
-            else if (e.keyCode == '37') {
-                snake.dirQue.push("LEFT"); // left arrow
-            }
-            else if (e.keyCode == '39') {
-                snake.dirQue.push("RIGHT"); // right arrow
-            }
+    startGame();
+    if (snake.dirQue.length < 2){
+        if (e.keyCode == '38') {
+            snake.dirQue.push("UP"); // up arrow
         }
-    } else {
-        if (game.started == true){
-            game.pause()
-        }  
+        else if (e.keyCode == '40') {
+            snake.dirQue.push("DOWN"); // down arrow
+        }
+        else if (e.keyCode == '37') {
+            snake.dirQue.push("LEFT"); // left arrow
+        }
+        else if (e.keyCode == '39') {
+            snake.dirQue.push("RIGHT"); // right arrow
+        }
     }
-
+    if (game.started == true){
+        if (e.keyCode == 80){
+            game.pause()
+        } else if (e.keyCode == 32){
+            if (snake.numDistanceSinceBlink > 60){
+                snake.blink = true;
+            }  
+        }
+        
+    }
 }
 function startGame(){
     if (!game.active && game.paused != true){
