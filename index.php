@@ -87,19 +87,19 @@ if (url_string.includes("?")){
     } 
 
     var reason = url.searchParams.get("re");
-    let b = " bitch";
+
     if (reason == "noexist"){
-        $("#wp").text("user does not exist" + b);
+        $("#wp").text("user does not exist");
     } else if (reason == "regsuc"){
-        $("#wp").text("registration succesful" + b);
+        $("#wp").text("registration succesful");
     } else if (reason == "wp"){
-        $("#wp").text("wrong password" + b);
+        $("#wp").text("wrong password");
     } else if (reason == "regexi"){
-        $("#wp").text("username already registered" + b);
+        $("#wp").text("username already registered");
     } else if (reason == "nt") {
-        $("#wp").text("nice try" + b);
+        $("#wp").text("nice try");
     } else if (reason == "log") {
-        $("#wp").text("logged out" + b);
+        $("#wp").text("logged out");
     }
     if (!where){
         $("#reg").hide();
