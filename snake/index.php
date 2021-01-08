@@ -197,11 +197,11 @@ class Game{
             });
             this.highscore = snake.tailLen;
         }
+        //this.printResults();
+        clearInterval(this.timer)
         this.active = false;
         this.started = false;
         this.paused = false;
-        //this.printResults();
-        clearInterval(this.timer)
         setTimeout(drawEndScreen, 1000 / this.fps)
     }
     pause(){
