@@ -44,5 +44,4 @@ function addScore($n){
     }
 
 }
-echo "<script>snake = undefined;</script>"
 ?>
