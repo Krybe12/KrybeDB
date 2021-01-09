@@ -165,27 +165,44 @@ class Game{
         this.width = width;
         this.height = height;
         this.fps = 1000 / fps;
+        this.started = false;
     }
     addEventListener(){
         //canvas.addEventListener('click', startGame);
         document.onkeydown = this.checkKey;
     }
+    start(){
+        console.log("start")
+        if (!this.started){
+            this.started = true;
+            this.timer = setInterval(function(){
+                console.log("asd");
+                //block.move()
+            }, this.fps)
+        }
+    }
     checkKey(e){
-        if (e.keyCode == '38') {
-            snake.dirQue.push("UP"); // up arrow
-        }
-        else if (e.keyCode == '40') {
-            snake.dirQue.push("DOWN"); // down arrow
-        }
-        else if (e.keyCode == '37') {
-            snake.dirQue.push("LEFT"); // left arrow
-        }
-        else if (e.keyCode == '39') {
-            snake.dirQue.push("RIGHT"); // right arrow
+        console.log(e)
+        if (this.started){
+            console.log(e.keyCode)
+            if (e.keyCode == '38') { // up arrow
+                console.log("UP");
+            }
+            else if (e.keyCode == '40') { // down arrow
+                console.log("DOWN"); 
+            }
+            else if (e.keyCode == '37') { // left arrow
+                console.log("LEFT"); 
+            }
+            else if (e.keyCode == '39') { // right arrow
+                console.log("RIGHT"); 
+            }
+        } else {
+            this.start()
         }
     }
 }
-var game = new Game(300, 500, 8);
+var game = new Game(300, 500, 2);
 drawStartScreen();
 game.addEventListener();
 function drawStartScreen(){ //tohle je potřeba přepsat xd
