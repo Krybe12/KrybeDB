@@ -169,7 +169,10 @@ class Game{
     }
     addEventListener(){
         //canvas.addEventListener('click', startGame);
-        document.onkeydown = this.checkKey;
+        document.onkeydown = this.key;
+    }
+    key(e){
+        game.checkKey(e)
     }
     start(){
         console.log("start")
