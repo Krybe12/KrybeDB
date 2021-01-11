@@ -180,8 +180,7 @@ class Game{
         if (!this.started){
             this.started = true;
             this.timer = setInterval(function(){
-                block.moveDown();
-                //block.move()
+                //block.moveDown();
             }, this.fps)
         }
     }
@@ -192,7 +191,7 @@ class Game{
                 block.rotate();
             }
             else if (e.keyCode == '40') { // down arrow
-                console.log("DOWN"); 
+                block.moveDown(); 
             }
             else if (e.keyCode == '37') { // left arrow
                 block.moveSide("LEFT");
@@ -209,25 +208,78 @@ class Block{
     constructor(startX, startY){
         this.x = startX;
         this.y = startY;
-        this.blocks = [[0,0], [-1,0], [1,1], [-2,0], [-3,1], [-1,-1], [-1,-2], [-1,-3]];
+        //this.blocks = [[0,0],[1,1], [2,2], [3,3], [4,4], [1,-1], [2,-2], [3,-3], [-1,1], [-2,2], [-1,-1]];
+        this.blocks = [[0,0],[1,0],[2,0],[3,0],[0,-1],[0,-2],[0,1],[-1,0],[-2,0],[-3,0],[-4,0]];
         this.color = "blue";
         this.realBlocks = [];
-        this.allowedMove = true;
+        this.allowedSideMove = true;
+        this.allowedDownMove = true;
+        this.turnHelp = [];
     }
     init(){
+        this.realBlocks = [];
+        this.turnHelp = [];
         this.blocks.forEach(function(item){
             block.realBlocks.push([block.x + item[0] * game.size, block.y + item[1] * game.size]);
         });
     }
+    rotate(){ // 90° do prava
+        let x,y;
+        this.turnHelp.push([0,0])
+        for (let i = 0; i < this.blocks.length; i++){//0 = x ; 1 = y
+            if (this.blocks[i][0] <= 0 && this.blocks[i][1] < 0){ //1
+                console.log("1")
+                x = this.blocks[i][0];
+                y = this.blocks[i][1];
+                if (y != 0){
+                    y = y *(-1);
+                }
+                this.turnHelp.push([y,x])
+            }
+            if (this.blocks[i][0] < 0 && this.blocks[i][1] >= 0){ //2
+                console.log("2")
+                x = this.blocks[i][0];
+                y = this.blocks[i][1];
+                if (y != 0){
+                    y = y *(-1);
+                }
+                this.turnHelp.push([y,x])
+            }
+            if (this.blocks[i][0] > 0 && this.blocks[i][1] <= 0){ //3
+                console.log("3")
+                x = this.blocks[i][0];
+                y = this.blocks[i][1];
+                if (x != 0){
+                    x = x * 1;
+                }
+                if (y != 0){
+                    y = y *(-1);
+                }
+                this.turnHelp.push([y,x])
+            }
+            if (this.blocks[i][0] >= 0 && this.blocks[i][1] > 0){ //3
+                console.log("4")
+                x = this.blocks[i][0];
+                y = this.blocks[i][1];
+                if (y != 0){
+                    y = y *(-1);
+                }
+                this.turnHelp.push([y,x])
+            }
+        }
+        this.blocks = this.turnHelp;
+        this.init();
+        draw();
+    }
     moveSide(n){
-        this.allowedMove = true;
+        this.allowedSideMove = true;
         if (n == "LEFT"){
             for (let i = 0; i < this.realBlocks.length; i++){
                 if (this.realBlocks[i][0] - game.size < 0){
-                    this.allowedMove = false;
+                    this.allowedSideMove = false;
                 }
             }
-            if (this.allowedMove){
+            if (this.allowedSideMove){
                 this.realBlocks.forEach(block => block[0] = block[0] - game.size);
                 this.x = this.x - game.size;
             }
@@ -235,10 +287,10 @@ class Block{
         } else if (n == "RIGHT"){
             for (let i = 0; i < this.realBlocks.length; i++){
                 if (this.realBlocks[i][0] + game.size >= game.width){
-                    this.allowedMove = false;
+                    this.allowedSideMove = false;
                 }
             }
-            if (this.allowedMove){
+            if (this.allowedSideMove){
                 this.realBlocks.forEach(block => block[0] = block[0] + game.size);
                 this.x = this.x + game.size;
             }
@@ -246,10 +298,18 @@ class Block{
         draw();
     }
     moveDown(){
+        this.allowedDownMove = true;
+        for (let i = 0; i < this.realBlocks.length; i++){
+            if (this.realBlocks[i][1] + game.size >= game.height){
+                this.allowedDownMove = false;
+                //call to transfer blocks to storage
+            }
+        }
+        if (this.allowedDownMove){
+            this.realBlocks.forEach(block => block[1] = block[1] + game.size);
+            this.y = this.y + game.size;
+        }
         draw();
-    }
-    rotate(){
-
     }
 }
 var game = new Game(300, 500, 2, 20);
