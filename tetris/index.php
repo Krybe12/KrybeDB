@@ -161,11 +161,12 @@ canvas = document.getElementById("canvas");
 ctx = canvas.getContext("2d");
 
 class Game{
-    constructor(width, height, fps){
+    constructor(width, height, fps, size){
         this.width = width;
         this.height = height;
         this.fps = 1000 / fps;
         this.started = false;
+        this.size = size;
     }
     addEventListener(){
         //canvas.addEventListener('click', startGame);
@@ -179,7 +180,7 @@ class Game{
         if (!this.started){
             this.started = true;
             this.timer = setInterval(function(){
-                console.log("asd");
+                block.move();
                 //block.move()
             }, this.fps)
         }
@@ -189,25 +190,66 @@ class Game{
         if (this.started){
             console.log(e.keyCode)
             if (e.keyCode == '38') { // up arrow
-                console.log("UP");
+                block.rotate();
             }
             else if (e.keyCode == '40') { // down arrow
                 console.log("DOWN"); 
             }
             else if (e.keyCode == '37') { // left arrow
-                console.log("LEFT"); 
+                block.move("LEFT");
             }
             else if (e.keyCode == '39') { // right arrow
-                console.log("RIGHT"); 
+                block.move("RIGHT");
             }
         } else {
             this.start()
         }
     }
 }
-var game = new Game(300, 500, 2);
+class Block{
+    constructor(startX, startY){
+        this.x = startX;
+        this.y = startY;
+        this.blocks = [[0,0], [-1,0], [1,1], [-2,0]];
+        this.color = "blue";
+        this.realBlocks = [];
+    }
+    init(){
+        this.blocks.forEach(function(item){
+            block.realBlocks.push([block.x + item[0] * game.size, block.y + item[1] * game.size]);
+            block.blocks = block.realBlocks;
+        });
+    }
+    move(n){
+        if (n == "LEFT"){
+            this.blocks.forEach(block => block[0] = block[0] - game.size);
+        } else if (n == "RIGHT"){
+            this.blocks.forEach(block => block[0] = block[0] + game.size);
+        }
+        draw();
+    }
+}
+var game = new Game(300, 500, 2, 20);
 drawStartScreen();
 game.addEventListener();
+
+var block = new Block(140, 220);
+block.init();
+
+function draw(){
+    function drawBackground(){
+        ctx.fillStyle = "black";
+        ctx.fillRect(0, 0, game.width, game.height);
+    }
+    function drawBlock(){
+        ctx.fillStyle = block.color;
+        block.blocks.forEach(function(item){
+            ctx.fillRect(item[0], item[1], game.size, game.size);
+        });
+    }
+    drawBackground();
+    drawBlock();
+}
 function drawStartScreen(){ //tohle je potřeba přepsat xd
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, game.width, game.height);
