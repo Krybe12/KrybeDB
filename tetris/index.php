@@ -180,15 +180,14 @@ class Game{
         if (!this.started){
             this.started = true;
             this.timer = setInterval(function(){
-                block.move();
+                block.moveDown();
                 //block.move()
             }, this.fps)
         }
     }
     checkKey(e){
-        console.log(e)
         if (this.started){
-            console.log(e.keyCode)
+            //console.log(e.keyCode)
             if (e.keyCode == '38') { // up arrow
                 block.rotate();
             }
@@ -196,10 +195,10 @@ class Game{
                 console.log("DOWN"); 
             }
             else if (e.keyCode == '37') { // left arrow
-                block.move("LEFT");
+                block.moveSide("LEFT");
             }
             else if (e.keyCode == '39') { // right arrow
-                block.move("RIGHT");
+                block.moveSide("RIGHT");
             }
         } else {
             this.start()
@@ -210,23 +209,47 @@ class Block{
     constructor(startX, startY){
         this.x = startX;
         this.y = startY;
-        this.blocks = [[0,0], [-1,0], [1,1], [-2,0]];
+        this.blocks = [[0,0], [-1,0], [1,1], [-2,0], [-3,1], [-1,-1], [-1,-2], [-1,-3]];
         this.color = "blue";
         this.realBlocks = [];
+        this.allowedMove = true;
     }
     init(){
         this.blocks.forEach(function(item){
             block.realBlocks.push([block.x + item[0] * game.size, block.y + item[1] * game.size]);
-            block.blocks = block.realBlocks;
         });
     }
-    move(n){
+    moveSide(n){
+        this.allowedMove = true;
         if (n == "LEFT"){
-            this.blocks.forEach(block => block[0] = block[0] - game.size);
+            for (let i = 0; i < this.realBlocks.length; i++){
+                if (this.realBlocks[i][0] - game.size < 0){
+                    this.allowedMove = false;
+                }
+            }
+            if (this.allowedMove){
+                this.realBlocks.forEach(block => block[0] = block[0] - game.size);
+                this.x = this.x - game.size;
+            }
+          
         } else if (n == "RIGHT"){
-            this.blocks.forEach(block => block[0] = block[0] + game.size);
+            for (let i = 0; i < this.realBlocks.length; i++){
+                if (this.realBlocks[i][0] + game.size >= game.width){
+                    this.allowedMove = false;
+                }
+            }
+            if (this.allowedMove){
+                this.realBlocks.forEach(block => block[0] = block[0] + game.size);
+                this.x = this.x + game.size;
+            }
         }
         draw();
+    }
+    moveDown(){
+        draw();
+    }
+    rotate(){
+
     }
 }
 var game = new Game(300, 500, 2, 20);
@@ -243,7 +266,7 @@ function draw(){
     }
     function drawBlock(){
         ctx.fillStyle = block.color;
-        block.blocks.forEach(function(item){
+        block.realBlocks.forEach(function(item){
             ctx.fillRect(item[0], item[1], game.size, game.size);
         });
     }
