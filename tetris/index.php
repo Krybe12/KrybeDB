@@ -155,7 +155,7 @@ if (!$result){
 } */
 ?>
 <script>
-var canvas,ctx,block;
+var canvas,ctx,block,afk;
 
 canvas = document.getElementById("canvas");
 ctx = canvas.getContext("2d");
@@ -167,6 +167,11 @@ class Game{
         this.fps = 1000 / fps;
         this.started = false;
         this.size = size;
+        this.paused = false;
+        this.highscore = 10;
+        this.score = 0;
+        this.objects = [[[0,0],[1,0],[-1,0], [0,-1]], [[0,0],[-1,0],[-2,0],[1,0]], [[0,0],[-1,0],[1,0],[-1,-1]], [[0,0],[-1,0],[1,0],[1,-1]], [[0,0],[1,0],[1,-1],[0,-1]], [[0,0],[-1,0],[0,-1],[1,-1]], [[0,0],[1,0],[0,-1],[-1,-1]]];
+        this.colors = ["purple","blue","darkblue", "orange", "yellow", "green", "red"]
     }
     addEventListener(){
         //canvas.addEventListener('click', startGame);
@@ -180,12 +185,18 @@ class Game{
         if (!this.started){
             this.started = true;
             this.timer = setInterval(function(){
-                block.moveDown();
+                if (!game.paused){
+                    block.moveDown();
+                    afk.manage();
+                }
             }, this.fps)
         }
     }
     checkKey(e){
-        if (this.started){
+        if (e.keyCode == "80"){
+            this.pause();
+        }
+        if (this.started && !this.paused){
             //console.log(e.keyCode)
             if (e.keyCode == '38') { // up arrow
                 block.rotate();
@@ -203,18 +214,40 @@ class Game{
             this.start()
         }
     }
+    pause(){
+        if (this.paused){
+            this.paused = false;
+        } else {
+            this.paused = true;
+            drawPause()
+        }
+    }
     newBlock(){
+        let x = Math.floor(Math.random() * this.objects.length);  
+        block = new Block(140, 60, this.objects[x], this.colors[x]);
+        block.init();
+    }
+    newGame(){
+        afk = new Afk();
         block = new Block(140, 60);
         block.init();
     }
+    endGame(){
+        this.paused = false;
+        this.started = false;
+        if (this.score > this.highscore){
+            this.highscore = this.score;
+        }
+        clearInterval(this.timer);
+        drawEndScreen();
+    }
 }
 class Block{
-    constructor(startX, startY){
+    constructor(startX, startY, blocks, color){
         this.x = startX;
         this.y = startY;
-        //this.blocks = [[0,0],[1,1], [2,2], [3,3], [4,4], [1,-1], [2,-2], [3,-3], [-1,1], [-2,2], [-1,-1]];
-        this.blocks = [[0,0],[1,0],[-1,0], [0,-1]];
-        this.color = "blue";
+        this.blocks = blocks;
+        this.color = color;
         this.realBlocks = [];
         this.allowedSideMove = true;
         this.allowedDownMove = true;
@@ -232,7 +265,6 @@ class Block{
         this.turnHelp.push([0,0])
         for (let i = 0; i < this.blocks.length; i++){//0 = x ; 1 = y
             if (this.blocks[i][0] <= 0 && this.blocks[i][1] < 0){ //1
-                console.log("1")
                 x = this.blocks[i][0];
                 y = this.blocks[i][1];
                 if (y != 0){
@@ -241,7 +273,6 @@ class Block{
                 this.turnHelp.push([y,x])
             }
             if (this.blocks[i][0] < 0 && this.blocks[i][1] >= 0){ //2
-                console.log("2")
                 x = this.blocks[i][0];
                 y = this.blocks[i][1];
                 if (y != 0){
@@ -250,7 +281,6 @@ class Block{
                 this.turnHelp.push([y,x])
             }
             if (this.blocks[i][0] > 0 && this.blocks[i][1] <= 0){ //3
-                console.log("3")
                 x = this.blocks[i][0];
                 y = this.blocks[i][1];
                 if (x != 0){
@@ -262,7 +292,6 @@ class Block{
                 this.turnHelp.push([y,x])
             }
             if (this.blocks[i][0] >= 0 && this.blocks[i][1] > 0){ //3
-                console.log("4")
                 x = this.blocks[i][0];
                 y = this.blocks[i][1];
                 if (y != 0){
@@ -333,9 +362,15 @@ class Block{
 class Afk{
     constructor(){
         this.realBlocks = [];
+        this.x;
     }
     manage(){
-        draw();
+        if (this.x != this.realBlocks.length){
+            for (let i = 0; i < this.realBlocks.length; i++){
+                
+            }
+        }
+        this.x = this.realBlocks.length;
     }
 }
 var game = new Game(300, 500, 2, 20);
@@ -362,9 +397,25 @@ function draw(){
             ctx.fillRect(item[0], item[1], game.size, game.size);
         });
     }
+    function drawUI(){
+        function bg(){
+            ctx.fillStyle = "#00001a";
+            ctx.fillRect(0, 0, game.width, game.height / 10);  
+        }
+        function ui(){
+            ctx.font = "20px Arial";
+            ctx.fillStyle = "red";
+            ctx.fillText(`score: ${game.score}`, 10, 20);
+            ctx.fillText(`highscore: ${game.highscore}`, game.width - ctx.measureText(`highscore: ${game.highscore}`).width - 10, 20);
+            ctx.fillText(`next: ${game.score}`, 10, 42)
+        }
+        bg();
+        ui();
+    }
     drawBackground();
     drawBlock();
     drawAfk();
+    drawUI();
 }
 function drawStartScreen(){ //tohle je potřeba přepsat xd
     ctx.fillStyle = "black";
@@ -376,6 +427,7 @@ function drawStartScreen(){ //tohle je potřeba přepsat xd
     ctx.fillText("Press any key", game.width / 2  - ctx.measureText(`Press any key`).width / 2, game.height / 2 - game.height / 4 + 30)
     ctx.fillText("or click here", game.width / 2  - ctx.measureText(`or click here`).width / 2, game.height / 2 - game.height / 4 + 60)
     ctx.fillText("to start", game.width / 2  - ctx.measureText(`to start`).width / 2, game.height / 2 - game.height / 4 + 90)
+    drawGuide()
 }
 function drawEndScreen(){ // a tohle taky
     ctx.fillStyle = "red";
@@ -387,5 +439,18 @@ function drawEndScreen(){ // a tohle taky
     ctx.fillText("or click here", game.width / 2  - game.width / 4 + 30, game.height / 2 - game.height / 4 + 90)
     ctx.fillText("to start again", game.width / 2  - game.width / 4 + 30, game.height / 2 - game.height / 4 + 120)
     drawGuide()
+}
+function drawGuide(){
+    ctx.font = "25px Arial";
+    ctx.fillStyle = "red";
+    ctx.fillText("Arrow left, right - Sides", 10, 300)
+    ctx.fillText("Arrow Down - Move down", 10, 330)
+    ctx.fillText("Arrow UP - Rotate", 10, 360)
+    ctx.fillText("P - Pause", 10, 390)
+}
+function drawPause(){
+    ctx.font = "35px Arial";
+    ctx.fillStyle = "red";
+    ctx.fillText("Paused", game.width / 2 - ctx.measureText(`Paused`).width / 2, game.height / 2 - 35 / 2)
 }
 </script>
