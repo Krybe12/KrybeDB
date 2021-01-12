@@ -171,7 +171,8 @@ class Game{
         this.highscore = 10;
         this.score = 0;
         this.objects = [[[0,0],[1,0],[-1,0], [0,-1]], [[0,0],[-1,0],[-2,0],[1,0]], [[0,0],[-1,0],[1,0],[-1,-1]], [[0,0],[-1,0],[1,0],[1,-1]], [[0,0],[1,0],[1,-1],[0,-1]], [[0,0],[-1,0],[0,-1],[1,-1]], [[0,0],[1,0],[0,-1],[-1,-1]]];
-        this.colors = ["purple","blue","darkblue", "orange", "yellow", "green", "red"]
+        this.colors = ["purple", "blue", "darkblue", "orange", "yellow", "green", "red"];
+        this.x = Math.floor(Math.random() * this.objects.length);
     }
     addEventListener(){
         //canvas.addEventListener('click', startGame);
@@ -183,6 +184,7 @@ class Game{
     start(){
         console.log("start")
         if (!this.started){
+            this.newGame();
             this.started = true;
             this.timer = setInterval(function(){
                 if (!game.paused){
@@ -193,7 +195,7 @@ class Game{
         }
     }
     checkKey(e){
-        if (e.keyCode == "80"){
+        if (e.keyCode == "80" && this.started){ // P
             this.pause();
         }
         if (this.started && !this.paused){
@@ -223,14 +225,13 @@ class Game{
         }
     }
     newBlock(){
-        let x = Math.floor(Math.random() * this.objects.length);  
-        block = new Block(140, 60, this.objects[x], this.colors[x]);
+        block = new Block(140, 40, this.objects[this.x], this.colors[this.x]);
         block.init();
+        this.x = Math.floor(Math.random() * this.objects.length); 
     }
     newGame(){
         afk = new Afk();
-        block = new Block(140, 60);
-        block.init();
+        this.newBlock();
     }
     endGame(){
         this.paused = false;
@@ -291,7 +292,7 @@ class Block{
                 }
                 this.turnHelp.push([y,x])
             }
-            if (this.blocks[i][0] >= 0 && this.blocks[i][1] > 0){ //3
+            if (this.blocks[i][0] >= 0 && this.blocks[i][1] > 0){ //4
                 x = this.blocks[i][0];
                 y = this.blocks[i][1];
                 if (y != 0){
@@ -347,19 +348,23 @@ class Block{
     }
     moveDown(){
         this.allowedDownMove = true;
+        this.dieNext = false;
         for (let i = 0; i < this.realBlocks.length; i++){
             for (let m = 0; m < afk.realBlocks.length; m++){
                 if (!this.allowedDownMove) break;
                 if (this.realBlocks[i][0] == afk.realBlocks[m][0] && this.realBlocks[i][1] + game.size == afk.realBlocks[m][1]){
                     this.allowedDownMove = false;
-                    this.die();
+                    this.dieNext = true;
                     break;
                 }
             }
             if (this.realBlocks[i][1] + game.size >= game.height){
                 this.allowedDownMove = false;
-                this.die();
+                this.dieNext = true;
             }
+        }
+        if (this.dieNext){
+            this.die();
         }
         if (this.allowedDownMove){
             this.realBlocks.forEach(block => block[1] = block[1] + game.size);
@@ -382,7 +387,10 @@ class Afk{
     manage(){
         if (this.x != this.realBlocks.length){
             for (let i = 0; i < this.realBlocks.length; i++){
-
+                if (this.realBlocks[i][1] < 65){
+                    game.endGame();
+                    break;
+                }
             }
         }
         this.x = this.realBlocks.length;
@@ -391,9 +399,6 @@ class Afk{
 var game = new Game(300, 500, 2, 20);
 drawStartScreen();
 game.addEventListener();
-game.newBlock();
-
-var afk = new Afk();
 
 function draw(){
     function drawBackground(){
@@ -415,24 +420,36 @@ function draw(){
     function drawUI(){
         function bg(){
             ctx.fillStyle = "#00001a";
-            ctx.fillRect(0, 0, game.width, game.height / 10);  
+            ctx.fillRect(0, 0, game.width, 60);  
         }
         function ui(){
             ctx.font = "20px Arial";
             ctx.fillStyle = "red";
             ctx.fillText(`score: ${game.score}`, 10, 20);
             ctx.fillText(`highscore: ${game.highscore}`, game.width - ctx.measureText(`highscore: ${game.highscore}`).width - 10, 20);
-            ctx.fillText(`next: ${game.score}`, 10, 42)
+            ctx.fillText(`next:`, 10, 45);
+        }
+        function line(){
+            ctx.fillStyle = "red";
+            ctx.fillRect(0, 60, game.width, 5)
+        }
+        function nextBlock(){
+            ctx.fillStyle = game.colors[game.x];
+            game.objects[game.x].forEach(function(item){
+                ctx.fillRect(75 + item[0] * game.size / 2 , 40 + item[1] * game.size / 2, game.size / 2 , game.size / 2)
+            });
         }
         bg();
         ui();
+        line();
+        nextBlock();
     }
     drawBackground();
     drawBlock();
     drawAfk();
     drawUI();
 }
-function drawStartScreen(){ //tohle je potřeba přepsat xd
+function drawStartScreen(){
     ctx.fillStyle = "black";
     ctx.fillRect(0, 0, game.width, game.height);
     ctx.fillStyle = "green";
@@ -444,15 +461,15 @@ function drawStartScreen(){ //tohle je potřeba přepsat xd
     ctx.fillText("to start", game.width / 2  - ctx.measureText(`to start`).width / 2, game.height / 2 - game.height / 4 + 90)
     drawGuide()
 }
-function drawEndScreen(){ // a tohle taky
+function drawEndScreen(){
     ctx.fillStyle = "red";
-    ctx.fillRect(game.width / 2  - game.width / 4, game.height / 2 - game.height / 4, game.width / 2, game.height / 3);
+    ctx.fillRect(game.width / 10, game.height / 4, game.width - game.width / 5, 130);
     ctx.font = "30px Arial";
     ctx.fillStyle = "yellow";
-    ctx.fillText("You lost", game.width / 2  - game.width / 4 + 35, game.height / 2 - game.height / 4 + 30)
-    ctx.fillText("press any key", game.width / 2  - game.width / 4 + 30, game.height / 2 - game.height / 4 + 60)
-    ctx.fillText("or click here", game.width / 2  - game.width / 4 + 30, game.height / 2 - game.height / 4 + 90)
-    ctx.fillText("to start again", game.width / 2  - game.width / 4 + 30, game.height / 2 - game.height / 4 + 120)
+    ctx.fillText("You lost", game.width / 2  - ctx.measureText(`You lost`).width / 2, game.height / 2 - game.height / 4 + 30)
+    ctx.fillText("Press any key", game.width / 2  - ctx.measureText(`Press any key`).width / 2, game.height / 2 - game.height / 4 + 60)
+    ctx.fillText("or click here", game.width / 2  - ctx.measureText(`or click here`).width / 2, game.height / 2 - game.height / 4 + 90)
+    ctx.fillText("to start again", game.width / 2  - ctx.measureText(`to start again`).width / 2, game.height / 2 - game.height / 4 + 120)
     drawGuide()
 }
 function drawGuide(){
