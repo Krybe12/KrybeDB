@@ -383,6 +383,7 @@ class Afk{
     constructor(){
         this.realBlocks = [];
         this.x;
+        this.count = 0;
     }
     manage(){
         if (this.x != this.realBlocks.length){
@@ -391,6 +392,9 @@ class Afk{
                     game.endGame();
                     break;
                 }
+            }
+            for (let i = 0; i < this.realBlocks.length; i++){
+                //idk how to check to get score
             }
         }
         this.x = this.realBlocks.length;
