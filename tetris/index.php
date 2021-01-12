@@ -382,7 +382,7 @@ class Block{
 class Afk{
     constructor(){
         this.realBlocks = [];
-        this.x;
+        this.x = 0;
         this.count = 0;
     }
     manage(){
