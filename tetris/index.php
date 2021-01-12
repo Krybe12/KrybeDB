@@ -155,7 +155,7 @@ if (!$result){
 } */
 ?>
 <script>
-var canvas,ctx;
+var canvas,ctx,block;
 
 canvas = document.getElementById("canvas");
 ctx = canvas.getContext("2d");
@@ -180,7 +180,7 @@ class Game{
         if (!this.started){
             this.started = true;
             this.timer = setInterval(function(){
-                //block.moveDown();
+                block.moveDown();
             }, this.fps)
         }
     }
@@ -203,13 +203,17 @@ class Game{
             this.start()
         }
     }
+    newBlock(){
+        block = new Block(140, 60);
+        block.init();
+    }
 }
 class Block{
     constructor(startX, startY){
         this.x = startX;
         this.y = startY;
         //this.blocks = [[0,0],[1,1], [2,2], [3,3], [4,4], [1,-1], [2,-2], [3,-3], [-1,1], [-2,2], [-1,-1]];
-        this.blocks = [[0,0],[1,0],[2,0],[3,0],[0,-1],[0,-2],[0,1],[-1,0],[-2,0],[-3,0],[-4,0]];
+        this.blocks = [[0,0],[1,0],[-1,0], [0,-1]];
         this.color = "blue";
         this.realBlocks = [];
         this.allowedSideMove = true;
@@ -300,9 +304,17 @@ class Block{
     moveDown(){
         this.allowedDownMove = true;
         for (let i = 0; i < this.realBlocks.length; i++){
+            for (let m = 0; m < afk.realBlocks.length; m++){
+                if (!this.allowedDownMove) break;
+                if (this.realBlocks[i][0] == afk.realBlocks[m][0] && this.realBlocks[i][1] + game.size == afk.realBlocks[m][1]){
+                    this.allowedDownMove = false;
+                    this.die();
+                    break;
+                }
+            }
             if (this.realBlocks[i][1] + game.size >= game.height){
                 this.allowedDownMove = false;
-                //call to transfer blocks to storage
+                this.die();
             }
         }
         if (this.allowedDownMove){
@@ -311,13 +323,27 @@ class Block{
         }
         draw();
     }
+    die(){
+        for (let i = 0; i < this.realBlocks.length; i++){
+            afk.realBlocks.push([this.realBlocks[i][0], this.realBlocks[i][1], this.color]);
+        }
+        game.newBlock();
+    }
+}
+class Afk{
+    constructor(){
+        this.realBlocks = [];
+    }
+    manage(){
+        draw();
+    }
 }
 var game = new Game(300, 500, 2, 20);
 drawStartScreen();
 game.addEventListener();
+game.newBlock();
 
-var block = new Block(140, 220);
-block.init();
+var afk = new Afk();
 
 function draw(){
     function drawBackground(){
@@ -330,8 +356,15 @@ function draw(){
             ctx.fillRect(item[0], item[1], game.size, game.size);
         });
     }
+    function drawAfk(){
+        afk.realBlocks.forEach(function(item){
+            ctx.fillStyle = item[2];
+            ctx.fillRect(item[0], item[1], game.size, game.size);
+        });
+    }
     drawBackground();
     drawBlock();
+    drawAfk();
 }
 function drawStartScreen(){ //tohle je potřeba přepsat xd
     ctx.fillStyle = "black";
