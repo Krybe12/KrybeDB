@@ -308,10 +308,18 @@ class Block{
         this.allowedSideMove = true;
         if (n == "LEFT"){
             for (let i = 0; i < this.realBlocks.length; i++){
+                for (let m = 0; m < afk.realBlocks.length; m++){
+                    if (!this.allowedSideMove) break;
+                    if (this.realBlocks[i][1] == afk.realBlocks[m][1] && this.realBlocks[i][0] - game.size == afk.realBlocks[m][0]){
+                        this.allowedSideMove = false;
+                        break;
+                    }
+                }
                 if (this.realBlocks[i][0] - game.size < 0){
                     this.allowedSideMove = false;
                 }
             }
+            
             if (this.allowedSideMove){
                 this.realBlocks.forEach(block => block[0] = block[0] - game.size);
                 this.x = this.x - game.size;
@@ -319,6 +327,13 @@ class Block{
           
         } else if (n == "RIGHT"){
             for (let i = 0; i < this.realBlocks.length; i++){
+                for (let m = 0; m < afk.realBlocks.length; m++){
+                    if (!this.allowedSideMove) break;
+                    if (this.realBlocks[i][1] == afk.realBlocks[m][1] && this.realBlocks[i][0] + game.size == afk.realBlocks[m][0]){
+                        this.allowedSideMove = false;
+                        break;
+                    }
+                }
                 if (this.realBlocks[i][0] + game.size >= game.width){
                     this.allowedSideMove = false;
                 }
@@ -367,7 +382,7 @@ class Afk{
     manage(){
         if (this.x != this.realBlocks.length){
             for (let i = 0; i < this.realBlocks.length; i++){
-                
+
             }
         }
         this.x = this.realBlocks.length;
