@@ -227,7 +227,7 @@ class Game{
     newBlock(){
         block = new Block(100, 25, this.objects[this.x], this.colors[this.x]);
         block.init();
-        this.x = 1;//Math.floor(Math.random() * this.objects.length); 
+        this.x = Math.floor(Math.random() * this.objects.length); 
     }
     newGame(){
         afk = new Afk();
