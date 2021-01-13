@@ -168,7 +168,7 @@ class Game{
         this.started = false;
         this.size = size;
         this.paused = false;
-        this.highscore = 10;
+        this.highscore = 0;
         this.score = 0;
         this.objects = [[[0,0],[1,0],[-1,0], [0,-1]], [[0,0],[-1,0],[-2,0],[1,0]], [[0,0],[-1,0],[1,0],[-1,-1]], [[0,0],[-1,0],[1,0],[1,-1]], [[0,0],[1,0],[1,-1],[0,-1]], [[0,0],[-1,0],[0,-1],[1,-1]], [[0,0],[1,0],[0,-1],[-1,-1]]];
         this.colors = ["purple", "blue", "darkblue", "orange", "yellow", "green", "red"];
@@ -225,13 +225,14 @@ class Game{
         }
     }
     newBlock(){
-        block = new Block(140, 40, this.objects[this.x], this.colors[this.x]);
+        block = new Block(100, 25, this.objects[this.x], this.colors[this.x]);
         block.init();
-        this.x = Math.floor(Math.random() * this.objects.length); 
+        this.x = 1;//Math.floor(Math.random() * this.objects.length); 
     }
     newGame(){
         afk = new Afk();
         this.newBlock();
+        this.score = 0;
     }
     endGame(){
         this.paused = false;
@@ -383,24 +384,75 @@ class Afk{
     constructor(){
         this.realBlocks = [];
         this.x = 0;
-        this.count = 0;
+        this.coords = [];
+        this.cleared = [];
+        this.num = 0;
+    }
+    checkLost(){
+        for (let i = 0; i < this.realBlocks.length; i++){
+            if (this.realBlocks[i][1] < 65){
+                game.endGame();
+                break;
+            }
+        }
+    }
+    checkLine(){
+        this.coords = [];
+        this.cleared = [];
+        this.num = 0;
+        for (let i = 0; i < this.realBlocks.length; i++){
+            if (!this.coords.includes(this.realBlocks[i][1])){
+                this.coords.push(this.realBlocks[i][1]);
+            }
+        }
+        for (let k = 0; k < this.coords.length; k++){
+            this.num = 0;
+            for (let m = 0; m < this.realBlocks.length; m++){
+                if (this.realBlocks[m][1] == this.coords[k]){
+                    this.num++;
+                }
+                if (this.num == game.width / game.size){
+                    if (!this.cleared.includes(this.coords[k])){
+                        this.cleared.push(this.coords[k]);
+                    }
+                }
+            }
+        }
+        if (this.cleared.length > 0){
+            this.clearLines();
+        }
+    }
+    clearLines(){
+        if (this.cleared.length > 1){
+            game.score += this.cleared.length * (Math.floor(this.cleared.length / 2) + 1);
+        } else {
+            game.score++;
+        }
+        this.cleared = this.cleared.sort()
+        for (let i = 0; i < this.realBlocks.length; i++){
+            for (let b = 0; b < this.realBlocks.length; b++){
+                if (this.realBlocks[b][1] == this.cleared[i]){
+                    this.realBlocks.splice(b, 1)
+                    b = b - 1;
+                }
+            }
+            for (let h = 0; h < this.realBlocks.length; h++){
+                if (this.realBlocks[h][1] < this.cleared[i]){
+                    this.realBlocks[h][1] += game.size;
+                }
+            }
+        }
     }
     manage(){
         if (this.x != this.realBlocks.length){
-            for (let i = 0; i < this.realBlocks.length; i++){
-                if (this.realBlocks[i][1] < 65){
-                    game.endGame();
-                    break;
-                }
-            }
-            for (let i = 0; i < this.realBlocks.length; i++){
-                //idk how to check to get score
-            }
+            this.checkLost();
+            this.checkLine();
+            this.x = this.realBlocks.length;
         }
-        this.x = this.realBlocks.length;
+        
     }
 }
-var game = new Game(300, 500, 2, 20);
+var game = new Game(300, 500, 2, 25);
 drawStartScreen();
 game.addEventListener();
 
@@ -440,7 +492,7 @@ function draw(){
         function nextBlock(){
             ctx.fillStyle = game.colors[game.x];
             game.objects[game.x].forEach(function(item){
-                ctx.fillRect(75 + item[0] * game.size / 2 , 40 + item[1] * game.size / 2, game.size / 2 , game.size / 2)
+                ctx.fillRect(75 + item[0] * game.size / 2.5 , 40 + item[1] * game.size / 2.5, game.size / 2.5 , game.size / 2.5)
             });
         }
         bg();
