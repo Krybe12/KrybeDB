@@ -5,7 +5,7 @@ session_start();
 require '../gameconn/conn.php';
 $userid = $_SESSION["userid"];
 
-if (isset($_POST["score"]) and $_POST["score"] > 0 and $_POST["score"] < 1500){
+if (isset($_POST["score"]) and $_POST["score"] > 0 and $_POST["score"] < 5000){
     addScore($_POST["score"]);
 }
 
