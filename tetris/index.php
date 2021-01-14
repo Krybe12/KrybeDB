@@ -195,6 +195,7 @@ class Game{
         }
     }
     checkKey(e){
+        console.log("checkkey")
         if (e.keyCode == "80" && this.started){ // P
             this.pause();
         }
@@ -204,7 +205,7 @@ class Game{
                 block.rotate();
             }
             else if (e.keyCode == '40') { // down arrow
-                block.moveDown(); 
+                block.drop(); 
             }
             else if (e.keyCode == '37') { // left arrow
                 block.moveSide("LEFT");
@@ -225,16 +226,20 @@ class Game{
         }
     }
     newBlock(){
+        console.log("newblock")
         block = new Block(100, 25, this.objects[this.x], this.colors[this.x]);
         block.init();
+        ghost.spawn();
         this.x = Math.floor(Math.random() * this.objects.length);
     }
     newGame(){
+        console.log("newgame")
         afk = new Afk();
         this.newBlock();
         this.score = 0;
     }
     endGame(){
+        console.log("endgame")
         this.paused = false;
         this.started = false;
         if (this.score > this.highscore){
@@ -259,6 +264,7 @@ class Block{
         this.lastRealBlocks = [];
     }
     init(){
+        console.log("init")
         this.realBlocks = [];
         this.turnHelp = [];
         this.blocks.forEach(function(item){
@@ -281,7 +287,7 @@ class Block{
     }
     rotate(){ // 90° do prava
         let x,y;
-
+        console.log("rotate")
         this.lastBlocks = this.blocks;
         this.lastRealBlocks = this.realBlocks;
 
@@ -325,9 +331,11 @@ class Block{
         }
         this.blocks = this.turnHelp;
         this.init();
+        ghost.spawn();
         draw();
     }
     moveSide(n){
+        console.log("moveside")
         this.allowedSideMove = true;
         if (n == "LEFT"){
             for (let i = 0; i < this.realBlocks.length; i++){
@@ -366,9 +374,16 @@ class Block{
                 this.x = this.x + game.size;
             }
         }
+        ghost.spawn();
         draw();
     }
+    drop(){
+        console.log("drop")
+        this.realBlocks = ghost.arr;
+        this.moveDown();
+    }
     moveDown(){
+        console.log("movedown")
         this.allowedDownMove = true;
         this.dieNext = false;
         for (let i = 0; i < this.realBlocks.length; i++){
@@ -390,7 +405,7 @@ class Block{
         }
         if (this.allowedDownMove){
             this.realBlocks.forEach(block => block[1] = block[1] + game.size);
-            this.y = this.y + game.size;
+            this.y = this.y + game.size; 
         }
         draw();
     }
@@ -399,6 +414,48 @@ class Block{
             afk.realBlocks.push([this.realBlocks[i][0], this.realBlocks[i][1], this.color]);
         }
         game.newBlock();
+    }
+}
+class Ghost{
+    constructor(){
+        this.arr = [];
+        this.allowedDownMove = true;
+        this.count = 0;
+    }
+    spawn(){
+        console.log("ghost spawn")
+        this.allowedDownMove = true;
+        this.arr = [];
+        for (let i = 0; i < block.realBlocks.length; i++){
+            this.arr.push([block.realBlocks[i][0],block.realBlocks[i][1]]);
+        }
+        this.count = 0;
+        while (this.allowedDownMove){
+            this.down();
+            this.count++;
+            if (this.count > 30){
+                this.allowedDownMove = false;
+                break;
+            }
+        }
+    }
+    down(){
+        this.allowedDownMove = true;
+        for (let i = 0; i < this.arr.length; i++){
+            for (let m = 0; m < afk.realBlocks.length; m++){
+                if (!this.allowedDownMove) break;
+                if (this.arr[i][0] == afk.realBlocks[m][0] && this.arr[i][1] + game.size == afk.realBlocks[m][1]){
+                    this.allowedDownMove = false;
+                    break;
+                }
+            }
+            if (this.arr[i][1] + game.size >= game.height){
+                this.allowedDownMove = false;
+            }
+        }
+        if (this.allowedDownMove){
+            this.arr.forEach(block => block[1] = block[1] + game.size);
+        }
     }
 }
 class Afk{
@@ -411,7 +468,7 @@ class Afk{
     }
     checkLost(){
         for (let i = 0; i < this.realBlocks.length; i++){
-            if (this.realBlocks[i][1] < 65){
+            if (this.realBlocks[i][1] <= 60){
                 game.endGame();
                 break;
             }
@@ -476,6 +533,7 @@ class Afk{
 var game = new Game(300, 500, 2, 25);
 drawStartScreen();
 game.addEventListener();
+ghost = new Ghost();
 function draw(){
     function drawBackground(){
         ctx.fillStyle = "black";
@@ -490,6 +548,12 @@ function draw(){
     function drawAfk(){
         afk.realBlocks.forEach(function(item){
             ctx.fillStyle = item[2];
+            ctx.fillRect(item[0], item[1], game.size, game.size);
+        });
+    }
+    function drawGhost(){
+        ghost.arr.forEach(function(item){
+            ctx.fillStyle = "white";
             ctx.fillRect(item[0], item[1], game.size, game.size);
         });
     }
@@ -523,6 +587,7 @@ function draw(){
     drawBackground();
     drawBlock();
     drawAfk();
+    drawGhost();
     drawUI();
 }
 function drawStartScreen(){
