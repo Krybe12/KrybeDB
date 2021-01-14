@@ -14,6 +14,9 @@ if (isset($_GET["game"])){
     } else if ($_GET["game"] == 3){
         $ha = "snake";
         $scoreColumn = "Highscore";
+    } else if ($_GET["game"] == 4){
+        $ha = "tetris";
+        $scoreColumn = "Highscore";
     } 
 }
 

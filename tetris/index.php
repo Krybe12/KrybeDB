@@ -8,16 +8,16 @@ $page = $_SERVER['REQUEST_URI'];
 if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
     header("Location: ../index.php?id=login&re=nt&page=$page");
 }
-/* $stmt = $conn->prepare("SELECT user_id FROM snake WHERE user_id=? LIMIT 1");
+$stmt = $conn->prepare("SELECT user_id FROM tetris WHERE user_id=? LIMIT 1");
 $stmt->bind_param("i", $_SESSION["userid"]);
 $stmt->execute();
 $result = $stmt->get_result()->fetch_assoc();
 
 if (!$result){
-    $stmt = $conn->prepare("INSERT INTO snake (user_id) VALUES (?)");
+    $stmt = $conn->prepare("INSERT INTO tetris (user_id) VALUES (?)");
     $stmt->bind_param("i", $_SESSION["userid"]);
     $stmt->execute();
-} */
+}
 ?>
 <style>
 @media (min-width:768px){
@@ -159,7 +159,11 @@ var canvas,ctx,block,afk,ghost;
 
 canvas = document.getElementById("canvas");
 ctx = canvas.getContext("2d");
-
+pageNum = 1;
+newLeaderBoard()
+$.get( "gethighscore.php", function( data ) {
+    game.highscore = data;
+});
 class Game{
     constructor(width, height, fps, size){
         this.width = width;
@@ -182,8 +186,8 @@ class Game{
         game.checkKey(e)
     }
     start(){
-        console.log("start")
         if (!this.started){
+            newLeaderBoard();
             this.newGame();
             this.started = true;
             this.timer = setInterval(function(){
@@ -195,7 +199,6 @@ class Game{
         }
     }
     checkKey(e){
-        console.log("checkkey")
         if (e.keyCode == "80" && this.started){ // P
             this.pause();
         }
@@ -226,27 +229,29 @@ class Game{
         }
     }
     newBlock(){
-        console.log("newblock")
         block = new Block(100, 25, this.objects[this.x], this.colors[this.x]);
         block.init();
         ghost.spawn();
         this.x = Math.floor(Math.random() * this.objects.length);
     }
     newGame(){
-        console.log("newgame")
         afk = new Afk();
         this.newBlock();
         this.score = 0;
     }
     endGame(){
-        console.log("endgame")
         this.paused = false;
         this.started = false;
         if (this.score > this.highscore){
+            $.post("savescore.php", {
+                score: game.score
+            }, function(data){
+            });
             this.highscore = this.score;
         }
         clearInterval(this.timer);
         drawEndScreen();
+        newLeaderBoard();
     }
 }
 
@@ -264,7 +269,6 @@ class Block{
         this.lastRealBlocks = [];
     }
     init(){
-        console.log("init")
         this.realBlocks = [];
         this.turnHelp = [];
         this.blocks.forEach(function(item){
@@ -287,7 +291,6 @@ class Block{
     }
     rotate(){ // 90° do prava
         let x,y;
-        console.log("rotate")
         this.lastBlocks = this.blocks;
         this.lastRealBlocks = this.realBlocks;
 
@@ -335,7 +338,6 @@ class Block{
         draw();
     }
     moveSide(n){
-        console.log("moveside")
         this.allowedSideMove = true;
         if (n == "LEFT"){
             for (let i = 0; i < this.realBlocks.length; i++){
@@ -378,12 +380,10 @@ class Block{
         draw();
     }
     drop(){
-        console.log("drop")
         this.realBlocks = ghost.arr;
         this.moveDown();
     }
     moveDown(){
-        console.log("movedown")
         this.allowedDownMove = true;
         this.dieNext = false;
         for (let i = 0; i < this.realBlocks.length; i++){
@@ -423,7 +423,6 @@ class Ghost{
         this.count = 0;
     }
     spawn(){
-        console.log("ghost spawn")
         this.allowedDownMove = true;
         this.arr = [];
         for (let i = 0; i < block.realBlocks.length; i++){
@@ -625,5 +624,12 @@ function drawPause(){
     ctx.font = "35px Arial";
     ctx.fillStyle = "red";
     ctx.fillText("Paused", game.width / 2 - ctx.measureText(`Paused`).width / 2, game.height / 2 - 35 / 2);
+}
+function newLeaderBoard(){
+    if (pageNum < 1) {
+        pageNum = 1;
+    } else {
+        $("#leaderBoard").load(`../leaderboard/lb.php?page=${pageNum}&game=4`);
+    }
 }
 </script>
