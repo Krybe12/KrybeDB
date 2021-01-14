@@ -155,7 +155,7 @@ if (!$result){
 } */
 ?>
 <script>
-var canvas,ctx,block,afk;
+var canvas,ctx,block,afk,ghost;
 
 canvas = document.getElementById("canvas");
 ctx = canvas.getContext("2d");
@@ -227,7 +227,7 @@ class Game{
     newBlock(){
         block = new Block(100, 25, this.objects[this.x], this.colors[this.x]);
         block.init();
-        this.x = Math.floor(Math.random() * this.objects.length); 
+        this.x = Math.floor(Math.random() * this.objects.length);
     }
     newGame(){
         afk = new Afk();
@@ -244,6 +244,7 @@ class Game{
         drawEndScreen();
     }
 }
+
 class Block{
     constructor(startX, startY, blocks, color){
         this.x = startX;
@@ -254,6 +255,8 @@ class Block{
         this.allowedSideMove = true;
         this.allowedDownMove = true;
         this.turnHelp = [];
+        this.lastBlocks = [];
+        this.lastRealBlocks = [];
     }
     init(){
         this.realBlocks = [];
@@ -261,9 +264,27 @@ class Block{
         this.blocks.forEach(function(item){
             block.realBlocks.push([block.x + item[0] * game.size, block.y + item[1] * game.size]);
         });
+        for (let i = 0; i < this.realBlocks.length; i++){
+            if (this.realBlocks[i][0] < 0 || this.realBlocks[i][0] >= game.width || this.realBlocks[i][1] >= game.height){
+                this.realBlocks = this.lastRealBlocks;
+                this.blocks = this.lastBlocks;
+                break;
+            }
+            for (let m = 0; m < afk.realBlocks.length; m++){
+                if (this.realBlocks[i][0] == afk.realBlocks[m][0] && this.realBlocks[i][1] == afk.realBlocks[m][1]){
+                    this.realBlocks = this.lastRealBlocks;
+                    this.blocks = this.lastBlocks;
+                    break;
+                }
+            }
+        }
     }
     rotate(){ // 90° do prava
         let x,y;
+
+        this.lastBlocks = this.blocks;
+        this.lastRealBlocks = this.realBlocks;
+
         this.turnHelp.push([0,0])
         for (let i = 0; i < this.blocks.length; i++){//0 = x ; 1 = y
             if (this.blocks[i][0] <= 0 && this.blocks[i][1] < 0){ //1
@@ -455,7 +476,6 @@ class Afk{
 var game = new Game(300, 500, 2, 25);
 drawStartScreen();
 game.addEventListener();
-
 function draw(){
     function drawBackground(){
         ctx.fillStyle = "black";
@@ -492,7 +512,7 @@ function draw(){
         function nextBlock(){
             ctx.fillStyle = game.colors[game.x];
             game.objects[game.x].forEach(function(item){
-                ctx.fillRect(75 + item[0] * game.size / 2.5 , 40 + item[1] * game.size / 2.5, game.size / 2.5 , game.size / 2.5)
+                ctx.fillRect(110 + item[0] * game.size / 1.25 , 35 + item[1] * game.size / 1.25, game.size / 1.25 , game.size / 1.25)
             });
         }
         bg();
@@ -512,9 +532,9 @@ function drawStartScreen(){
     ctx.fillRect(game.width / 10, game.height / 4, game.width - game.width / 5, 100);
     ctx.font = "30px Arial";
     ctx.fillStyle = "yellow";
-    ctx.fillText("Press any key", game.width / 2  - ctx.measureText(`Press any key`).width / 2, game.height / 2 - game.height / 4 + 30)
-    ctx.fillText("or click here", game.width / 2  - ctx.measureText(`or click here`).width / 2, game.height / 2 - game.height / 4 + 60)
-    ctx.fillText("to start", game.width / 2  - ctx.measureText(`to start`).width / 2, game.height / 2 - game.height / 4 + 90)
+    ctx.fillText("Press any key", game.width / 2  - ctx.measureText(`Press any key`).width / 2, game.height / 2 - game.height / 4 + 30);
+    ctx.fillText("or click here", game.width / 2  - ctx.measureText(`or click here`).width / 2, game.height / 2 - game.height / 4 + 60);
+    ctx.fillText("to start", game.width / 2  - ctx.measureText(`to start`).width / 2, game.height / 2 - game.height / 4 + 90);
     drawGuide()
 }
 function drawEndScreen(){
@@ -522,23 +542,23 @@ function drawEndScreen(){
     ctx.fillRect(game.width / 10, game.height / 4, game.width - game.width / 5, 130);
     ctx.font = "30px Arial";
     ctx.fillStyle = "yellow";
-    ctx.fillText("You lost", game.width / 2  - ctx.measureText(`You lost`).width / 2, game.height / 2 - game.height / 4 + 30)
-    ctx.fillText("Press any key", game.width / 2  - ctx.measureText(`Press any key`).width / 2, game.height / 2 - game.height / 4 + 60)
-    ctx.fillText("or click here", game.width / 2  - ctx.measureText(`or click here`).width / 2, game.height / 2 - game.height / 4 + 90)
-    ctx.fillText("to start again", game.width / 2  - ctx.measureText(`to start again`).width / 2, game.height / 2 - game.height / 4 + 120)
+    ctx.fillText("You lost", game.width / 2  - ctx.measureText(`You lost`).width / 2, game.height / 2 - game.height / 4 + 30);
+    ctx.fillText("Press any key", game.width / 2  - ctx.measureText(`Press any key`).width / 2, game.height / 2 - game.height / 4 + 60);
+    ctx.fillText("or click here", game.width / 2  - ctx.measureText(`or click here`).width / 2, game.height / 2 - game.height / 4 + 90);
+    ctx.fillText("to start again", game.width / 2  - ctx.measureText(`to start again`).width / 2, game.height / 2 - game.height / 4 + 120);
     drawGuide()
 }
 function drawGuide(){
     ctx.font = "25px Arial";
     ctx.fillStyle = "red";
-    ctx.fillText("Arrow left, right - Sides", 10, 300)
-    ctx.fillText("Arrow Down - Move down", 10, 330)
-    ctx.fillText("Arrow UP - Rotate", 10, 360)
-    ctx.fillText("P - Pause", 10, 390)
+    ctx.fillText("Arrow left, right - Sides", 10, 300);
+    ctx.fillText("Arrow Down - Move down", 10, 330);
+    ctx.fillText("Arrow UP - Rotate", 10, 360);
+    ctx.fillText("P - Pause", 10, 390);
 }
 function drawPause(){
     ctx.font = "35px Arial";
     ctx.fillStyle = "red";
-    ctx.fillText("Paused", game.width / 2 - ctx.measureText(`Paused`).width / 2, game.height / 2 - 35 / 2)
+    ctx.fillText("Paused", game.width / 2 - ctx.measureText(`Paused`).width / 2, game.height / 2 - 35 / 2);
 }
 </script>
