@@ -616,7 +616,7 @@ function drawGuide(){
     ctx.font = "25px Arial";
     ctx.fillStyle = "red";
     ctx.fillText("Arrow left, right - Sides", 10, 300);
-    ctx.fillText("Arrow Down - Move down", 10, 330);
+    ctx.fillText("Arrow Down - Drop down", 10, 330);
     ctx.fillText("Arrow UP - Rotate", 10, 360);
     ctx.fillText("P - Pause", 10, 390);
 }
