@@ -584,9 +584,9 @@ function draw(){
         nextBlock();
     }
     drawBackground();
+    drawGhost();
     drawBlock();
     drawAfk();
-    drawGhost();
     drawUI();
 }
 function drawStartScreen(){
