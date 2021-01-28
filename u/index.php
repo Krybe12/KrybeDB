@@ -5,6 +5,9 @@ session_start();
 require '../gameconn/conn.php';
 
 $page = $_SERVER['REQUEST_URI'];
+if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
+    header("Location: ../index.php?id=login&re=nt&page=$page");
+}
 if ($_SESSION["admin"] != 1){
     header("Location: ulogin.php");
 }
@@ -17,7 +20,7 @@ if ($_SESSION["admin"] != 1){
     height: 100%;
 
     grid-template-rows: 0.1fr 1.1fr;
-    grid-template-columns: 1fr 2.2fr 1fr;
+    grid-template-columns: 1fr 2fr 1fr;
     grid-template-areas: 
     "t t t"
     "m1 m2 m3";
@@ -57,18 +60,14 @@ if ($_SESSION["admin"] != 1){
 }
 .m1{
     grid-area: m1;
+
 }
 .m2{
     grid-area: m2;
 }
 .m3{
     grid-area: m3;
-    overflow-y: auto;
-}
-.alerty {
-    position: absolute;
-    right: 10;
-    bottom: 10;
+
 }
 </style>
 
@@ -100,7 +99,7 @@ if ($_SESSION["admin"] != 1){
         </div>
     </div>
     
-    <div class="m1 bg-dark text-light text-center p-md-3 pt-md-0">
+    <div class="m1 bg-dark text-light text-center p-lg-3 p-md-2 pt-md-0">
         <div style="position: sticky;top: 0;z-index: 2;" class="bg-dark py-md-3">
             <h4>Verified</h4>
             <hr class="mb-0">
@@ -113,7 +112,7 @@ if ($_SESSION["admin"] != 1){
     <div class="m2 text-center bg-secondary p-3">
         
     </div>
-    <div class="m3 bg-dark text-light text-center p-md-3 pt-md-0">
+    <div class="m3 bg-dark text-light text-center p-lg-3 p-md-2 pt-md-0">
         <div style="position: sticky;top: 0;z-index: 2;" class="bg-dark py-md-3">
             <h4>Blacklist</h4>
             <hr class="mb-0">
@@ -124,33 +123,17 @@ if ($_SESSION["admin"] != 1){
         </div>
     </div>
 </div>
-<div class="alerty">
-</div>
 
 </body>
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<?php
-/* if (!isset($_SESSION["achdone"][14])){ //achievement firt login
-    $date = date('j M, Y @ g:ia');
-    $sql = "INSERT INTO achcompleted (user_id, ach_id, awarded) VALUES ({$_SESSION['userid']}, 14, '$date')";
-    $conn->query($sql);
-    $_SESSION["achdone"][14] = 1;
-    echo '<script>
-    $(document).ready(function(){
-        $.get( "../achievements/alert.php", { achid: 14}, function(data){
-            $(".alerty").append(data);
-        });
-    });   
-    </script>';
-} */
-?>
 <script>
 
 $( document ).ready(function() {
     
 });
-newVerified()
+newVerified();
+newBlackList();
 function newVerified(){
     setTimeout(function(){
         $("#ver").load(`tablever.php?`);
@@ -163,5 +146,17 @@ function newBlackList(){
     },50)
 }
 function removeVer(b){
+    $.post("removever.php", {
+        id: b
+    }, function(data){
+    });
+    newVerified();
+}
+function removeBL(v){
+    $.post("removebl.php", {
+        id: v
+    }, function(data){
+    });
+    newBlackList();
 }
 </script>

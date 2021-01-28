@@ -3,12 +3,12 @@ session_start();
 ?>
 <?php
 require '../gameconn/conn.php';
-$userid = $_SESSION["userid"];
 
 if ($_SESSION["admin"] == 1){
     $sql = "SELECT * FROM umimeto";
     $result = $conn->query($sql);
     if ($result->num_rows > 0) {
+
         echo '<table class="table text-center table-dark table-borderless">';
         echo '<tr>';
     
@@ -58,7 +58,9 @@ if ($_SESSION["admin"] == 1){
     
         echo "</tr>";
         echo "</table>";
+
     }
+
 } else {
     header("Location: ../login/logout.php");
 }
