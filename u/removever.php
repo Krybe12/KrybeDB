@@ -11,3 +11,4 @@ if ($_SESSION["admin"] == 1){
         $conn->query($sql);
     }
 }
+?>
