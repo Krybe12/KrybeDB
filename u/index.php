@@ -109,8 +109,22 @@ if ($_SESSION["admin"] != 1){
         </div>
         
     </div>
-    <div class="m2 text-center bg-secondary p-3">
-        
+    <div class="m2 text-center bg-secondary d-flex flex-column flex-md-row justify-content-between align-items-center p-3">
+        <div class="container-fluid bg-dark text-light p-3 flex-shrink-1">
+            <div class="row align-items-center">
+                <div class="col-md d-flex justify-content-center justify-content-md-start">
+                    <h5 class="m-md-0">Logged in as <?php echo "<h5 class='mx-2' style='color: {$_SESSION['color']}'>{$_SESSION['user']}</h5>"?></h5>
+                </div>
+                <div class="col-md d-flex justify-content-center">
+                    <h4 class="m-md-0">Umimeto CP</h4>
+                </div>
+                <div style="white-space: nowrap;" class="col-md d-flex justify-content-center justify-content-md-end">
+                    <a href="../profile" class="btn btn-primary mx-2">Profile</a>
+                    <a href=".." class="btn btn-primary mx-2">Back to hub</a>
+                    <a href="../login/logout.php" class="btn btn-danger mx-2">Logout</a>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="m3 bg-dark text-light text-center p-lg-3 p-md-2 pt-md-0">
         <div style="position: sticky;top: 0;z-index: 2;" class="bg-dark py-md-3">
