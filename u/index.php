@@ -5,19 +5,10 @@ session_start();
 require '../gameconn/conn.php';
 
 $page = $_SERVER['REQUEST_URI'];
-if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
-    header("Location: ../index.php?id=login&re=nt&page=$page");
+if ($_SESSION["admin"] != 1){
+    header("Location: ulogin.php");
 }
-/* $stmt = $conn->prepare("SELECT user_id FROM hangman WHERE user_id=? LIMIT 1");
-$stmt->bind_param("i", $_SESSION["userid"]);
-$stmt->execute();
-$result = $stmt->get_result()->fetch_assoc();
 
-if (!$result){
-    $stmt = $conn->prepare("INSERT INTO hangman (user_id) VALUES (?)");
-    $stmt->bind_param("i", $_SESSION["userid"]);
-    $stmt->execute();
-} */
 ?>
 <style>
 @media (min-width:768px){
@@ -26,7 +17,7 @@ if (!$result){
     height: 100%;
 
     grid-template-rows: 0.1fr 1.1fr;
-    grid-template-columns: 1fr 2.8fr 1fr;
+    grid-template-columns: 1fr 2.2fr 1fr;
     grid-template-areas: 
     "t t t"
     "m1 m2 m3";
@@ -46,6 +37,8 @@ if (!$result){
     .m1{
         grid-area: m1;
         border-bottom: 4px solid #ffc107;
+        overflow-y: auto;
+        max-height: 50vh;
     }
     .m2{
         grid-area: m2;
@@ -85,7 +78,7 @@ if (!$result){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <title>Snake</title>
+    <title>Umimeto CP</title>
 </head>
 <body>
 <div class="grid">
@@ -96,7 +89,7 @@ if (!$result){
                     <h5 class="m-md-0">Logged in as <?php echo "<h5 class='mx-2' style='color: {$_SESSION['color']}'>{$_SESSION['user']}</h5>"?></h5>
                 </div>
                 <div class="col-md d-flex justify-content-center">
-                    <h4 class="m-md-0">Snake</h4>
+                    <h4 class="m-md-0">Umimeto CP</h4>
                 </div>
                 <div style="white-space: nowrap;" class="col-md d-flex justify-content-center justify-content-md-end">
                     <a href="../profile" class="btn btn-primary mx-2">Profile</a>
@@ -107,12 +100,12 @@ if (!$result){
         </div>
     </div>
     
-    <div class="m1 bg-dark text-center text-light p-2 p-md-3">
-        <div class="">
-            <h4>Leaderboard</h4>
+    <div class="m1 bg-dark text-light text-center p-md-3 pt-md-0">
+        <div style="position: sticky;top: 0;z-index: 2;" class="bg-dark py-md-3">
+            <h4>Verified</h4>
+            <hr class="mb-0">
         </div>
-        <hr>
-        <div id="leaderBoard">
+        <div id="ver">
 
         </div>
         
@@ -122,11 +115,11 @@ if (!$result){
     </div>
     <div class="m3 bg-dark text-light text-center p-md-3 pt-md-0">
         <div style="position: sticky;top: 0;z-index: 2;" class="bg-dark py-md-3">
-            <h4>Achievements</h4>
+            <h4>Blacklist</h4>
             <hr class="mb-0">
         </div>
         
-        <div id="ach">
+        <div id="bl">
             
         </div>
     </div>
@@ -157,4 +150,18 @@ if (!$result){
 $( document ).ready(function() {
     
 });
+newVerified()
+function newVerified(){
+    setTimeout(function(){
+        $("#ver").load(`tablever.php?`);
+    },50)
+    
+}
+function newBlackList(){
+    setTimeout(function(){
+        $("#bl").load(`tablebl.php?table="blacklist"`);
+    },50)
+}
+function removeVer(b){
+}
 </script>
