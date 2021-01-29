@@ -10,10 +10,11 @@
 </head>
 <body class="bg-dark">
 <div class="container d-flex pb-5 justify-content-center pt-5">
-    <form id="req" action="u/request.php" method="post" class="p-4 bg-light rounded">
+    <form id="req" action="request.php" method="post" class="p-4 bg-light rounded">
         <div class="form-group">
             <label for="name" id="nameLabel">Name</label>
             <input type="text" class="form-control" autocomplete="off" id="nameInput" placeholder="Enter your name" name="name" required>
+            <div id="feedback" class="invalid-feedback"></div>
         </div>
         <div class="form-group text-center m-0">
             <input type="submit" class="form-control btn-dark" id="btnSend" value="Send Request">
@@ -26,12 +27,19 @@
 <script>
 $("#nameInput").keyup(function(){
     let name = $("#nameInput").val();
-    if (name.length > 12){
+    $("#nameInput").removeClass("is-invalid is-valid");
+    if (name.length < 3){
+        $("#feedback").text("name too short");
         $("#btnSend").attr("disabled", true);
-        $("#nameLabel").text("Name too long(max 12characters)")
+        $("#nameInput").addClass("is-invalid");
+    } else if (name.length > 14){
+        $("#feedback").text("name too long");
+        $("#btnSend").attr("disabled", true);
+        $("#nameInput").addClass("is-invalid");
     } else {
+        $("#feedback").text("");
         $("#btnSend").attr("disabled", false);
-        $("#nameLabel").text("Name")
+        $("#nameInput").addClass("is-valid");
     }
 });
 </script>

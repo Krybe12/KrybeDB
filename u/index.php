@@ -110,8 +110,27 @@ if ($_SESSION["admin"] != 1){
         </div>
         
     </div>
-    <div class="m2 text-center bg-dark p-3">
-        
+    <div class="m2 bg-dark text-light text-center p-lg-3 p-md-2 pt-md-0">
+        <div style="position: sticky;top: 0;z-index: 2;" class="bg-dark py-md-3">
+            <h4>Add</h4>
+            <hr class="mb-0">
+        </div>
+        <div>
+            <div>
+                <h6>Your IP:</h6>
+                <h6><?php echo $_SERVER['REMOTE_ADDR'];?></h6>
+                <button class="btn btn-sm btn-primary" id="btnAddMyself">Add Myself</button>
+            </div>
+            <div class="container d-flex pb-5 justify-content-center pt-5">
+                <div class="p-4 bg-secondary rounded">
+                    <input type="text" class="form-control" autocomplete="off" id="nameInput" placeholder="Name" required>
+                    <input type="text" class="form-control mt-1" autocomplete="off" id="ipInput" placeholder="IP" required>
+                    <div class="form-group text-center m-0">
+                        <button class="form-control btn-dark" id="btnAddSomebody">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div class="m3 bg-dark text-light text-center p-lg-3 p-md-2 pt-md-0">
@@ -142,19 +161,35 @@ if ($_SESSION["admin"] != 1){
 <script>
 
 $( document ).ready(function() {
-    
+    $("#btnAddMyself").click(function(){
+        addMyself();
+    });
+    $("#btnAddSomebody").click(function(){
+        let name = $("#nameInput").val();
+        let ip = $("#ipInput").val();
+        if (name.length > 0 && ip.length > 0){
+            addSomebody(name, ip);
+            $("#nameInput, #ipInput").val("");
+        }
+    });
 });
 newVerified();
 newBlackList();
+newRequests();
 function newVerified(){
     setTimeout(function(){
-        $("#ver").load(`tablever.php?`);
+        $("#ver").load(`tablever.php`);
     },50)
     
 }
 function newBlackList(){
     setTimeout(function(){
-        $("#bl").load(`tablebl.php?table="blacklist"`);
+        $("#bl").load(`tablebl.php`);
+    },50)
+}
+function newRequests(){
+    setTimeout(function(){
+        $("#req").load(`tablereq.php`);
     },50)
 }
 function removeVer(b){
@@ -170,5 +205,34 @@ function removeBL(v){
     }, function(data){
     });
     newBlackList();
+}
+function acceptReq(c){
+    $.post("acceptreq.php", {
+        id: c
+    }, function(data){
+    });
+    newRequests();
+    newVerified();
+}
+function declineReq(x){
+    $.post("declinereq.php", {
+        id: x
+    }, function(data){
+    });
+    newRequests();
+}
+function addMyself(){
+    $.post("addmyself.php", {
+    }, function(data){
+    });
+    newVerified();
+}
+function addSomebody(name, ip){
+    $.post("addsomebody.php", {
+        name: name,
+        ip: ip
+    }, function(data){
+    });
+    newVerified();
 }
 </script>
