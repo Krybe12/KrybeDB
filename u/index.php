@@ -7,8 +7,7 @@ require '../gameconn/conn.php';
 $page = $_SERVER['REQUEST_URI'];
 if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
     header("Location: ../index.php?id=login&re=nt&page=$page");
-}
-if ($_SESSION["admin"] != 1){
+} else if ($_SESSION["admin"] != 1){
     header("Location: ulogin.php");
 }
 
