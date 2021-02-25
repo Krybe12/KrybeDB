@@ -157,10 +157,4 @@ if (!$result){
 $( document ).ready(function() {
     
 });
-class Game{
-    constructor(start, score){
-        this.state = start;
-        this.score = score;
-    }
-}
 </script>

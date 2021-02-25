@@ -102,6 +102,15 @@ if (!isset($_SESSION["user"]) || $_SESSION["verified"] != 1){
                 </div>
                 <div class="col">
                     <div class="card text-center bg-warning">
+                        <div class="card-img-top" style="height: 150px; background-image: url('img/tetris.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;"></div>
+                            <div class="card-body">
+                            <h5 class="card-title">Tetris</h5>
+                            <a class="btn btn-success d-block" href="tetris">Play</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="card text-center bg-warning">
                         <div class="card-img-top" style="height: 150px; background-image: url('img/hangman.png'); background-size: contain; background-repeat: no-repeat; background-position: center center;"></div>
                             <div class="card-body">
                             <h5 class="card-title">Hangman</h5>
