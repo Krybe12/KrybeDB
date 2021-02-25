@@ -172,7 +172,6 @@ class Game{
         document.onkeydown = this.checkKey;
     }
     start(){
-        console.log("start")
         if (!this.started){
             this.started = true;
             this.timer = setInterval(function(){
@@ -182,8 +181,7 @@ class Game{
         }
     }
     checkKey(e){
-        console.log(e)
-        if (this.started){
+        if (game.started){
             console.log(e.keyCode)
             if (e.keyCode == '38') { // up arrow
                 console.log("UP");
@@ -198,7 +196,7 @@ class Game{
                 console.log("RIGHT"); 
             }
         } else {
-            this.start()
+            game.start()
         }
     }
 }
