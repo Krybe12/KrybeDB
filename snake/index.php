@@ -199,14 +199,10 @@ class Game{
         }
         //this.printResults();
         clearInterval(this.timer)
-
-        
-        setTimeout(function(){
-            game.active = false;
-            game.started = false;
-            game.paused = false;
-            drawEndScreen()
-        }, 1000 / this.fps)
+        this.active = false;
+        this.started = false;
+        this.paused = false;
+        setTimeout(drawEndScreen, 1000 / this.fps)
     }
     pause(){
         if (this.paused == false){
@@ -428,7 +424,7 @@ function checkKey(e) {
             }  
         }
     } else {
-        setTimeout(startGame, 200)
+        startGame();
     }
 }
 function startGame(){
