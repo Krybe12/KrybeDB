@@ -175,4 +175,5 @@ $("#input1, #input2, #inputname").keyup(function(){
         }
     });
 });
+
 </script>
